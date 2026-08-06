@@ -74,7 +74,11 @@ PRN
 .agents/
 .claude/
 .cursor/
-src/
+
+# Duplicate src at root (not in subdirectories)
+/src/
+scripts/
+
 
 # Logs
 *.log
