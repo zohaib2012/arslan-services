@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://10.127.68.151:3000';
+  static const String baseUrl = 'http://187.127.218.111';
   static const String apiPrefix = '/api';
   static String get apiUrl => '$baseUrl$apiPrefix';
 

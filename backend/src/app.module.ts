@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule as ConfigEnvModule } from '@nestjs/config';
+import { BullModule } from '@nestjs/bull';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from './config/config.module';
 import { AuthModule } from './auth/auth.module';
@@ -23,6 +25,16 @@ import { HealthModule } from './health/health.module';
 @Module({
   imports: [
     ConfigEnvModule.forRoot({ isGlobal: true, envFilePath: ['.env', '../.env'] }),
+    ThrottlerModule.forRoot([{ ttl: 60000, limit: 60 }]),
+    BullModule.forRootAsync({
+      useFactory: () => {
+        const url = process.env.REDIS_URL || 'redis://localhost:6379';
+        return {
+          url,
+          redis: url.includes('upstash') ? { tls: {} } : {},
+        } as any;
+      },
+    }),
     ConfigModule,
     AuthModule,
     UsersModule,
@@ -41,6 +53,9 @@ import { HealthModule } from './health/health.module';
     BannersModule,
     AdminModule,
     HealthModule,
+  ],
+  providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
 })
 export class AppModule {}
