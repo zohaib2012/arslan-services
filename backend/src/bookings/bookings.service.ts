@@ -4,8 +4,6 @@ import {
   BadRequestException,
   ForbiddenException,
 } from '@nestjs/common';
-import { InjectQueue } from '@nestjs/bull';
-import type { Queue } from 'bull';
 import { PrismaService } from '../config/database.config';
 import { FirebaseService } from '../config/firebase.config';
 import { CreateBookingDto, RescheduleBookingDto } from './dto/booking.dto';
@@ -15,7 +13,6 @@ export class BookingsService {
   constructor(
     private prisma: PrismaService,
     private firebaseService: FirebaseService,
-    @InjectQueue('bookings') private bookingsQueue: Queue,
   ) {}
 
   async createBooking(customerId: string, dto: CreateBookingDto) {
@@ -73,12 +70,6 @@ export class BookingsService {
         service: { select: { id: true, nameEn: true, nameUr: true } },
       },
     });
-
-    await this.bookingsQueue.add(
-      'expire-booking',
-      { bookingId: booking.id },
-      { delay: expiryMinutes * 60 * 1000 },
-    );
 
     if (worker.user.fcmToken) {
       await this.firebaseService.sendToDevice(
