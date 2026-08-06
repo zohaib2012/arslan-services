@@ -1,0 +1,85 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+.generated/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Flutter
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+*.iml
+*.ipr
+*.iws
+app/android/.project
+app/android/.settings/
+app/android/app/google-services.json
+app/android/key.properties
+app/ios/Flutter/Generated.xcconfig
+app/ios/Runner/GeneratedPluginRegistrant.h
+app/ios/Runner/GeneratedPluginRegistrant.m
+app/ios/Podfile
+app/ios/Podfile.lock
+*.g.dart
+*.freezed.dart
+
+# NestJS
+backend/dist/
+backend/generated/
+backend/*.js
+backend/*.js.map
+
+# Admin Panel
+admin-panel/dist/
+admin-panel/node_modules/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Windows artifacts
+nul
+CON
+AUX
+PRN
+
+# Agent files
+.agents/
+.claude/
+.cursor/
+src/
+
+# Logs
+*.log
+skills-lock.json
+skills-version.json
+
+# Docs
+IMPLEMENTATION_PLAN.md
