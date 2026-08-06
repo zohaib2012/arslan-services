@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const baseUrl = 'http://localhost:3000';
+    const baseUrl = 'http://187.127.218.111';
     const res = await axios.post(`${baseUrl}/api/auth/login`, { identifier: email, password });
     localStorage.setItem('adminToken', res.data.accessToken);
     setToken(res.data.accessToken);

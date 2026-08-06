@@ -14,6 +14,7 @@ async function bootstrap() {
       process.env.ADMIN_PANEL_URL || 'http://localhost:5173',
       process.env.FLUTTER_APP_URL || 'http://localhost:8080',
       'http://localhost:3000',
+      'https://arslan-services-admin-pannel.vercel.app',
     ],
     credentials: true,
   });
