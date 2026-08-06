@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsDateString,
 } from 'class-validator';
-import { BookingType } from '../../../generated/prisma';
+import { BookingType } from '../../generated/prisma';
 
 export class CreateBookingDto {
   @IsString()

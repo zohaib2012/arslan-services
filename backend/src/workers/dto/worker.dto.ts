@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsInt, IsBoolean, IsArray, IsEnum, Min, Max } from 'class-validator';
-import { PaymentMethodType, Language } from '../../../generated/prisma';
+import { PaymentMethodType, Language } from '../../generated/prisma';
 
 export class UpdateWorkerProfileDto {
   @IsInt()

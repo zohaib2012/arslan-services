@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsEnum } from 'class-validator';
-import { DisputeReason } from '../../../generated/prisma';
+import { DisputeReason } from '../../generated/prisma';
 
 export class CreateDisputeDto {
   @IsString()

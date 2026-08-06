@@ -11,7 +11,7 @@ import { PrismaService } from '../config/database.config';
 import { RedisService } from '../config/redis.config';
 import { ResendService } from '../config/resend.config';
 import { RegisterDto, LoginDto, GuestLoginDto } from './dto/register.dto';
-import { UserRole } from '../../generated/prisma';
+import { UserRole } from '../generated/prisma';
 
 @Injectable()
 export class AuthService {

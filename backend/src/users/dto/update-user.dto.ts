@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsEnum, IsEmail } from 'class-validator';
-import { Language } from '../../../generated/prisma';
+import { Language } from '../../generated/prisma';
 
 export class UpdateUserDto {
   @IsString()
