@@ -8,6 +8,7 @@ import {
   AddPaymentMethodDto,
   AddServiceAreaDto,
   UpdateWorkerServicesDto,
+  SubmitVerificationDto,
 } from './dto/worker.dto';
 
 @Injectable()
@@ -181,6 +182,24 @@ export class WorkersService {
       data: { isOnline: dto.isOnline },
     });
     return { isOnline: dto.isOnline };
+  }
+
+  async submitVerification(userId: string, dto: SubmitVerificationDto) {
+    const profile = await this.prisma.workerProfile.findUnique({ where: { userId } });
+    if (!profile) throw new NotFoundException('Worker profile not found');
+
+    const data: any = {};
+    if (dto.cnicNumber) data.cnicNumber = dto.cnicNumber;
+    if (dto.cnicFront) data.cnicFront = dto.cnicFront;
+    if (dto.cnicBack) data.cnicBack = dto.cnicBack;
+    if (profile.verificationStatus === 'PENDING' || profile.verificationStatus === 'REJECTED') {
+      data.verificationStatus = 'PENDING';
+    }
+
+    return this.prisma.workerProfile.update({
+      where: { userId },
+      data,
+    });
   }
 
   async updateWorkingHours(userId: string, dto: UpdateWorkingHoursDto) {

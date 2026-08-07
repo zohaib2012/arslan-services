@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../lib/api';
 
 const api = axios.create({
   baseURL: 'http://187.127.218.111/api/admin',
@@ -6,7 +7,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('adminToken');
+  const token = getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -15,8 +16,8 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response?.status === 401) {
-      localStorage.removeItem('adminToken');
-      window.location.href = '/login';
+      localStorage.removeItem('authToken');
+      window.location.href = '/admin/login';
     }
     return Promise.reject(err);
   }

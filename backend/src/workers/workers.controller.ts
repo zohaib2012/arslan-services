@@ -12,6 +12,7 @@ import {
   AddPaymentMethodDto,
   AddServiceAreaDto,
   UpdateWorkerServicesDto,
+  SubmitVerificationDto,
 } from './dto/worker.dto';
 
 @Controller('api/workers')
@@ -65,6 +66,13 @@ export class WorkersController {
   @Put('me')
   async updateProfile(@CurrentUser('id') userId: string, @Body() dto: UpdateWorkerProfileDto) {
     return this.workersService.updateProfile(userId, dto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('WORKER')
+  @Put('me/verification')
+  async submitVerification(@CurrentUser('id') userId: string, @Body() dto: SubmitVerificationDto) {
+    return this.workersService.submitVerification(userId, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

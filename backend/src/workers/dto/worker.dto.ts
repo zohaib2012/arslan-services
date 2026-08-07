@@ -16,6 +16,20 @@ export class UpdateWorkerProfileDto {
   languages?: Language[];
 }
 
+export class SubmitVerificationDto {
+  @IsString()
+  @IsOptional()
+  cnicNumber?: string;
+
+  @IsString()
+  @IsOptional()
+  cnicFront?: string;
+
+  @IsString()
+  @IsOptional()
+  cnicBack?: string;
+}
+
 export class UpdateOnlineStatusDto {
   @IsBoolean()
   isOnline: boolean;

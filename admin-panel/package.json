@@ -15,11 +15,13 @@
     "axios": "^1.18.1",
     "date-fns": "^4.4.0",
     "lucide-react": "^1.27.0",
+    "mapbox-gl": "^3.28.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.18.1",
     "recharts": "^3.10.1",
+    "socket.io-client": "^4.8.3",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
