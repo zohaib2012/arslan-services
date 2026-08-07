@@ -33,25 +33,37 @@ export class ChatService {
 
   async getConversations(userId: string) {
     const conversations = await this.prisma.$queryRaw`
+      WITH paired AS (
+        SELECT
+          CASE WHEN sender_id = ${userId}::uuid THEN receiver_id ELSE sender_id END AS partner_id,
+          receiver_id,
+          message,
+          is_read,
+          created_at
+        FROM chat_messages
+        WHERE sender_id = ${userId}::uuid OR receiver_id = ${userId}::uuid
+      ),
+      latest AS (
+        SELECT DISTINCT ON (partner_id)
+          partner_id,
+          message AS last_message,
+          created_at AS last_message_at
+        FROM paired
+        ORDER BY partner_id, created_at DESC
+      )
       SELECT
-        CASE WHEN sender_id = ${userId}::uuid THEN receiver_id ELSE sender_id END AS partner_id,
-        MAX(created_at) AS last_message_at,
-        (
-          SELECT m.message
-          FROM chat_messages m
-          WHERE (m.sender_id = ${userId}::uuid AND m.receiver_id = partner_id)
-             OR (m.sender_id = partner_id AND m.receiver_id = ${userId}::uuid)
-          ORDER BY m.created_at DESC LIMIT 1
-        ) AS last_message,
+        l.partner_id,
+        l.last_message,
+        l.last_message_at,
         (
           SELECT COUNT(*)
-          FROM chat_messages m
-          WHERE m.receiver_id = ${userId}::uuid AND m.sender_id = partner_id AND m.is_read = false
+          FROM paired p
+          WHERE p.partner_id = l.partner_id
+            AND p.receiver_id = ${userId}::uuid
+            AND p.is_read = false
         ) AS unread_count
-      FROM chat_messages
-      WHERE sender_id = ${userId}::uuid OR receiver_id = ${userId}::uuid
-      GROUP BY partner_id
-      ORDER BY last_message_at DESC
+      FROM latest l
+      ORDER BY l.last_message_at DESC
     `;
 
     const partners = await this.prisma.user.findMany({
