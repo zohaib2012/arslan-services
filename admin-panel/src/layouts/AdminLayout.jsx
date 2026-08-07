@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Briefcase, Calendar, FolderTree,
   AlertTriangle, Image, Bell, LogOut, Menu, X, TrendingUp, FileText,
   Activity, Shield, Settings, MessageSquare, ChevronDown,
-  UserCircle, Building2
+  UserCircle, Building2, Wrench
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
