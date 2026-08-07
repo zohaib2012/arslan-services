@@ -58,7 +58,11 @@ export class WorkersController {
     @Query('page') page: string,
     @Query('limit') limit: string,
   ) {
-    return this.workersService.getWorkerReviews(id, Number(page), Number(limit));
+    return this.workersService.getWorkerReviews(
+      id,
+      Number(page) || 1,
+      Number(limit) || 20,
+    );
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
