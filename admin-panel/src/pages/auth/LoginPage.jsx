@@ -1,16 +1,33 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Wrench, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
+import { Wrench, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, UserPlus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, guestLogin } = useAuth();
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showGuestForm, setShowGuestForm] = useState(false);
+  const [guestName, setGuestName] = useState('');
+  const [guestLoading, setGuestLoading] = useState(false);
+
+  const handleGuest = async (e) => {
+    e.preventDefault();
+    setGuestLoading(true);
+    try {
+      await guestLogin(guestName.trim() || 'Guest');
+      toast.success(`Welcome, ${guestName.trim() || 'Guest'}!`);
+      navigate('/');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Could not continue as guest');
+    } finally {
+      setGuestLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -128,16 +145,58 @@ export default function LoginPage() {
             </button>
           </form>
 
+          <div className="flex items-center gap-3 my-6">
+            <div className="h-px flex-1 bg-gray-200" />
+            <span className="text-xs text-gray-400 font-medium">or</span>
+            <div className="h-px flex-1 bg-gray-200" />
+          </div>
+
+          {showGuestForm ? (
+            <form onSubmit={handleGuest} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Your name</label>
+                <div className="relative">
+                  <UserPlus className="absolute left-3 top-3.5 text-gray-400" size={18} />
+                  <input
+                    type="text"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    placeholder="e.g. Ali"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                  />
+                </div>
+                <p className="text-xs text-gray-400 mt-2">You can browse and book services without an account.</p>
+              </div>
+              <button
+                type="submit"
+                disabled={guestLoading}
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-all disabled:opacity-60"
+              >
+                {guestLoading ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
+                {guestLoading ? 'Setting up...' : 'Continue as Guest'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowGuestForm(false)}
+                className="w-full text-center text-sm text-gray-500 hover:text-gray-700"
+              >
+                Back to sign in
+              </button>
+            </form>
+          ) : (
+            <button
+              onClick={() => setShowGuestForm(true)}
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-gray-300 text-gray-600 font-semibold hover:border-brand-400 hover:text-brand-700 transition-all"
+            >
+              <UserPlus size={18} />
+              Continue as Guest
+            </button>
+          )}
+
           <p className="text-center text-sm text-gray-500 mt-8">
             Don't have an account?{' '}
             <Link to="/auth/register" className="font-medium text-brand-600 hover:text-brand-700">
               Create one
-            </Link>
-          </p>
-          <p className="text-center text-sm text-gray-400 mt-3">
-            Are you an admin?{' '}
-            <Link to="/auth/login" className="font-medium text-brand-600 hover:text-brand-700">
-              Login here
             </Link>
           </p>
         </div>

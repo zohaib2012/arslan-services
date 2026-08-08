@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import { MAPBOX_TOKEN, MAPBOX_STYLE, DEFAULT_CENTER, DEFAULT_ZOOM, getBrowserLocation, reverseGeocode } from '../../lib/mapbox';
-import { ChevronLeft, ChevronRight, MapPin, Wrench, Locate, Calendar, Loader2, ShieldCheck, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Wrench, Locate, Calendar, Loader2, ShieldCheck, Check, X, UserPlus } from 'lucide-react';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -34,8 +34,11 @@ export default function CreateBookingPage() {
   const mapContainer = useRef(null);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, guestLogin } = useAuth();
   const navigate = useNavigate();
+  const [showGuestModal, setShowGuestModal] = useState(false);
+  const [guestName, setGuestName] = useState('');
+  const [guestLoading, setGuestLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -154,11 +157,7 @@ export default function CreateBookingPage() {
     }
   };
 
-  const handleSubmit = async () => {
-    if (!isAuthenticated) {
-      navigate('/auth/login');
-      return;
-    }
+  const submitBooking = async () => {
     setSubmitting(true);
     try {
       const payload = {
@@ -179,6 +178,27 @@ export default function CreateBookingPage() {
       toast.error(err.response?.data?.message || 'Failed to create booking.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!isAuthenticated) {
+      setShowGuestModal(true);
+      return;
+    }
+    await submitBooking();
+  };
+
+  const handleGuestSubmit = async () => {
+    setGuestLoading(true);
+    try {
+      await guestLogin(guestName.trim() || 'Guest');
+      setShowGuestModal(false);
+      await submitBooking();
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Could not continue as guest');
+    } finally {
+      setGuestLoading(false);
     }
   };
 
@@ -501,6 +521,55 @@ export default function CreateBookingPage() {
           </Link>
         )}
       </div>
+
+      {/* Guest login modal */}
+      {showGuestModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowGuestModal(false)} />
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <button
+              onClick={() => setShowGuestModal(false)}
+              className="absolute right-4 top-4 p-2 rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X size={18} />
+            </button>
+            <div className="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center mb-4">
+              <UserPlus className="text-brand-700" size={26} />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">Continue without an account?</h3>
+            <p className="text-sm text-gray-500 mt-2">
+              Book as a guest to get your job done right away. You can create an account anytime to track bookings, chat and more.
+            </p>
+            <form onSubmit={(e) => { e.preventDefault(); handleGuestSubmit(); }} className="mt-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Your name</label>
+                <input
+                  type="text"
+                  value={guestName}
+                  onChange={(e) => setGuestName(e.target.value)}
+                  placeholder="e.g. Ali"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={guestLoading}
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition-colors disabled:opacity-60"
+              >
+                {guestLoading ? <Loader2 className="animate-spin" size={18} /> : <UserPlus size={18} />}
+                {guestLoading ? 'Placing booking...' : 'Continue as Guest'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowGuestModal(false); navigate('/auth/login'); }}
+                className="w-full text-center text-sm font-medium text-brand-600 hover:text-brand-700"
+              >
+                Sign in instead
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
