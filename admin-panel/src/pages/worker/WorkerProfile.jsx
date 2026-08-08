@@ -57,45 +57,57 @@ export default function WorkerProfile() {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto animate-fade-in">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Worker Profile</h1>
-
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6">
-        <div className="h-24 relative">
+    <div className="max-w-2xl mx-auto animate-fade-in pb-10">
+      {/* Profile header card */}
+      <div className="card-premium overflow-hidden mb-6">
+        <div className="h-32 md:h-40 relative">
           {profile.coverPhoto ? (
             <img src={profile.coverPhoto} alt="" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
-            <div className="h-full bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-600 relative">
-              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_20%,white,transparent_50%)]" />
+            <div className="h-full gradient-brand relative">
+              <div className="absolute inset-0 bg-dots opacity-30" />
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_70%_20%,white,transparent_50%)]" />
             </div>
           )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         </div>
-        <div className="px-6 pb-6 -mt-10">
-          <div className="flex items-end gap-4">
-            <div className="w-20 h-20 rounded-2xl bg-white p-1 shadow-lg shrink-0">
+        <div className="px-6 pb-6 -mt-14 relative">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+            <div className="w-24 h-24 rounded-3xl bg-white p-1.5 shadow-xl shrink-0 ring-2 ring-brand-100">
               {user?.profilePhoto ? (
-                <img src={user.profilePhoto} alt="" className="w-full h-full rounded-xl object-cover" />
+                <img src={user.profilePhoto} alt="" className="w-full h-full rounded-[18px] object-cover" />
               ) : (
-                <div className="w-full h-full rounded-xl bg-brand-50 flex items-center justify-center text-brand-700 text-2xl font-bold">
+                <div className="w-full h-full rounded-[18px] gradient-brand-soft flex items-center justify-center text-brand-700 text-3xl font-extrabold">
                   {(user?.fullName || 'W').charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
-            <div className="flex-1 pb-1 min-w-0">
+            <div className="flex-1 sm:pb-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-xl font-bold text-gray-900">{user?.fullName}</h2>
+                <h1 className="font-display text-xl md:text-2xl font-extrabold text-ink-900">{user?.fullName}</h1>
+                {profile.isOnline && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-600 bg-emerald-50 rounded-full">
+                    <span className="relative flex h-1.5 w-1.5"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" /><span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" /></span>
+                    Online
+                  </span>
+                )}
                 <StatusBadge status={profile.verificationStatus} />
-                {profile.isOnline && <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Online</span>}
               </div>
-              <div className="flex items-center gap-2 mt-1 text-sm text-gray-500 flex-wrap">
-                <span className="flex items-center gap-1 text-amber-600 font-semibold"><Star size={13} className="fill-amber-400 text-amber-400" /> {Number(profile.avgRating).toFixed(1)}</span>
-                <span>({profile.totalReviews || 0} reviews)</span>
-                <span>· {profile.completedJobs || 0} jobs</span>
-                {profile.experienceYears > 0 && <span>· {profile.experienceYears} yrs exp</span>}
+              <div className="flex items-center gap-2 mt-1.5 text-sm text-gray-500 flex-wrap">
+                <span className="inline-flex items-center gap-1 text-amber-600 font-bold">
+                  <Star size={14} className="fill-amber-400 text-amber-400" /> {Number(profile.avgRating || 0).toFixed(1)}
+                </span>
+                <span className="text-gray-400">({profile.totalReviews || 0})</span>
+                <span className="text-gray-300">·</span>
+                <span>{profile.completedJobs || 0} jobs</span>
+                {profile.experienceYears > 0 && <><span className="text-gray-300">·</span><span>{profile.experienceYears} yrs exp</span></>}
               </div>
             </div>
-            <Link to="/worker/profile/edit" className="pb-1 shrink-0 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors">
-              Edit
+            <Link
+              to="/worker/profile/edit"
+              className="sm:pb-1 shrink-0 btn-primary px-5 py-2.5 text-white text-sm font-bold rounded-xl"
+            >
+              Edit Profile
             </Link>
           </div>
         </div>
@@ -106,13 +118,13 @@ export default function WorkerProfile() {
           <Link
             key={m.label}
             to={m.to}
-            className="flex items-center gap-4 px-5 py-4 bg-white rounded-2xl border border-gray-100 hover:bg-gray-50/60 transition-colors"
+            className="card-premium flex items-center gap-4 px-5 py-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all"
           >
-            <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 shrink-0">
+            <div className="w-10 h-10 rounded-xl gradient-brand-soft flex items-center justify-center text-brand-600 shrink-0">
               {m.icon}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-800">{m.label}</p>
+              <p className="text-sm font-semibold text-ink-900">{m.label}</p>
               <p className="text-xs text-gray-400">{m.desc}</p>
             </div>
             <ChevronRight size={16} className="text-gray-300" />
@@ -120,21 +132,21 @@ export default function WorkerProfile() {
         ))}
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
-        <h3 className="font-bold text-gray-900 mb-3">About</h3>
+      <div className="card-premium p-6 mb-6">
+        <h3 className="font-display font-bold text-lg text-ink-900 mb-3">About</h3>
         <p className="text-sm text-gray-600 leading-relaxed">{profile.description || 'No description added yet.'}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="font-bold text-gray-900 mb-3">Contact</h3>
+        <div className="card-premium p-5">
+          <h3 className="font-display font-bold text-lg text-ink-900 mb-3">Contact</h3>
           <div className="space-y-2.5 text-sm">
-            <p className="flex items-center gap-2 text-gray-600"><Mail size={15} className="text-brand-600" /> {user?.email || 'Not set'}</p>
-            <p className="flex items-center gap-2 text-gray-600"><Phone size={15} className="text-brand-600" /> {user?.phone || 'Not set'}</p>
+            <p className="flex items-center gap-2 text-gray-600"><Mail size={15} className="text-brand-600 shrink-0" /> {user?.email || 'Not set'}</p>
+            <p className="flex items-center gap-2 text-gray-600"><Phone size={15} className="text-brand-600 shrink-0" /> {user?.phone || 'Not set'}</p>
           </div>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h3 className="font-bold text-gray-900 mb-3">Service Areas</h3>
+        <div className="card-premium p-5">
+          <h3 className="font-display font-bold text-lg text-ink-900 mb-3">Service Areas</h3>
           {areas.length === 0 ? (
             <p className="text-sm text-gray-400">No areas added.</p>
           ) : (
