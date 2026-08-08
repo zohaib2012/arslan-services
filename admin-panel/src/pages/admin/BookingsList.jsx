@@ -61,7 +61,7 @@ export default function BookingsList() {
           </div>
           <button
             onClick={() => { setFilterSearch(search); setPage(1); }}
-            className="px-5 py-2.5 gradient-brand text-white rounded-xl hover:opacity-90 transition-all text-sm font-medium shadow-md shadow-brand-600/20"
+            className="w-full sm:w-auto px-5 py-2.5 gradient-brand text-white rounded-xl hover:opacity-90 transition-all text-sm font-medium shadow-md shadow-brand-600/20"
           >
             Filter
           </button>

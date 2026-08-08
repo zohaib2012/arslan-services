@@ -212,7 +212,7 @@ export default function CreateBookingPage() {
       <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mb-6">Book a Service</h1>
 
       {/* Stepper */}
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-1">
         {steps.map((label, i) => (
           <div key={label} className="flex items-center gap-2">
             <div

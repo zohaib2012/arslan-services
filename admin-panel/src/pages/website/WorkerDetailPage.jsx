@@ -226,7 +226,7 @@ export default function WorkerDetailPage() {
                 )}
               </div>
             </div>
-            <div className="flex flex-wrap gap-2 md:pb-1">
+            <div className="flex flex-wrap gap-2 md:pb-1 w-full sm:w-auto">
               <button
                 onClick={toggleFav}
                 className={`p-3 rounded-xl border transition-colors ${isFav ? 'bg-red-50 border-red-200 text-red-500' : 'bg-white border-gray-200 text-gray-400 hover:text-red-500'}`}
@@ -236,19 +236,19 @@ export default function WorkerDetailPage() {
               </button>
               <a
                 href={`tel:${worker.user?.phone || ''}`}
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors w-full sm:w-auto"
               >
                 <Phone size={16} /> Call
               </a>
               <button
                 onClick={startChat}
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors w-full sm:w-auto"
               >
                 <MessageCircle size={16} /> Message
               </button>
               <button
                 onClick={bookNow}
-                className="btn-gold inline-flex items-center gap-2 px-5 py-3 text-white text-sm font-bold rounded-xl"
+                className="btn-gold inline-flex items-center justify-center gap-2 px-5 py-3 text-white text-sm font-bold rounded-xl w-full sm:w-auto"
               >
                 <Calendar size={16} /> Book Now
               </button>

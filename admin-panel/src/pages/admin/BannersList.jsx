@@ -70,7 +70,7 @@ export default function BannersList() {
           <p className="text-sm text-ink-600">No banners yet</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {banners.map(b => (
             <div key={b.id} className={`card-premium overflow-hidden group ${!b.isActive ? 'opacity-60' : ''}`}>
               <div className="relative h-44 bg-gray-100">
@@ -138,7 +138,7 @@ export default function BannersList() {
             <input placeholder="https://example.com/offer" value={form.redirectTo} onChange={e => setForm({...form, redirectTo: e.target.value})}
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink-800 mb-1.5">Sort Order</label>
               <input type="number" placeholder="0" value={form.sortOrder} onChange={e => setForm({...form, sortOrder: Number(e.target.value)})}

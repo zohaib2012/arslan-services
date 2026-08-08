@@ -80,7 +80,7 @@ export default function Notifications() {
             <button
               key={n.id}
               onClick={() => !n.isRead && markRead(n.id)}
-              className={`w-full text-left flex items-start gap-3 p-4 rounded-2xl border transition-colors ${
+              className={`w-full text-left flex flex-wrap items-start gap-3 p-4 rounded-2xl border transition-colors ${
                 n.isRead ? 'bg-white border-gray-100' : 'bg-brand-50/60 border-brand-100'
               }`}
             >

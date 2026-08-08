@@ -55,7 +55,7 @@ export default function AiSearchPage() {
         <p className="text-gray-500 mt-2">Describe what you need — our AI understands it and finds the perfect match.</p>
       </div>
 
-      <form onSubmit={handleSearch} className="flex gap-3">
+      <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <MessageSquare className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input
@@ -68,7 +68,7 @@ export default function AiSearchPage() {
         <button
           type="submit"
           disabled={loading || !query.trim()}
-          className="btn-primary inline-flex items-center gap-2 px-6 py-4 text-white font-bold rounded-2xl disabled:opacity-50"
+          className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-4 text-white font-bold rounded-2xl disabled:opacity-50 w-full sm:w-auto"
         >
           {loading ? <Loader2 className="animate-spin" size={17} /> : <Send size={17} />}
           Search

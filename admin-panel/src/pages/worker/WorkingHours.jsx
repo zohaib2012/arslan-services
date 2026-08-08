@@ -78,8 +78,8 @@ export default function WorkingHours() {
 
       <div className="card-premium p-5 space-y-3 mb-6">
         {days.map((day) => (
-          <div key={day} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
-            <label className="flex items-center gap-2 w-28 shrink-0">
+          <div key={day} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-xl bg-gray-50">
+            <label className="flex items-center gap-2 sm:w-28 shrink-0">
               <input
                 type="checkbox"
                 checked={hours[day]?.enabled}

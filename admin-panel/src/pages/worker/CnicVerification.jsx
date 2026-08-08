@@ -119,7 +119,7 @@ export default function CnicVerification() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <UploadBox label="Front of CNIC" image={front} uploading={uploading} onPick={() => frontRef.current?.click()} />
             <UploadBox label="Back of CNIC" image={back} uploading={uploading} onPick={() => backRef.current?.click()} />
           </div>

@@ -56,7 +56,7 @@ export default function Dashboard() {
         subtitle="Overview of your platform performance"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatCard icon={Users} label="Total Customers" value={totalCustomers?.toLocaleString() || 0} color="blue" trend={12} trendUp />
         <StatCard icon={Briefcase} label="Total Workers" value={totalWorkers?.toLocaleString() || 0} color="purple" trend={8} trendUp />
         <StatCard icon={Calendar} label="Total Bookings" value={totalBookings?.toLocaleString() || 0} color="emerald" trend={15} trendUp />

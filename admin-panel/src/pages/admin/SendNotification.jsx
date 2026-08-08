@@ -82,7 +82,7 @@ export default function SendNotification() {
               <button
                 onClick={handleSend}
                 disabled={sending}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-60 shadow-lg shadow-brand-600/20 text-sm font-medium"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-60 shadow-lg shadow-brand-600/20 text-sm font-medium"
               >
                 {sending ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

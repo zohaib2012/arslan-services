@@ -99,7 +99,7 @@ export default function SearchPage() {
       <div className="mb-8">
         <p className="text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Find Professionals</p>
         <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mt-1 mb-5">Search Services & Workers</h1>
-        <form onSubmit={handleSubmit} className="flex gap-3 max-w-2xl">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-2xl">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
@@ -109,7 +109,7 @@ export default function SearchPage() {
               className="w-full pl-11 pr-4 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-card text-sm"
             />
           </div>
-          <button type="submit" className="btn-primary px-7 py-4 text-white font-semibold rounded-2xl inline-flex items-center gap-2">
+          <button type="submit" className="btn-primary w-full sm:w-auto px-7 py-4 text-white font-semibold rounded-2xl inline-flex items-center justify-center gap-2">
             <Search size={16} /> Search
           </button>
         </form>

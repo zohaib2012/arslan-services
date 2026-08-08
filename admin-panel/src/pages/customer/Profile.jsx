@@ -26,7 +26,7 @@ export default function Profile() {
     <div className="max-w-2xl mx-auto animate-fade-in">
       <h1 className="font-display text-2xl font-bold text-ink-900 mb-6">My Profile</h1>
 
-      <div className="card-premium rounded-2xl p-6 mb-6 flex items-center gap-4">
+      <div className="card-premium rounded-2xl p-6 mb-6 flex flex-wrap items-center gap-4">
         {user?.profilePhoto ? (
           <img src={user.profilePhoto} alt="" className="w-16 h-16 rounded-2xl object-cover ring-2 ring-brand-100" />
         ) : (

@@ -71,7 +71,7 @@ export default function WorkersList() {
             <select
               value={statusFilter}
               onChange={e => { setStatusFilter(e.target.value); setPage(1); }}
-              className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-700 bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none"
+              className="w-full sm:w-auto px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-700 bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none"
             >
               <option value="ALL">All Statuses</option>
               <option value="PENDING">Pending</option>
@@ -81,7 +81,7 @@ export default function WorkersList() {
             </select>
             <button
               onClick={() => { setFilterSearch(search); setPage(1); }}
-              className="px-5 py-2.5 gradient-brand text-white rounded-xl hover:opacity-90 transition-all text-sm font-medium shadow-md shadow-brand-600/20"
+              className="w-full sm:w-auto px-5 py-2.5 gradient-brand text-white rounded-xl hover:opacity-90 transition-all text-sm font-medium shadow-md shadow-brand-600/20"
             >
               Filter
             </button>

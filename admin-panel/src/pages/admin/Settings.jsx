@@ -68,7 +68,7 @@ export default function Settings() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-ink-800 mb-1.5">
                   <Mail size={16} className="text-ink-600/40" /> Support Email
@@ -91,7 +91,7 @@ export default function Settings() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-ink-800 mb-1.5">
                   <Percent size={16} className="text-ink-600/40" /> Commission Rate (%)

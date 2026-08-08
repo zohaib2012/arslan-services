@@ -43,7 +43,7 @@ export default function WorkerDashboardHome() {
         <p className="text-sm text-ink-600 mt-1">Here's your work summary.</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((s) => (
           <Link key={s.label} to={s.link} className="card-premium p-5 group">
             <div className="w-10 h-10 rounded-xl gradient-brand-soft flex items-center justify-center mb-3 group-hover:shadow-glow transition-shadow">

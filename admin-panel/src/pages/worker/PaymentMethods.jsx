@@ -91,7 +91,7 @@ export default function PaymentMethods() {
           <select
             value={methodType}
             onChange={(e) => setMethodType(e.target.value)}
-            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
           >
             {methods.map((m) => (
               <option key={m} value={m}>{m.replace(/_/g, ' ')}</option>
@@ -101,20 +101,20 @@ export default function PaymentMethods() {
             value={accountNumber}
             onChange={(e) => setAccountNumber(e.target.value)}
             placeholder="Account / wallet number"
-            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           <input
             value={accountTitle}
             onChange={(e) => setAccountTitle(e.target.value)}
             placeholder="Account title"
-            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
           {methodType === 'BANK_ACCOUNT' && (
             <input
               value={bankName}
               onChange={(e) => setBankName(e.target.value)}
               placeholder="Bank name"
-              className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           )}
         </div>

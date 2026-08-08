@@ -52,8 +52,8 @@ export default function CustomersList() {
 
       <div className="card-premium overflow-hidden">
         <div className="p-5 border-b border-gray-50">
-          <div className="flex gap-3">
-            <div className="relative flex-1 max-w-md">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-600/40" size={18} />
               <input
                 placeholder="Search by name, email or phone..."
@@ -63,7 +63,7 @@ export default function CustomersList() {
                 className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm transition-all"
               />
             </div>
-            <button onClick={loadCustomers} className="btn-primary px-5 py-2.5 rounded-xl text-sm font-medium">
+            <button onClick={loadCustomers} className="w-full sm:w-auto btn-primary px-5 py-2.5 rounded-xl text-sm font-medium">
               Search
             </button>
           </div>

@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [installed, setInstalled] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     const onBeforeInstall = (e) => {
@@ -28,7 +27,7 @@ export default function InstallPrompt() {
     };
   }, []);
 
-  if (installed || !deferredPrompt || dismissed) return null;
+  if (installed || !deferredPrompt) return null;
 
   const handleInstall = async () => {
     if (!deferredPrompt) return;
@@ -39,27 +38,16 @@ export default function InstallPrompt() {
   };
 
   return (
-    <div className="fixed bottom-4 inset-x-4 sm:left-auto sm:right-4 sm:inset-x-auto sm:max-w-sm z-[60]">
-      <div className="card-premium rounded-2xl shadow-card-hover p-4 flex items-center gap-3 bg-white">
-        <div className="w-11 h-11 rounded-xl gradient-brand flex items-center justify-center shrink-0">
-          <Download size={20} className="text-white" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-gray-900">Install Easyservice</p>
-          <p className="text-xs text-gray-500 mt-0.5">Install as an app for faster access.</p>
-        </div>
+    <div className="bg-gradient-to-r from-brand-800 via-brand-700 to-brand-900">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2">
+        <span className="text-[11px] sm:text-sm text-emerald-100 truncate">
+          <strong>Install Easyservice App</strong> — add to home screen for quick access
+        </span>
         <button
           onClick={handleInstall}
-          className="px-3.5 py-2 btn-primary text-white text-xs font-bold rounded-xl shrink-0"
+          className="btn-gold inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold shrink-0"
         >
-          Install
-        </button>
-        <button
-          onClick={() => setDismissed(true)}
-          className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors shrink-0"
-          aria-label="Dismiss"
-        >
-          <X size={16} />
+          <Download size={13} /> Install
         </button>
       </div>
     </div>

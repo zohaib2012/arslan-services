@@ -59,7 +59,7 @@ export default function DisputesList() {
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-700 bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none"
+            className="w-full sm:w-auto px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-700 bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none"
           >
             <option value="ALL">All Statuses</option>
             <option value="OPEN">Open</option>

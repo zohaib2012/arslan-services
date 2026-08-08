@@ -69,8 +69,8 @@ export default function BookingRequests() {
               <div className="flex items-center gap-1.5 mt-3 text-xs text-ink-600">
                 <MapPin size={12} /> {b.address}
               </div>
-              <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-50 text-xs text-ink-600">
-                <span>{b.bookingType === 'SCHEDULED' && b.scheduledAt ? new Date(b.scheduledAt).toLocaleString() : 'ASAP'}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mt-4 pt-3 border-t border-gray-50 text-xs text-ink-600">
+                <span className="truncate">{b.bookingType === 'SCHEDULED' && b.scheduledAt ? new Date(b.scheduledAt).toLocaleString() : 'ASAP'}</span>
                 <span>{new Date(b.createdAt).toLocaleDateString()}</span>
               </div>
             </Link>

@@ -51,7 +51,7 @@ export default function Analytics() {
         subtitle="Data-driven insights about your platform"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <StatCard icon={Users} label="Total Customers" value={userStats?.totalCustomers?.toLocaleString() || 0} color="blue" />
         <StatCard icon={Users} label="Total Workers" value={userStats?.totalWorkers?.toLocaleString() || 0} color="purple" />
         <StatCard icon={Calendar} label="Total Bookings" value={bookingStats?.totalBookings?.toLocaleString() || 0} color="emerald" />

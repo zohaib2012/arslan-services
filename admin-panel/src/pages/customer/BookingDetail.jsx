@@ -130,7 +130,7 @@ export default function BookingDetail() {
       </div>
 
       {/* Worker card */}
-      <div className="card-premium p-5 mb-6 flex items-center gap-4">
+      <div className="card-premium p-5 mb-6 flex flex-wrap items-center gap-4">
         {worker?.profilePhoto ? (
           <img src={worker.profilePhoto} alt="" className="w-14 h-14 rounded-2xl object-cover" />
         ) : (

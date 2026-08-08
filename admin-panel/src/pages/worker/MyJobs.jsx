@@ -39,7 +39,7 @@ export default function MyJobs() {
           <h1 className="font-display text-2xl font-extrabold text-ink-900">My Jobs</h1>
           <p className="text-sm text-ink-600 mt-1">{jobs.length} job{jobs.length !== 1 ? 's' : ''}</p>
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex flex-wrap gap-2">
           {filters.map((f) => (
             <button
               key={f.value}
@@ -97,8 +97,8 @@ export default function MyJobs() {
               {b.priceEstimate != null && (
                 <div className="mt-3 text-sm font-bold text-brand-700">PKR {Number(b.priceEstimate).toLocaleString()}</div>
               )}
-              <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-50 text-xs text-ink-600">
-                <span>{b.bookingType === 'SCHEDULED' && b.scheduledAt ? new Date(b.scheduledAt).toLocaleString() : 'ASAP'}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mt-4 pt-3 border-t border-gray-50 text-xs text-ink-600">
+                <span className="truncate">{b.bookingType === 'SCHEDULED' && b.scheduledAt ? new Date(b.scheduledAt).toLocaleString() : 'ASAP'}</span>
                 <span>{new Date(b.createdAt).toLocaleDateString()}</span>
               </div>
             </Link>

@@ -132,7 +132,7 @@ export default function NearbyWorkersPage() {
 
   return (
     <div className="py-8 animate-fade-in">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-7">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
         <div>
           <p className="text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Discover Near You</p>
           <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mt-1 flex items-center gap-2">

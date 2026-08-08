@@ -52,8 +52,8 @@ export default function DisputeDetail() {
       </Link>
 
       <div className="card-premium overflow-hidden mb-6">
-        <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100">
+          <div className="flex items-center gap-3 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
               <AlertTriangle className="text-orange-500" size={19} />
             </div>

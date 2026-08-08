@@ -2,6 +2,7 @@ import { Outlet, Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Search, Menu, X, User, LogOut, Bell, Home, Wrench } from 'lucide-react';
 import { useState } from 'react';
+import InstallPrompt from '../components/InstallPrompt';
 
 const navItems = [
   { path: '/', label: 'Home', exact: true },
@@ -34,6 +35,7 @@ export default function CustomerLayout({ isDashboard = false }) {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      <InstallPrompt />
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">

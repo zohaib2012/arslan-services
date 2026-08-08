@@ -76,7 +76,7 @@ export default function ServicesList() {
           <p className="text-sm text-ink-600">No services yet</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map(s => (
             <div key={s.id} className={`card-premium p-5 group ${!s.isActive ? 'opacity-60' : ''}`}>
               <div className="flex items-start gap-3 mb-3">
@@ -123,7 +123,7 @@ export default function ServicesList() {
 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editing ? 'Edit Service' : 'Add Service'} size="lg">
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink-800 mb-1.5">English Name</label>
               <input placeholder="e.g. Pipe Repair" value={form.nameEn} onChange={e => setForm({...form, nameEn: e.target.value})}
@@ -135,7 +135,7 @@ export default function ServicesList() {
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-ink-800 mb-1.5">English Description</label>
               <textarea placeholder="Describe the service..." value={form.descriptionEn} onChange={e => setForm({...form, descriptionEn: e.target.value})}

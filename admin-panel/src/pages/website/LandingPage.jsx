@@ -44,7 +44,7 @@ export default function LandingPage() {
                 <BadgeCheck size={14} className="text-gold-400" />
                 Pakistan's Trusted Home Services Marketplace
               </div>
-              <h1 className="font-display text-4xl md:text-6xl font-extrabold leading-[1.08] tracking-tight text-white">
+              <h1 className="font-display text-3xl md:text-6xl font-extrabold leading-[1.08] tracking-tight text-white">
                 Expert Professionals at your{' '}
                 <span className="relative inline-block">
                   <span className="text-gradient-gold">Doorstep</span>
@@ -223,7 +223,7 @@ export default function LandingPage() {
           <h2 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mt-1.5">How it Works</h2>
           <p className="text-gray-500 mt-3 max-w-lg mx-auto">From booking to completion — get your work done in four simple steps.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
           {[
             { icon: <Search size={22} />, title: 'Search & Browse', desc: 'Find verified workers near you by category, rating or AI.' },
             { icon: <PhoneCall size={22} />, title: 'Book Instantly', desc: 'Choose a time, describe your job and confirm your booking.' },
@@ -245,8 +245,8 @@ export default function LandingPage() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
-        <div className="relative overflow-hidden gradient-brand rounded-[2rem] p-10 md:p-16 text-white text-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 md:py-24">
+        <div className="relative overflow-hidden gradient-brand rounded-[2rem] px-6 sm:px-10 py-10 sm:py-16 md:py-24 text-white text-center">
           <div className="absolute inset-0 bg-dots opacity-25" />
           <div className="absolute -top-20 right-1/4 w-72 h-72 rounded-full bg-gold-400/15 blur-3xl" />
           <div className="relative">

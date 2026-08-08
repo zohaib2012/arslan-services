@@ -127,7 +127,7 @@ export default function CreateDispute() {
               </div>
             ))}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+          <div className="grid grid-cols-1 gap-2 mb-2">
             <input
               value={evidenceUrl}
               onChange={(e) => setEvidenceUrl(e.target.value)}

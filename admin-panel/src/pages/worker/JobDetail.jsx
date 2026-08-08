@@ -108,19 +108,19 @@ export default function JobDetail() {
         </div>
       </div>
 
-      <div className="card-premium p-5 mb-6 flex items-center gap-4">
+      <div className="card-premium p-5 mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
         {customer?.profilePhoto ? (
-          <img src={customer.profilePhoto} alt="" className="w-14 h-14 rounded-2xl object-cover" />
+          <img src={customer.profilePhoto} alt="" className="w-14 h-14 rounded-2xl object-cover shrink-0" />
         ) : (
-          <div className="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-700 font-bold text-xl">
+          <div className="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-700 font-bold text-xl shrink-0">
             {(customer?.fullName || 'C').charAt(0).toUpperCase()}
           </div>
         )}
-        <div className="flex-1">
-          <p className="font-semibold text-ink-900">{customer?.fullName}</p>
+        <div className="flex-1 min-w-0">
+          <p className="font-semibold text-ink-900 truncate">{customer?.fullName}</p>
           <p className="text-xs text-gray-400">Customer</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 shrink-0">
           <a href={`tel:${customer?.phone || ''}`} className="p-3 rounded-xl bg-gray-50 border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors" title="Call">
             <Phone size={16} />
           </a>
