@@ -4,12 +4,22 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 @Injectable()
 export class GeminiService {
   private ai: GoogleGenerativeAI;
+  private apiKeyValid = false;
 
   constructor() {
-    this.ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+    const key = process.env.GEMINI_API_KEY || '';
+    this.apiKeyValid = key.length > 20;
+    this.ai = new GoogleGenerativeAI(key);
+  }
+
+  isAvailable() {
+    return this.apiKeyValid;
   }
 
   async search(query: string, location?: string): Promise<any> {
+    if (!this.apiKeyValid) {
+      throw new Error('GEMINI_KEY_INVALID');
+    }
     const model = this.ai.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const prompt = `You are a home services assistant for Pakistan. Extract: service_type, location, urgency from query.
 
@@ -23,6 +33,9 @@ Respond in JSON: {"service":"detected name","location":"detected or null","urgen
   }
 
   async chat(message: string, history: string[] = []): Promise<string> {
+    if (!this.apiKeyValid) {
+      throw new Error('GEMINI_KEY_INVALID');
+    }
     const model = this.ai.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const prompt = `You are a home services assistant for Pakistan. Be friendly and helpful.
 Previous: ${history.join('\n')}

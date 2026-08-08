@@ -1,11 +1,11 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
-import { GeminiService } from '../config/gemini.config';
+import { AiAssistantService } from './ai.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @Controller('api/ai')
 export class AIController {
-  constructor(private geminiService: GeminiService) {}
+  constructor(private aiService: AiAssistantService) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('search')
@@ -13,7 +13,7 @@ export class AIController {
     @Body('query') query: string,
     @Body('location') location?: string,
   ) {
-    return this.geminiService.search(query, location);
+    return this.aiService.search(query, location);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -23,6 +23,6 @@ export class AIController {
     @Body('message') message: string,
     @Body('history') history?: string[],
   ) {
-    return { reply: await this.geminiService.chat(message, history) };
+    return { reply: await this.aiService.chat(message, history) };
   }
 }
