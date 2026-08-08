@@ -103,6 +103,22 @@ export class WorkersService {
       'fix', 'repair', 'get', 'service', 'have', 'has', 'do', 'does', 'can', 'you',
     ]);
 
+    // Common trade/profession names mapped to category keywords so "plumber",
+    // "electrician", "carpenter" etc. match workers even when no service
+    // literally contains those words.
+    const tradeSynonyms: Record<string, string[]> = {
+      plumber: ['plumbing', 'tap', 'drain', 'pipe', 'geyser'],
+      plumbur: ['plumbing', 'tap', 'drain', 'pipe', 'geyser'],
+      electrician: ['electrical', 'wiring', 'inverter', 'solar'],
+      electrical: ['electrical'],
+      mechanic: ['bike mechanic', 'engine', 'brake'],
+      carpenter: ['carpentry', 'furniture', 'cabinet'],
+      painter: ['painting', 'wall', 'waterproofing'],
+      cleaner: ['cleaning'],
+      cleaning: ['cleaning'],
+      'ac': ['ac repair', 'gas refill'],
+    };
+
     const include = {
       user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
       workerServices: { include: { service: { include: { category: true } } } },
@@ -119,6 +135,8 @@ export class WorkersService {
     }
 
     const words = q.toLowerCase().split(/\s+/).filter((w) => w.length >= 2 && !stopWords.has(w));
+    // Expand words with trade synonyms so "plumber" also matches "Plumbing"
+    const expanded = words.flatMap((w) => (tradeSynonyms[w] ? [w, ...tradeSynonyms[w]] : [w]));
     const where: any = { verificationStatus: 'VERIFIED' };
 
     if (words.length === 0) {
@@ -131,7 +149,7 @@ export class WorkersService {
 
     // Any word matching ANY worker detail field (name, service, category, city, area, description)
     const orConditions: any[] = [];
-    for (const w of words) {
+    for (const w of expanded) {
       orConditions.push(
         { user: { fullName: { contains: w, mode: 'insensitive' } } },
         { description: { contains: w, mode: 'insensitive' } },
@@ -169,6 +187,9 @@ export class WorkersService {
         let score = 0;
         for (const wd of words) {
           if (haystack.includes(wd)) score++;
+        }
+        for (const wd of expanded) {
+          if (!words.includes(wd) && haystack.includes(wd)) score += 0.5;
         }
         if (haystack.includes(q.toLowerCase())) score += 3;
         if (w.isOnline) score += 0.5;
