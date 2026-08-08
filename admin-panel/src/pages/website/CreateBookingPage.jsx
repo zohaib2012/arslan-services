@@ -19,6 +19,7 @@ export default function CreateBookingPage() {
   const [step, setStep] = useState(0);
   const [worker, setWorker] = useState(null);
   const [services, setServices] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [workerOptions, setWorkerOptions] = useState([]);
   const [serviceId, setServiceId] = useState('');
   const [workerId, setWorkerId] = useState('');
@@ -137,6 +138,11 @@ export default function CreateBookingPage() {
       : step === 1
         ? bookingType && description && (bookingType === 'SCHEDULED' ? scheduledAt : true) && coords && address
         : true;
+
+  const categories = [...new Set((services || []).map((s) => s.category?.nameEn).filter(Boolean))];
+  const filteredServices = selectedCategory
+    ? (services || []).filter((s) => s.category?.nameEn === selectedCategory)
+    : services || [];
   const handleNext = () => {
     if (!canNext) {
       toast.error('Please complete all required fields.');
@@ -211,29 +217,52 @@ export default function CreateBookingPage() {
             {services.length === 0 ? (
               <div className="text-center py-8 text-gray-400 text-sm">Loading services...</div>
             ) : (
-              <div className="max-h-72 overflow-y-auto space-y-2 pr-1">
-                {services.map((s) => (
+              <>
+                <div className="flex flex-wrap gap-2 mb-3">
                   <button
-                    key={s.id}
-                    onClick={() => handleServiceSelect(s.id)}
-                    className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-colors ${
-                      serviceId === s.id ? 'border-brand-500 bg-brand-50' : 'border-gray-100 hover:border-brand-200'
+                    onClick={() => setSelectedCategory('')}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                      selectedCategory === '' ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
-                    {s.iconUrl ? (
-                      <img src={s.iconUrl} alt="" className="w-9 h-9 object-contain" />
-                    ) : (
-                      <div className="w-9 h-9 rounded-xl bg-brand-50 flex items-center justify-center">
-                        <Wrench className="text-brand-600" size={16} />
-                      </div>
-                    )}
-                    <div>
-                      <p className="text-sm font-semibold text-gray-800">{s.nameEn}</p>
-                      <p className="text-xs text-gray-400">{s.category?.nameEn}</p>
-                    </div>
+                    All
                   </button>
-                ))}
-              </div>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        selectedCategory === cat ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+                <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
+                  {filteredServices.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => handleServiceSelect(s.id)}
+                      className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-colors ${
+                        serviceId === s.id ? 'border-brand-500 bg-brand-50' : 'border-gray-100 hover:border-brand-200'
+                      }`}
+                    >
+                      {s.iconUrl ? (
+                        <img src={s.iconUrl} alt="" className="w-9 h-9 object-contain" />
+                      ) : (
+                        <div className="w-9 h-9 rounded-xl bg-brand-50 flex items-center justify-center">
+                          <Wrench className="text-brand-600" size={16} />
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-sm font-semibold text-gray-800">{s.nameEn}</p>
+                        <p className="text-xs text-gray-400">{s.category?.nameEn}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
           </div>
 
