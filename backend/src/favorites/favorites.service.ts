@@ -67,7 +67,7 @@ export class FavoritesService {
           include: {
             user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
             workerServices: {
-              include: { service: { select: { id: true, nameEn: true, nameUr: true } } },
+              include: { service: { include: { category: true } } },
             },
           },
         },

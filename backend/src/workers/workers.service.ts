@@ -48,7 +48,7 @@ export class WorkersService {
         where,
         include: {
           user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
-          workerServices: { include: { service: true } },
+          workerServices: { include: { service: { include: { category: true } } } },
           serviceAreas: true,
           paymentMethods: true,
         },
@@ -76,7 +76,7 @@ export class WorkersService {
       },
       include: {
         user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
-        workerServices: { include: { service: true } },
+        workerServices: { include: { service: { include: { category: true } } } },
         serviceAreas: true,
         paymentMethods: true,
       },

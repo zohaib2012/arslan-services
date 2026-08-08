@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Star, MapPin, Wrench, Phone, ShieldCheck, BadgeCheck } from 'lucide-react';
+import { Star, MapPin, Wrench, Phone, ShieldCheck } from 'lucide-react';
 
 export function formatRating(v) {
   return v ? Number(v).toFixed(1) : '0.0';
@@ -8,6 +8,23 @@ export function formatRating(v) {
 export function workerServiceNames(worker) {
   if (!worker?.workerServices?.length) return [];
   return worker.workerServices.map((ws) => ws.service?.nameEn || ws.service?.nameUr).filter(Boolean);
+}
+
+const CATEGORY_THUMBNAILS = {
+  Plumbing: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80',
+  Electrical: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&q=80',
+  'AC Repair': 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=600&q=80',
+  Cleaning: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=600&q=80',
+  Painting: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&q=80',
+  Carpentry: 'https://images.unsplash.com/photo-1540821924489-7690c70c4eac?w=600&q=80',
+  'Bike Mechanic': 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&q=80',
+};
+
+const DEFAULT_THUMBNAIL = 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80';
+
+export function workerThumbnail(worker) {
+  const categoryName = worker?.workerServices?.[0]?.service?.category?.nameEn;
+  return CATEGORY_THUMBNAILS[categoryName] || DEFAULT_THUMBNAIL;
 }
 
 function WorkerAvatar({ worker, name, className }) {
@@ -34,26 +51,35 @@ export default function WorkerCard({ worker, showDistance, distanceKm }) {
   const services = workerServiceNames(worker).slice(0, 3);
   const areas = worker?.serviceAreas || [];
   const verified = worker?.verificationStatus === 'VERIFIED';
+  const thumbnail = workerThumbnail(worker);
 
   return (
     <Link
       to={`/workers/${worker.id}`}
       className="group card-premium overflow-hidden flex flex-col animate-fade-in"
     >
-      <div className="relative h-44 overflow-hidden">
-        <div className="absolute inset-0 gradient-brand">
-          <div className="absolute inset-0 bg-dots opacity-40" />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center pt-6">
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-white/90 shadow-xl animate-glow-pulse">
-              <WorkerAvatar worker={worker} name={name} className="w-full h-full" />
-            </div>
-            {verified && (
-              <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-md">
-                <BadgeCheck size={18} className="text-brand-600" />
+      <div className="relative h-40 overflow-hidden">
+        <img
+          src={thumbnail}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          onError={(e) => { e.currentTarget.src = DEFAULT_THUMBNAIL; }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/20" />
+        <div className="absolute bottom-3 left-3 flex items-center gap-2">
+          <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-white shadow-lg shrink-0">
+            <WorkerAvatar worker={worker} name={name} className="w-full h-full" />
+          </div>
+          <div className="min-w-0">
+            <h3 className="font-display font-bold text-white truncate group-hover:text-brand-100 transition-colors drop-shadow">{name}</h3>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-400/95">
+                <Star className="text-white fill-white" size={11} />
+                <span className="text-[11px] font-bold text-gray-900">{formatRating(worker?.avgRating)}</span>
               </span>
-            )}
+              <span className="text-[11px] text-white/85">({worker?.totalReviews || 0})</span>
+            </div>
           </div>
         </div>
 
@@ -72,21 +98,8 @@ export default function WorkerCard({ worker, showDistance, distanceKm }) {
       </div>
 
       <div className="p-4 flex flex-col flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <h3 className="font-display font-bold text-gray-900 truncate group-hover:text-brand-700 transition-colors">{name}</h3>
-            <div className="flex items-center gap-1.5 mt-1">
-              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50">
-                <Star className="text-amber-400 fill-amber-400" size={13} />
-                <span className="text-xs font-bold text-gray-700">{formatRating(worker?.avgRating)}</span>
-              </span>
-              <span className="text-xs text-gray-400">({worker?.totalReviews || 0})</span>
-            </div>
-          </div>
-        </div>
-
         {services.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2.5">
+          <div className="flex flex-wrap gap-1.5">
             {services.map((s) => (
               <span key={s} className="px-2.5 py-1 text-[10px] font-semibold text-brand-700 bg-brand-50 rounded-full">
                 {s}
