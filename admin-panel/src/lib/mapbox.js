@@ -45,8 +45,11 @@ export function getBrowserLocation() {
     if (!navigator.geolocation) return resolve(null);
     navigator.geolocation.getCurrentPosition(
       (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => resolve(null),
-      { timeout: 8000 },
+      (err) => {
+        console.error('Geolocation error:', err?.code, err?.message);
+        resolve(null);
+      },
+      { timeout: 8000, maximumAge: 60000 },
     );
   });
 }

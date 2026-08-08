@@ -35,6 +35,7 @@ export default function ServiceAreas() {
   }, []);
 
   useEffect(() => {
+    if (loading) return;
     if (!mapContainer.current) return;
     if (!mapRef.current) {
       const map = new mapboxgl.Map({
@@ -59,12 +60,12 @@ export default function ServiceAreas() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loading]);
 
   const useMyLocation = async () => {
     const pos = await getBrowserLocation();
     if (!pos) {
-      toast.error('Location access denied.');
+      toast.error('Location access denied. Please allow location in your browser, or click on the map to pin the area.');
       return;
     }
     setCoords(pos);
