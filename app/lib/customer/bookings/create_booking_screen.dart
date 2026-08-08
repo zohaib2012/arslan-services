@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:latlong2/latlong.dart';
 import '../../core/config/theme_config.dart';
 import '../../core/services/api_client.dart';
+import '../../core/widgets/app_map_widget.dart';
 
 class CreateBookingScreen extends StatefulWidget {
   final Map<String, dynamic>? worker;
@@ -29,6 +31,7 @@ class _CreateBookingScreenState extends State<CreateBookingScreen>
   String _bookingType = 'INSTANT';
   DateTime? _scheduledDate;
   TimeOfDay? _scheduledTime;
+  LatLng? _pickedLocation;
   bool _isSubmitting = false;
   bool _loadingServices = true;
   String? _serviceError;
@@ -47,6 +50,11 @@ class _CreateBookingScreenState extends State<CreateBookingScreen>
       curve: Curves.easeInOut,
     );
     _stepAnimController.forward();
+    final wLat = double.tryParse(widget.worker?['latitude']?.toString() ?? '');
+    final wLng = double.tryParse(widget.worker?['longitude']?.toString() ?? '');
+    if (wLat != null && wLng != null) {
+      _pickedLocation = LatLng(wLat, wLng);
+    }
     _loadServices();
   }
 
@@ -102,6 +110,22 @@ class _CreateBookingScreenState extends State<CreateBookingScreen>
       );
       return;
     }
+    if (_currentStep == 1 && _pickedLocation == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.info_outline, color: Colors.white, size: 18),
+              SizedBox(width: 8),
+              Text('Please pick your location on the map'),
+            ],
+          ),
+          backgroundColor: AppTheme.primaryColor,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
     setState(() => _currentStep++);
     _stepAnimController.reset();
     _stepAnimController.forward();
@@ -125,6 +149,8 @@ class _CreateBookingScreenState extends State<CreateBookingScreen>
         'description': _descriptionController.text.trim(),
         'address': _addressController.text.trim(),
         'customerNotes': _notesController.text.trim(),
+        'latitude': _pickedLocation?.latitude,
+        'longitude': _pickedLocation?.longitude,
         if (_priceController.text.isNotEmpty)
           'estimatedPrice': double.tryParse(_priceController.text),
       };
@@ -569,6 +595,46 @@ class _CreateBookingScreenState extends State<CreateBookingScreen>
           validator: (v) =>
               v == null || v.trim().isEmpty ? 'Address is required' : null,
         ),
+        const SizedBox(height: 20),
+        _buildSectionTitle('Pick Location'),
+        const SizedBox(height: 4),
+        const Text(
+          'Tap on the map to set your exact location',
+          style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
+        ),
+        const SizedBox(height: 12),
+        AppMapWidget(
+          height: 240,
+          interactive: true,
+          showLocationButton: true,
+          center: _pickedLocation,
+          zoom: 14,
+          onPointSelected: (point) {
+            setState(() => _pickedLocation = point);
+          },
+        ),
+        if (_pickedLocation != null) ...[
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Icon(
+                Icons.check_circle,
+                size: 16,
+                color: AppTheme.successColor,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  'Location selected (${_pickedLocation!.latitude.toStringAsFixed(5)}, ${_pickedLocation!.longitude.toStringAsFixed(5)})',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
         const SizedBox(height: 20),
         _buildSectionTitle('Additional Notes (Optional)'),
         const SizedBox(height: 12),

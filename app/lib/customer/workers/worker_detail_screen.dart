@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:latlong2/latlong.dart';
 import '../../core/config/theme_config.dart';
 import '../../core/services/api_client.dart';
 import '../../core/models/worker_model.dart';
+import '../../core/widgets/app_map_widget.dart';
 import '../../worker/chat/worker_chat_screen.dart';
 
 class WorkerDetailScreen extends StatefulWidget {
@@ -114,6 +116,25 @@ class _WorkerDetailScreenState extends State<WorkerDetailScreen> {
                       icon: Icons.location_on_outlined,
                       title: 'Service Areas',
                       child: _buildAreasList(w),
+                    ),
+                  ],
+                  if (w.latitude != null && w.longitude != null) ...[
+                    const SizedBox(height: 16),
+                    _buildCardSection(
+                      icon: Icons.map_outlined,
+                      title: 'Location',
+                      child: AppMapWidget(
+                        height: 200,
+                        center: LatLng(w.latitude!, w.longitude!),
+                        zoom: 14,
+                        markers: [
+                          AppMapMarker(
+                            point: LatLng(w.latitude!, w.longitude!),
+                            icon: Icons.location_on,
+                          ),
+                        ],
+                        showLocationButton: true,
+                      ),
                     ),
                   ],
                   if (w.portfolio.isNotEmpty) ...[

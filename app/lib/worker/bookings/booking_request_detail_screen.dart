@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import '../../core/services/api_client.dart';
 import '../../core/config/theme_config.dart';
 import '../../core/models/booking_model.dart';
+import '../../core/widgets/app_map_widget.dart';
 
 class BookingRequestDetailScreen extends StatefulWidget {
   final BookingModel booking;
@@ -485,27 +487,44 @@ class _BookingRequestDetailScreenState
             style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary),
           ),
           const SizedBox(height: 12),
-          Container(
-            height: 140,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F5),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.map_outlined, size: 40, color: Color(0xFFBDBDBD)),
-                  SizedBox(height: 6),
-                  Text(
-                    'Map View',
-                    style: TextStyle(fontSize: 13, color: Color(0xFF9E9E9E)),
-                  ),
-                ],
+          if (_booking.latitude != 0 && _booking.longitude != 0)
+            AppMapWidget(
+              height: 180,
+              center: LatLng(_booking.latitude, _booking.longitude),
+              zoom: 14,
+              markers: [
+                AppMapMarker(
+                  point: LatLng(_booking.latitude, _booking.longitude),
+                ),
+              ],
+              showLocationButton: true,
+            )
+          else
+            Container(
+              height: 140,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.map_outlined,
+                      size: 40,
+                      color: Color(0xFFBDBDBD),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'No location available',
+                      style: TextStyle(fontSize: 13, color: Color(0xFF9E9E9E)),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

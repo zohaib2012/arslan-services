@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:latlong2/latlong.dart';
 import '../../core/config/theme_config.dart';
 import '../../core/services/api_client.dart';
+import '../../core/widgets/app_map_widget.dart';
 import '../reviews/write_review_screen.dart';
 import '../disputes/create_dispute_screen.dart';
 
@@ -629,6 +631,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
   }
 
   Widget _buildLocationTimeCard(Map<String, dynamic> b) {
+    final lat = double.tryParse(b['latitude']?.toString() ?? '');
+    final lng = double.tryParse(b['longitude']?.toString() ?? '');
+    final hasLocation = lat != null && lng != null;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: _cardDecoration(),
@@ -637,6 +643,16 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         children: [
           _cardSectionTitle('Location & Time'),
           const SizedBox(height: 12),
+          if (hasLocation) ...[
+            AppMapWidget(
+              height: 180,
+              center: LatLng(lat, lng),
+              zoom: 14,
+              markers: [AppMapMarker(point: LatLng(lat, lng))],
+              showLocationButton: true,
+            ),
+            const SizedBox(height: 12),
+          ],
           _infoRow(
             Icons.location_on_outlined,
             'Address',
