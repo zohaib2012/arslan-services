@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
 import WorkerCard from '../../components/WorkerCard';
-import { useAuth } from '../../context/AuthContext';
-import { Sparkles, Send, Loader2, MessageSquare, ShieldAlert, Wand2, MapPin, AlertTriangle, Wrench, ChevronRight } from 'lucide-react';
+import { Sparkles, Send, Loader2, MessageSquare, Wand2, MapPin, AlertTriangle, Wrench, ChevronRight } from 'lucide-react';
 
 const examples = [
   'I need a plumber to fix a leaking tap in Gulberg',
@@ -19,16 +18,11 @@ export default function AiSearchPage() {
   const [parsed, setParsed] = useState(null);
   const [workers, setWorkers] = useState([]);
   const [searchedQuery, setSearchedQuery] = useState('');
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) return;
-    if (!isAuthenticated) {
-      navigate('/auth/login');
-      return;
-    }
     setLoading(true);
     setError('');
     setWorkers([]);
@@ -57,11 +51,6 @@ export default function AiSearchPage() {
         </div>
         <h1 className="text-3xl font-bold text-gray-900">AI Service Assistant</h1>
         <p className="text-gray-500 mt-2">Describe what you need — our AI understands it and finds the perfect match.</p>
-        {!isAuthenticated && (
-          <p className="inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 rounded-full bg-amber-50 text-amber-700 text-xs font-medium">
-            <ShieldAlert size={13} /> Please log in to use AI search
-          </p>
-        )}
       </div>
 
       <form onSubmit={handleSearch} className="flex gap-3">
