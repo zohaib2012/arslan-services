@@ -81,12 +81,12 @@ export default function PaymentMethods() {
       <Link to="/worker/profile" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-brand-700 mb-5">
         <ChevronLeft size={15} /> Back to profile
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+      <h1 className="font-display text-2xl font-bold text-ink-900 mb-2 flex items-center gap-2">
         <Wallet size={22} className="text-brand-600" /> Payment Methods
       </h1>
       <p className="text-sm text-gray-500 mb-6">Add the payment methods where you want to receive payments.</p>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 space-y-3">
+      <div className="card-premium p-5 mb-6 space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <select
             value={methodType}
@@ -125,14 +125,14 @@ export default function PaymentMethods() {
         <button
           onClick={add}
           disabled={adding}
-          className="w-full inline-flex items-center justify-center gap-2 py-3 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl disabled:opacity-50 transition-colors"
+          className="w-full inline-flex items-center justify-center gap-2 py-3 btn-primary text-sm font-semibold rounded-xl disabled:opacity-50"
         >
           <Plus size={15} /> {adding ? 'Adding...' : 'Add Payment Method'}
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-5">
-        <h2 className="font-semibold text-gray-900 mb-3">Saved Methods ({items.length})</h2>
+      <div className="card-premium p-5">
+        <h2 className="font-semibold text-ink-900 mb-3">Saved Methods ({items.length})</h2>
         {items.length === 0 ? (
           <p className="text-sm text-gray-400 py-4 text-center">No payment methods added.</p>
         ) : (

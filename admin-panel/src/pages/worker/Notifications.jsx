@@ -54,7 +54,7 @@ export default function WorkerNotifications() {
     <div className="animate-fade-in max-w-2xl">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+          <h1 className="font-display text-2xl font-bold text-ink-900">Notifications</h1>
           <p className="text-sm text-gray-500 mt-1">{unread} unread</p>
         </div>
         {unread > 0 && (
@@ -71,7 +71,7 @@ export default function WorkerNotifications() {
       ) : notifications.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
           <BellOff className="mx-auto text-gray-300 mb-3" size={40} />
-          <h3 className="font-semibold text-gray-700">No notifications</h3>
+          <h3 className="font-semibold text-ink-900">No notifications</h3>
           <p className="text-sm text-gray-400 mt-1">You're all caught up.</p>
         </div>
       ) : (

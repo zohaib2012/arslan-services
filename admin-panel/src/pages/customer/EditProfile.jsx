@@ -37,7 +37,7 @@ export default function EditProfile() {
       <Link to="/dashboard/profile" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-brand-700 mb-5">
         <ChevronLeft size={15} /> Back to profile
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Profile</h1>
+      <h1 className="font-display text-2xl font-bold text-ink-900 mb-6">Edit Profile</h1>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
         <div>
@@ -69,7 +69,7 @@ export default function EditProfile() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full py-4 rounded-2xl btn-primary font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {saving ? <Loader2 className="animate-spin" size={18} /> : null}
           Save Changes

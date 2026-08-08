@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
-import { Calendar, Filter } from 'lucide-react';
+import { Calendar, Filter, Search } from 'lucide-react';
 import { PageHeader, StatusBadge } from '../../components';
 
 const statusFilters = ['ALL', 'PENDING', 'ACCEPTED', 'COMPLETED', 'CANCELLED', 'EXPIRED', 'DISPUTED', 'REJECTED'];
@@ -12,6 +12,8 @@ export default function BookingsList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [search, setSearch] = useState('');
+  const [filterSearch, setFilterSearch] = useState('');
 
   const abortRef = useRef(null);
 
@@ -21,13 +23,14 @@ export default function BookingsList() {
     abortRef.current = controller;
     loadBookings(controller.signal);
     return () => controller.abort();
-  }, [page, statusFilter]);
+  }, [page, statusFilter, filterSearch]);
 
   const loadBookings = async (signal) => {
     setLoading(true);
     try {
       const params = { page, limit: 20 };
       if (statusFilter !== 'ALL') params.status = statusFilter;
+      if (filterSearch) params.search = filterSearch;
       const res = await api.get('/bookings', { params, signal });
       setBookings(res.data.bookings);
       setTotalPages(res.data.totalPages);
@@ -44,7 +47,25 @@ export default function BookingsList() {
         subtitle="Monitor and manage all service bookings"
       />
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-5">
+      <div className="bg-white rounded-2xl shadow-card border border-gray-100 p-5 mb-5">
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={17} />
+            <input
+              placeholder="Search customer or worker..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && (setFilterSearch(search), setPage(1))}
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm transition-all"
+            />
+          </div>
+          <button
+            onClick={() => { setFilterSearch(search); setPage(1); }}
+            className="px-5 py-2.5 gradient-brand text-white rounded-xl hover:opacity-90 transition-all text-sm font-medium shadow-md shadow-brand-600/20"
+          >
+            Filter
+          </button>
+        </div>
         <div className="flex items-center gap-2 mb-3">
           <Filter size={15} className="text-gray-400" />
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Filter by status</span>
@@ -66,7 +87,7 @@ export default function BookingsList() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="w-10 h-10 border-4 border-brand-600/30 border-t-brand-600 rounded-full animate-spin" />
@@ -81,7 +102,7 @@ export default function BookingsList() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-100">
+                <tr className="bg-brand-50/70 border-b border-brand-100">
                   {['Customer', 'Worker', 'Service', 'Type', 'Status', 'Date', 'Amount'].map(h => (
                     <th key={h} className="text-left px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
                   ))}
@@ -118,7 +139,7 @@ export default function BookingsList() {
         )}
 
         {totalPages > 1 && (
-          <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+            <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 bg-brand-50/30">
             <p className="text-sm text-gray-500">Page {page} of {totalPages}</p>
             <div className="flex gap-2">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (

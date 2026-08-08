@@ -70,7 +70,7 @@ export default function CreateDispute() {
         <ChevronLeft size={15} /> My Disputes
       </Link>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+      <h1 className="font-display text-2xl font-bold text-ink-900 mb-6 flex items-center gap-2">
         <AlertTriangle className="text-orange-500" size={22} /> Raise a Dispute
       </h1>
 

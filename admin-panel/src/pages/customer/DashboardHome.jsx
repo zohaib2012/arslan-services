@@ -39,7 +39,7 @@ export default function CustomerDashboardHome() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Welcome back, {user?.fullName?.split(' ')[0] || 'there'}!</h1>
+        <h1 className="font-display text-2xl font-bold text-ink-900">Welcome back, {user?.fullName?.split(' ')[0] || 'there'}!</h1>
         <p className="text-sm text-gray-500 mt-1">Manage your bookings, favorites and messages.</p>
       </div>
 
@@ -48,22 +48,22 @@ export default function CustomerDashboardHome() {
           <Link
             key={s.label}
             to={s.link}
-            className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow"
+            className="bg-white rounded-2xl border border-gray-100 p-5 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all"
           >
             <div className={`w-10 h-10 rounded-xl ${s.color} text-white flex items-center justify-center mb-3`}>
               {s.icon}
             </div>
-            <p className="text-2xl font-bold text-gray-900">{s.value}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{s.label}</p>
+            <p className="text-2xl font-bold text-ink-900">{s.value}</p>
+            <p className="text-xs text-gray-400 mt-0.5 font-medium">{s.label}</p>
           </Link>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent bookings */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="lg:col-span-2 card-premium rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-            <h2 className="font-bold text-gray-900">Recent Bookings</h2>
+            <h2 className="font-display font-bold text-ink-900">Recent Bookings</h2>
             <Link to="/dashboard/bookings" className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800">
               View all <ArrowRight size={14} />
             </Link>
@@ -90,7 +90,7 @@ export default function CustomerDashboardHome() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">{b.service?.nameEn}</p>
+                    <p className="text-sm font-semibold text-ink-900 truncate">{b.service?.nameEn}</p>
                     <p className="text-xs text-gray-400 truncate">
                       {b.worker?.user?.fullName} · {new Date(b.createdAt).toLocaleDateString()}
                     </p>
@@ -103,9 +103,9 @@ export default function CustomerDashboardHome() {
         </div>
 
         {/* Notifications */}
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="card-premium rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-            <h2 className="font-bold text-gray-900 flex items-center gap-1.5">
+            <h2 className="font-display font-bold text-ink-900 flex items-center gap-1.5">
               <Bell size={15} className="text-brand-600" /> Notifications
             </h2>
             <Link to="/dashboard/notifications" className="text-xs font-semibold text-brand-700 hover:underline">See all</Link>
@@ -120,7 +120,7 @@ export default function CustomerDashboardHome() {
             <div className="divide-y divide-gray-50">
               {notifications.slice(0, 5).map((n) => (
                 <div key={n.id} className="px-6 py-3.5">
-                  <p className="text-sm font-medium text-gray-800">{n.title}</p>
+                  <p className="text-sm font-medium text-ink-900">{n.title}</p>
                   <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">{n.body}</p>
                 </div>
               ))}
@@ -133,14 +133,14 @@ export default function CustomerDashboardHome() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Link to="/dashboard/disputes" className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white flex items-center justify-between hover:opacity-95 transition-opacity">
           <div>
-            <p className="font-bold">Open a Dispute</p>
+            <p className="font-display font-bold">Open a Dispute</p>
             <p className="text-sm text-white/80 mt-1">Something wrong with a booking?</p>
           </div>
           <AlertTriangle size={28} className="opacity-80" />
         </Link>
         <Link to="/workers/nearby" className="bg-gradient-to-br from-brand-600 to-brand-800 rounded-2xl p-6 text-white flex items-center justify-between hover:opacity-95 transition-opacity">
           <div>
-            <p className="font-bold">Find More Workers</p>
+            <p className="font-display font-bold">Find More Workers</p>
             <p className="text-sm text-white/80 mt-1">Browse verified professionals</p>
           </div>
           <ArrowRight size={28} className="opacity-80" />

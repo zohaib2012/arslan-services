@@ -71,12 +71,12 @@ export default function WorkingHours() {
       <Link to="/worker/profile" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-brand-700 mb-5">
         <ChevronLeft size={15} /> Back to profile
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+      <h1 className="font-display text-2xl font-bold text-ink-900 mb-2 flex items-center gap-2">
         <Clock size={22} className="text-brand-600" /> Working Hours
       </h1>
       <p className="text-sm text-gray-500 mb-6">Set your weekly availability.</p>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-3 mb-6">
+      <div className="card-premium p-5 space-y-3 mb-6">
         {days.map((day) => (
           <div key={day} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
             <label className="flex items-center gap-2 w-28 shrink-0">
@@ -112,7 +112,7 @@ export default function WorkingHours() {
       <button
         onClick={save}
         disabled={saving}
-        className="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors disabled:opacity-50"
+        className="w-full py-4 rounded-2xl btn-primary font-bold disabled:opacity-50"
       >
         {saving ? 'Saving...' : 'Save Working Hours'}
       </button>

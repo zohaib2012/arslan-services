@@ -40,7 +40,7 @@ export default function Analytics() {
   if (loading) return (
     <div className="flex flex-col items-center justify-center py-32">
       <Loader2 size={32} className="text-brand-600 animate-spin mb-3" />
-      <p className="text-sm text-gray-400">Loading analytics...</p>
+      <p className="text-sm text-ink-600">Loading analytics...</p>
     </div>
   );
 
@@ -59,8 +59,8 @@ export default function Analytics() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-base font-bold text-gray-800 mb-6">Booking Trends</h3>
+        <div className="card-premium p-6">
+          <h3 className="font-display font-bold text-ink-900 mb-6">Booking Trends</h3>
           {chartData.length > 0 ? (
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
@@ -76,12 +76,12 @@ export default function Analytics() {
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-72 text-gray-400 text-sm">No trend data available</div>
+            <div className="flex items-center justify-center h-72 text-ink-600 text-sm">No trend data available</div>
           )}
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-base font-bold text-gray-800 mb-6">Revenue Trends</h3>
+        <div className="card-premium p-6">
+          <h3 className="font-display font-bold text-ink-900 mb-6">Revenue Trends</h3>
           {chartData.length > 0 ? (
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
@@ -97,31 +97,31 @@ export default function Analytics() {
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-72 text-gray-400 text-sm">No revenue data available</div>
+            <div className="flex items-center justify-center h-72 text-ink-600 text-sm">No revenue data available</div>
           )}
         </div>
       </div>
 
       {chartData.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <h3 className="font-bold text-gray-800">Detailed Breakdown</h3>
+        <div className="card-premium overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-50">
+            <h3 className="font-display font-bold text-ink-900">Detailed Breakdown</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-100">
+                <tr className="gradient-brand">
                   {['Period', 'Bookings', 'Revenue'].map(h => (
-                    <th key={h} className="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
+                    <th key={h} className="text-left px-6 py-4 text-xs font-display font-semibold text-white/90 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {chartData.map((item, i) => (
                   <tr key={i} className="hover:bg-brand-50/30 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-gray-700">{item.period}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{item.bookings}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">PKR {item.revenue?.toLocaleString() || 0}</td>
+                     <td className="px-6 py-4 text-sm font-display font-semibold text-ink-900">{item.period}</td>
+                    <td className="px-6 py-4 text-sm text-ink-600">{item.bookings}</td>
+                    <td className="px-6 py-4 text-sm text-ink-600">PKR {item.revenue?.toLocaleString() || 0}</td>
                   </tr>
                 ))}
               </tbody>

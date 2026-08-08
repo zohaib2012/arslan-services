@@ -14,7 +14,7 @@ export default function DataTable({
   emptyIcon: EmptyIcon,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden">
       {(search !== undefined || onSearchChange) && (
         <div className="p-5 border-b border-gray-100">
           <div className="flex gap-3">
@@ -25,11 +25,11 @@ export default function DataTable({
                 value={search}
                 onChange={e => { onSearchChange(e.target.value); if (onSearch) onPageChange(1); }}
                 onKeyDown={e => e.key === 'Enter' && onSearch?.()}
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none text-sm transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl ring-focus outline-none text-sm transition-all"
               />
             </div>
             {onSearch && (
-              <button onClick={onSearch} className="px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors text-sm font-medium">
+              <button onClick={onSearch} className="btn-primary px-5 py-2.5 text-white rounded-xl text-sm font-semibold">
                 Search
               </button>
             )}
@@ -39,7 +39,7 @@ export default function DataTable({
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-16">
-          <Loader2 size={32} className="text-emerald-600 animate-spin mb-3" />
+          <Loader2 size={32} className="text-brand-600 animate-spin mb-3" />
           <p className="text-sm text-gray-400">Loading data...</p>
         </div>
       ) : data.length === 0 ? (
@@ -51,7 +51,7 @@ export default function DataTable({
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100">
+              <tr className="bg-brand-50/70 border-b border-brand-100">
                 {columns.map((col, i) => (
                   <th key={i} className="text-left px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     {col.header}
@@ -59,11 +59,11 @@ export default function DataTable({
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-100">
               {data.map((row, rowIdx) => (
-                <tr key={row.id || rowIdx} className="hover:bg-emerald-50/30 transition-colors">
+                <tr key={row.id || rowIdx} className="hover:bg-brand-50/30 transition-colors">
                   {columns.map((col, colIdx) => (
-                    <td key={colIdx} className="px-5 py-4 text-sm text-gray-700">
+                    <td key={colIdx} className="px-5 py-4 text-sm text-ink-600">
                       {col.render ? col.render(row) : row[col.accessor]}
                     </td>
                   ))}
@@ -75,7 +75,7 @@ export default function DataTable({
       )}
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+        <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 bg-brand-50/30">
           <p className="text-sm text-gray-500">
             Page {page} of {totalPages}
           </p>
@@ -93,7 +93,7 @@ export default function DataTable({
                 onClick={() => onPageChange(p)}
                 className={`w-9 h-9 rounded-xl text-sm font-medium transition-all ${
                   p === page
-                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                    ? 'gradient-brand text-white shadow-glow'
                     : 'border border-gray-200 hover:bg-white text-gray-600'
                 }`}
               >

@@ -51,14 +51,14 @@ export default function DisputeDetail() {
         <ChevronLeft size={15} /> My Disputes
       </Link>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6">
+      <div className="card-premium overflow-hidden mb-6">
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
               <AlertTriangle className="text-orange-500" size={19} />
             </div>
             <div>
-              <p className="font-bold text-gray-900">Dispute on {booking?.service?.nameEn}</p>
+              <p className="font-bold text-ink-900">Dispute on {booking?.service?.nameEn}</p>
               <p className="text-xs text-gray-500">{booking?.worker?.user?.fullName}</p>
             </div>
           </div>
@@ -68,7 +68,7 @@ export default function DisputeDetail() {
         <div className="p-6 space-y-5">
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Reason</p>
-            <p className="text-sm font-medium text-gray-800">{dispute.reason?.replace(/_/g, ' ')}</p>
+            <p className="text-sm font-medium text-ink-800">{dispute.reason?.replace(/_/g, ' ')}</p>
           </div>
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Description</p>

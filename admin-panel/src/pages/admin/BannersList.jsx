@@ -56,23 +56,23 @@ export default function BannersList() {
         title="Banners"
         subtitle="Manage promotional banners"
       >
-        <button
+          <button
           onClick={() => { setEditing(null); setForm({ title: '', imageUrl: '', redirectTo: '', sortOrder: 0, startDate: '', endDate: '', targetAudience: ['CUSTOMER'], isActive: true }); setShowModal(true); }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-all shadow-lg shadow-brand-600/20 text-sm font-medium"
+          className="btn-primary flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium"
         >
           <Plus size={18} /> Add Banner
         </button>
       </PageHeader>
 
       {banners.length === 0 ? (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-16 flex flex-col items-center justify-center">
+        <div className="card-premium p-16 flex flex-col items-center justify-center">
           <ImageIcon size={48} className="text-gray-200 mb-3" />
-          <p className="text-sm text-gray-400">No banners yet</p>
+          <p className="text-sm text-ink-600">No banners yet</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {banners.map(b => (
-            <div key={b.id} className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group ${!b.isActive ? 'opacity-60' : ''}`}>
+            <div key={b.id} className={`card-premium overflow-hidden group ${!b.isActive ? 'opacity-60' : ''}`}>
               <div className="relative h-44 bg-gray-100">
                 {b.imageUrl ? (
                   <img src={b.imageUrl} alt={b.title} className="w-full h-full object-cover" />
@@ -89,7 +89,7 @@ export default function BannersList() {
                 )}
               </div>
               <div className="p-4">
-                <h4 className="font-semibold text-gray-800 text-sm mb-1">{b.title || 'Untitled'}</h4>
+                <h4 className="font-display font-bold text-ink-900 text-sm mb-1">{b.title || 'Untitled'}</h4>
                 {b.redirectTo && (
                   <p className="text-xs text-blue-500 truncate mb-3">{b.redirectTo}</p>
                 )}
@@ -121,43 +121,43 @@ export default function BannersList() {
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editing ? 'Edit Banner' : 'Add Banner'} size="lg">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <label className="block text-sm font-medium text-ink-800 mb-1.5">Title</label>
             <input placeholder="Banner title" value={form.title} onChange={e => setForm({...form, title: e.target.value})}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+            <label className="block text-sm font-medium text-ink-800 mb-1.5">Image URL</label>
             <input placeholder="https://example.com/banner.jpg" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             {form.imageUrl && (
               <img src={form.imageUrl} alt="Preview" className="w-full h-36 object-cover rounded-xl mt-2 border border-gray-200 shadow-sm" onError={e => { e.target.style.display = 'none'; }} />
             )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Redirect URL (optional)</label>
+            <label className="block text-sm font-medium text-ink-800 mb-1.5">Redirect URL (optional)</label>
             <input placeholder="https://example.com/offer" value={form.redirectTo} onChange={e => setForm({...form, redirectTo: e.target.value})}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
           </div>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">Sort Order</label>
               <input type="number" placeholder="0" value={form.sortOrder} onChange={e => setForm({...form, sortOrder: Number(e.target.value)})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">Start Date</label>
               <input type="date" value={form.startDate} onChange={e => setForm({...form, startDate: e.target.value})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">End Date</label>
               <input type="date" value={form.endDate} onChange={e => setForm({...form, endDate: e.target.value})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             </div>
           </div>
           <div className="flex gap-3 pt-2">
-            <button onClick={() => setShowModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Cancel</button>
-            <button onClick={handleSave} className="flex-1 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-all text-sm font-medium shadow-md shadow-brand-600/20">Save</button>
+            <button onClick={() => setShowModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-ink-600 hover:bg-gray-50 transition-colors">Cancel</button>
+            <button onClick={handleSave} className="flex-1 btn-primary py-2.5 rounded-xl text-sm font-medium">Save</button>
           </div>
         </div>
       </Modal>

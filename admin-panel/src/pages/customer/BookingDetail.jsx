@@ -99,11 +99,11 @@ export default function BookingDetail() {
         <ChevronLeft size={15} /> My Bookings
       </Link>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6">
+      <div className="card-premium overflow-hidden mb-6">
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-brand-50 to-emerald-50 border-b border-brand-100">
           <div>
             <p className="text-sm text-gray-500">Booking</p>
-            <p className="font-bold text-gray-900">{booking.service?.nameEn}</p>
+            <p className="font-bold text-ink-900">{booking.service?.nameEn}</p>
           </div>
           <StatusBadge status={booking.status} />
         </div>
@@ -130,7 +130,7 @@ export default function BookingDetail() {
       </div>
 
       {/* Worker card */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 flex items-center gap-4">
+      <div className="card-premium p-5 mb-6 flex items-center gap-4">
         {worker?.profilePhoto ? (
           <img src={worker.profilePhoto} alt="" className="w-14 h-14 rounded-2xl object-cover" />
         ) : (
@@ -139,7 +139,7 @@ export default function BookingDetail() {
           </div>
         )}
         <div className="flex-1">
-          <p className="font-semibold text-gray-900">{worker?.fullName}</p>
+          <p className="font-semibold text-ink-900">{worker?.fullName}</p>
           <p className="text-xs text-gray-400">Professional for this booking</p>
         </div>
         <div className="flex gap-2">
@@ -148,7 +148,7 @@ export default function BookingDetail() {
           </a>
           <button
             onClick={() => navigate(`/dashboard/chat/${worker?.id}`)}
-            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl btn-primary text-sm font-semibold"
           >
             <MessageCircle size={15} /> Chat
           </button>
@@ -157,7 +157,7 @@ export default function BookingDetail() {
 
       {/* Actions */}
       {booking.status === 'PENDING' && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 space-y-4">
+        <div className="card-premium p-5 mb-6 space-y-4">
           <p className="text-sm text-gray-600">Waiting for {worker?.fullName} to accept your booking. Booking expires if not accepted in time.</p>
           <div className="flex flex-wrap gap-3">
             {booking.bookingType === 'SCHEDULED' && (
@@ -206,11 +206,11 @@ export default function BookingDetail() {
       )}
 
       {booking.status === 'COMPLETED' && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 flex items-center justify-between">
+        <div className="card-premium p-5 mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <CheckCircle2 className="text-emerald-500" size={22} />
             <div>
-              <p className="font-semibold text-gray-900">Job completed</p>
+              <p className="font-semibold text-ink-900">Job completed</p>
               <p className="text-xs text-gray-400">
                 {booking.review ? `You rated ${booking.review.rating}★` : 'Rate your experience below'}
               </p>
@@ -219,7 +219,7 @@ export default function BookingDetail() {
           {!booking.review ? (
             <Link
               to={`/dashboard/review/${booking.id}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 btn-primary text-sm font-semibold rounded-xl"
             >
               <Star size={15} /> Write Review
             </Link>
@@ -230,7 +230,7 @@ export default function BookingDetail() {
       )}
 
       {booking.status !== 'PENDING' && booking.status !== 'COMPLETED' && !booking.isDisputed && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6">
+        <div className="card-premium p-5 mb-6">
           <button
             onClick={() => navigate(`/dashboard/disputes/new?booking=${booking.id}`)}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-orange-600 hover:text-orange-700"

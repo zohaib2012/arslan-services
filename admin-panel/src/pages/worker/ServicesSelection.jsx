@@ -61,7 +61,7 @@ export default function ServicesSelection() {
         <ChevronLeft size={15} /> Back to profile
       </Link>
       <div className="flex items-center justify-between mb-2">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h1 className="font-display text-2xl font-bold text-ink-900 flex items-center gap-2">
           <Wrench size={22} className="text-brand-600" /> Your Services
         </h1>
         <span className="text-sm text-gray-500">{selected.length} selected</span>
@@ -70,8 +70,8 @@ export default function ServicesSelection() {
 
       <div className="space-y-6">
         {categories.map((cat) => (
-          <div key={cat.id} className="bg-white rounded-2xl border border-gray-100 p-5">
-            <h2 className="font-semibold text-gray-900 mb-3">{cat.nameEn}</h2>
+          <div key={cat.id} className="card-premium p-5">
+            <h2 className="font-semibold text-ink-900 mb-3">{cat.nameEn}</h2>
             {cat.services?.length === 0 ? (
               <p className="text-xs text-gray-400">No services in this category.</p>
             ) : (
@@ -107,7 +107,7 @@ export default function ServicesSelection() {
       <button
         onClick={save}
         disabled={saving}
-        className="w-full mt-6 py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors disabled:opacity-50"
+        className="w-full mt-6 py-4 rounded-2xl btn-primary font-bold disabled:opacity-50"
       >
         {saving ? 'Saving...' : `Save ${selected.length} Service${selected.length !== 1 ? 's' : ''}`}
       </button>

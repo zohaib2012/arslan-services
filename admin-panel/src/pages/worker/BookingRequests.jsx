@@ -24,17 +24,17 @@ export default function BookingRequests() {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Booking Requests</h1>
+      <h1 className="font-display text-2xl font-extrabold text-ink-900 mb-6">Booking Requests</h1>
 
       {loading ? (
         <div className="flex justify-center py-20">
           <Loader2 className="animate-spin text-brand-600" size={28} />
         </div>
       ) : bookings.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
-          <Clock className="mx-auto text-gray-300 mb-3" size={40} />
-          <h3 className="font-semibold text-gray-700">No pending requests</h3>
-          <p className="text-sm text-gray-400 mt-1">New booking requests will appear here.</p>
+        <div className="text-center py-20 card-premium">
+          <Clock className="mx-auto text-gray-200 mb-3" size={40} />
+          <h3 className="font-display font-semibold text-ink-700">No pending requests</h3>
+          <p className="text-sm text-ink-600 mt-1">New booking requests will appear here.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -42,7 +42,7 @@ export default function BookingRequests() {
             <Link
               key={b.id}
               to={`/worker/requests/${b.id}`}
-              className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all"
+              className="card-premium p-5 group"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center">
@@ -54,22 +54,22 @@ export default function BookingRequests() {
                 </div>
                 <StatusBadge status={b.status} />
               </div>
-              <h3 className="font-semibold text-gray-900">{b.service?.nameEn}</h3>
+              <h3 className="font-display font-semibold text-ink-900">{b.service?.nameEn}</h3>
               <div className="flex items-center gap-2 mt-2">
                 {b.customer?.profilePhoto ? (
                   <img src={b.customer.profilePhoto} alt="" className="w-7 h-7 rounded-full object-cover" />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500">
+                  <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-bold text-ink-600">
                     {(b.customer?.fullName || 'C').charAt(0).toUpperCase()}
                   </div>
                 )}
-                <span className="text-sm text-gray-600">{b.customer?.fullName}</span>
+                <span className="text-sm text-ink-600">{b.customer?.fullName}</span>
               </div>
-              <p className="text-xs text-gray-400 mt-3 line-clamp-2">{b.description}</p>
-              <div className="flex items-center gap-1.5 mt-3 text-xs text-gray-400">
+              <p className="text-xs text-ink-600 mt-3 line-clamp-2">{b.description}</p>
+              <div className="flex items-center gap-1.5 mt-3 text-xs text-ink-600">
                 <MapPin size={12} /> {b.address}
               </div>
-              <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-50 text-xs text-gray-400">
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-50 text-xs text-ink-600">
                 <span>{b.bookingType === 'SCHEDULED' && b.scheduledAt ? new Date(b.scheduledAt).toLocaleString() : 'ASAP'}</span>
                 <span>{new Date(b.createdAt).toLocaleDateString()}</span>
               </div>

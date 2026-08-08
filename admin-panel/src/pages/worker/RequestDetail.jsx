@@ -83,11 +83,11 @@ export default function RequestDetail() {
         <ChevronLeft size={15} /> Booking Requests
       </Link>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6">
+      <div className="card-premium overflow-hidden mb-6">
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-brand-50 to-emerald-50 border-b border-brand-100">
           <div>
             <p className="text-sm text-gray-500">Booking</p>
-            <p className="font-bold text-gray-900">{booking.service?.nameEn}</p>
+            <p className="font-bold text-ink-900">{booking.service?.nameEn}</p>
           </div>
           <StatusBadge status={booking.status} />
         </div>
@@ -109,7 +109,7 @@ export default function RequestDetail() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 mb-6 flex items-center gap-4">
+      <div className="card-premium p-5 mb-6 flex items-center gap-4">
         {customer?.profilePhoto ? (
           <img src={customer.profilePhoto} alt="" className="w-14 h-14 rounded-2xl object-cover" />
         ) : (
@@ -118,7 +118,7 @@ export default function RequestDetail() {
           </div>
         )}
         <div className="flex-1">
-          <p className="font-semibold text-gray-900">{customer?.fullName}</p>
+          <p className="font-semibold text-ink-900">{customer?.fullName}</p>
           <p className="text-xs text-gray-400">Customer</p>
         </div>
         <div className="flex gap-2">
@@ -127,7 +127,7 @@ export default function RequestDetail() {
           </a>
           <button
             onClick={() => navigate(`/worker/chat/${customer?.id}`)}
-            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-3 rounded-xl btn-primary text-sm font-semibold"
           >
             <MessageCircle size={15} /> Message
           </button>
@@ -135,7 +135,7 @@ export default function RequestDetail() {
       </div>
 
       {booking.status === 'PENDING' && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-4">
+        <div className="card-premium p-5 space-y-4">
           <p className="text-sm text-gray-600">Accept this booking to get started. If you don't respond, it will expire automatically.</p>
           {!showReject ? (
             <div className="flex gap-3">

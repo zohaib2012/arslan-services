@@ -62,34 +62,34 @@ export default function ServicesList() {
         title="Services"
         subtitle={`${services.length} available services`}
       >
-        <button
+          <button
           onClick={() => { setEditing(null); setForm({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '' }); setShowModal(true); }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-all shadow-lg shadow-brand-600/20 text-sm font-medium"
+          className="btn-primary flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium"
         >
           <Plus size={18} /> Add Service
         </button>
       </PageHeader>
 
       {services.length === 0 ? (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-16 flex flex-col items-center justify-center">
+        <div className="card-premium p-16 flex flex-col items-center justify-center">
           <Wrench size={48} className="text-gray-200 mb-3" />
-          <p className="text-sm text-gray-400">No services yet</p>
+          <p className="text-sm text-ink-600">No services yet</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map(s => (
-            <div key={s.id} className={`bg-white rounded-2xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-all duration-300 group ${!s.isActive ? 'opacity-60' : ''}`}>
+            <div key={s.id} className={`card-premium p-5 group ${!s.isActive ? 'opacity-60' : ''}`}>
               <div className="flex items-start gap-3 mb-3">
                 {s.iconUrl ? (
                   <img src={s.iconUrl} alt="" className="w-14 h-14 rounded-xl object-cover border border-gray-100 shrink-0" />
                 ) : (
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center text-blue-600 font-bold text-lg shadow-sm shrink-0">
+                  <div className="w-14 h-14 rounded-xl gradient-brand-soft flex items-center justify-center text-brand-600 font-bold text-lg shadow-sm shrink-0">
                     {(s.nameEn || '?').charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div className="min-w-0">
-                  <p className="font-semibold text-gray-800 truncate">{s.nameEn}</p>
-                  <p className="text-xs text-gray-400 truncate">{s.nameUr}</p>
+                  <p className="font-display font-bold text-ink-900 truncate">{s.nameEn}</p>
+                  <p className="text-xs text-ink-600 truncate">{s.nameUr}</p>
                   {s.categoryId && (
                     <span className="inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-brand-50 text-brand-700">
                       {getCategoryName(s.categoryId)}
@@ -100,11 +100,11 @@ export default function ServicesList() {
               </div>
 
               {(s.descriptionEn || s.descriptionUr) && (
-                <p className="text-xs text-gray-500 mb-4 line-clamp-2">{s.descriptionEn || s.descriptionUr}</p>
+                <p className="text-xs text-ink-600 mb-4 line-clamp-2">{s.descriptionEn || s.descriptionUr}</p>
               )}
 
               <div className="flex gap-2 pt-3 border-t border-gray-50">
-                <button onClick={() => handleEdit(s)} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors text-xs font-medium">
+                <button onClick={() => handleEdit(s)} className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-gray-50 text-ink-600 hover:bg-gray-100 transition-colors text-xs font-medium">
                   <Edit2 size={13} /> Edit
                 </button>
                 <button onClick={() => handleToggle(s.id)} className={`flex items-center justify-center p-2 rounded-xl transition-colors ${
@@ -125,47 +125,47 @@ export default function ServicesList() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">English Name</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">English Name</label>
               <input placeholder="e.g. Pipe Repair" value={form.nameEn} onChange={e => setForm({...form, nameEn: e.target.value})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Urdu Name</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">Urdu Name</label>
               <input placeholder="e.g. پائپ کی مرمت" value={form.nameUr} onChange={e => setForm({...form, nameUr: e.target.value})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">English Description</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">English Description</label>
               <textarea placeholder="Describe the service..." value={form.descriptionEn} onChange={e => setForm({...form, descriptionEn: e.target.value})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm resize-none" rows={3} />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm resize-none" rows={3} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Urdu Description</label>
+              <label className="block text-sm font-medium text-ink-800 mb-1.5">Urdu Description</label>
               <textarea placeholder="خدمت کی تفصیل..." value={form.descriptionUr} onChange={e => setForm({...form, descriptionUr: e.target.value})}
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm resize-none" rows={3} />
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm resize-none" rows={3} />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <label className="block text-sm font-medium text-ink-800 mb-1.5">Category</label>
             <select value={form.categoryId} onChange={e => setForm({...form, categoryId: e.target.value})}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm bg-white">
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm bg-white">
               <option value="">Select Category</option>
               {categories.map(c => <option key={c.id} value={c.id}>{c.nameEn}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Icon URL</label>
+            <label className="block text-sm font-medium text-ink-800 mb-1.5">Icon URL</label>
             <input placeholder="https://example.com/icon.png" value={form.iconUrl} onChange={e => setForm({...form, iconUrl: e.target.value})}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm" />
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             {form.iconUrl && (
               <img src={form.iconUrl} alt="" className="w-16 h-16 rounded-xl object-cover mt-2 border border-gray-100" onError={e => { e.target.style.display = 'none'; }} />
             )}
           </div>
           <div className="flex gap-3 pt-2">
-            <button onClick={() => setShowModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">Cancel</button>
-            <button onClick={handleSave} className="flex-1 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-all text-sm font-medium shadow-md shadow-brand-600/20">Save</button>
+            <button onClick={() => setShowModal(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-medium text-ink-600 hover:bg-gray-50 transition-colors">Cancel</button>
+            <button onClick={handleSave} className="flex-1 btn-primary py-2.5 rounded-xl text-sm font-medium">Save</button>
           </div>
         </div>
       </Modal>

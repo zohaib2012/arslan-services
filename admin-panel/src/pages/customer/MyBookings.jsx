@@ -38,7 +38,7 @@ export default function MyBookings() {
     <div className="animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Bookings</h1>
+          <h1 className="font-display text-2xl font-bold text-ink-900">My Bookings</h1>
           <p className="text-sm text-gray-500 mt-1">{bookings.length} booking{bookings.length !== 1 ? 's' : ''}</p>
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -61,9 +61,9 @@ export default function MyBookings() {
           <Loader2 className="animate-spin text-brand-600" size={28} />
         </div>
       ) : bookings.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+        <div className="text-center py-20 card-premium rounded-2xl">
           <Calendar className="mx-auto text-gray-300 mb-3" size={40} />
-          <h3 className="font-semibold text-gray-700">No bookings found</h3>
+          <h3 className="font-display font-semibold text-ink-900">No bookings found</h3>
           <p className="text-sm text-gray-400 mt-1">Book a service to get started.</p>
           <Link to="/workers/nearby" className="inline-block mt-4 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors">
             Find a Worker
@@ -75,7 +75,7 @@ export default function MyBookings() {
             <Link
               key={b.id}
               to={`/dashboard/bookings/${b.id}`}
-              className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all"
+              className="card-premium rounded-2xl p-5 hover:shadow-card-hover hover:-translate-y-0.5 transition-all"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center">
@@ -87,7 +87,7 @@ export default function MyBookings() {
                 </div>
                 <StatusBadge status={b.status} />
               </div>
-              <h3 className="font-semibold text-gray-900">{b.service?.nameEn}</h3>
+              <h3 className="font-display font-semibold text-ink-900">{b.service?.nameEn}</h3>
               <div className="flex items-center gap-2 mt-2">
                 {b.worker?.user?.profilePhoto ? (
                   <img src={b.worker.user.profilePhoto} alt="" className="w-7 h-7 rounded-full object-cover" />

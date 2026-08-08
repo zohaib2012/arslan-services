@@ -78,7 +78,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#F6F9F7]">
       {sidebarOpen && (
         <div className="fixed inset-0 z-20 bg-black/30 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}

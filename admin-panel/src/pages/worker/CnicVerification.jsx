@@ -87,7 +87,7 @@ export default function CnicVerification() {
       <Link to="/worker/profile" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-brand-700 mb-5">
         <ChevronLeft size={15} /> Back to profile
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+      <h1 className="font-display text-2xl font-bold text-ink-900 mb-2 flex items-center gap-2">
         <BadgeCheck size={22} className="text-brand-600" /> CNIC Verification
       </h1>
 
@@ -101,11 +101,11 @@ export default function CnicVerification() {
           <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-50 flex items-center justify-center mb-4">
             <BadgeCheck className="text-emerald-500" size={30} />
           </div>
-          <h3 className="font-bold text-gray-900">You are verified!</h3>
+          <h3 className="font-bold text-ink-900">You are verified!</h3>
           <p className="text-sm text-gray-500 mt-1">Your identity has been verified.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
+        <div className="card-premium p-6 space-y-5">
           <div>
             <label className="block text-xs font-semibold text-gray-500 mb-1.5">CNIC Number</label>
             <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function CnicVerification() {
           <button
             onClick={submitVerification}
             disabled={uploading}
-            className="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors disabled:opacity-50"
+            className="w-full py-4 rounded-2xl btn-primary font-bold disabled:opacity-50"
           >
             {uploading ? 'Submitting...' : 'Submit for Verification'}
           </button>

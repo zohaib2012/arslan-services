@@ -51,6 +51,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-8 animate-fade-in">
       <PageHeader
+        label="Admin Panel"
         title="Dashboard"
         subtitle="Overview of your platform performance"
       />
@@ -63,14 +64,14 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500 to-orange-400 shadow-lg shadow-amber-500/20">
               <Briefcase className="text-white" size={20} />
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Pending Verifications</p>
-              <p className="text-2xl font-bold text-gray-800">{pendingVerifications || 0}</p>
+              <p className="font-display text-2xl font-bold text-ink-900">{pendingVerifications || 0}</p>
             </div>
           </div>
           <div className="relative pt-2">
@@ -87,14 +88,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-3 rounded-xl bg-gradient-to-br from-red-500 to-rose-400 shadow-lg shadow-red-500/20">
               <AlertTriangle className="text-white" size={20} />
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Open Disputes</p>
-              <p className="text-2xl font-bold text-gray-800">{openDisputes || 0}</p>
+              <p className="font-display text-2xl font-bold text-ink-900">{openDisputes || 0}</p>
             </div>
           </div>
           <div className="flex items-center gap-4 pt-2">
@@ -114,8 +115,8 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-base font-bold text-gray-800 mb-6">Weekly Overview</h3>
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-card border border-gray-100">
+          <h3 className="font-display font-bold text-ink-900 mb-6">Weekly Overview</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={weeklyData} margin={{ top: 5, right: 15, left: 0, bottom: 5 }}>
@@ -157,8 +158,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-base font-bold text-gray-800 mb-6">Booking Status</h3>
+        <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
+          <h3 className="font-display font-bold text-ink-900 mb-6">Booking Status</h3>
           <div className="space-y-4">
             {bookingStatusData.filter(d => d.value > 0).map((item) => (
               <div key={item.name}>
@@ -185,21 +186,21 @@ export default function Dashboard() {
       </div>
 
       {recentBookings && recentBookings.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-card border border-gray-100 overflow-hidden">
           <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-            <h3 className="text-base font-bold text-gray-800">Recent Bookings</h3>
+            <h3 className="font-display font-bold text-ink-900">Recent Bookings</h3>
             <span className="text-xs text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">Last {recentBookings.length}</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-50">
+                <tr className="bg-brand-50/70 border-b border-brand-100">
                   {['Customer', 'Worker', 'Service', 'Status', 'Date'].map(h => (
                     <th key={h} className="text-left px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-gray-100">
                 {recentBookings.map(b => (
                   <tr key={b.id} className="hover:bg-emerald-50/30 transition-colors">
                     <td className="px-6 py-4">

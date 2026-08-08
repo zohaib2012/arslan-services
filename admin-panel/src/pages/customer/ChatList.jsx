@@ -31,15 +31,15 @@ export default function ChatList() {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Messages</h1>
+      <h1 className="font-display text-2xl font-bold text-ink-900 mb-6">Messages</h1>
       {conversations.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+        <div className="text-center py-20 card-premium rounded-2xl">
           <MessageSquare className="mx-auto text-gray-300 mb-3" size={40} />
-          <h3 className="font-semibold text-gray-700">No conversations yet</h3>
+          <h3 className="font-display font-semibold text-ink-900">No conversations yet</h3>
           <p className="text-sm text-gray-400 mt-1">Start chatting with a professional after booking.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden divide-y divide-gray-50">
+        <div className="card-premium rounded-2xl overflow-hidden divide-y divide-gray-50">
           {conversations.map((c) => {
             const partner = c.partner;
             const lastMsg = c.lastMessage;
@@ -58,7 +58,7 @@ export default function ChatList() {
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-gray-800 truncate">{partner?.fullName}</p>
+                    <p className="text-sm font-semibold text-ink-900 truncate">{partner?.fullName}</p>
                     {c.lastMessageAt && <span className="text-xs text-gray-400 shrink-0">{new Date(c.lastMessageAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>}
                   </div>
                   <div className="flex items-center justify-between mt-0.5">

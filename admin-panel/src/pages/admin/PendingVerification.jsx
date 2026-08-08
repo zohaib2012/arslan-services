@@ -48,7 +48,7 @@ export default function PendingVerification() {
   if (loading) return (
     <div className="flex flex-col items-center justify-center py-32">
       <Loader2 size={32} className="text-brand-600 animate-spin mb-3" />
-      <p className="text-sm text-gray-400">Loading verification requests...</p>
+      <p className="text-sm text-ink-600">Loading verification requests...</p>
     </div>
   );
 
@@ -60,15 +60,15 @@ export default function PendingVerification() {
       />
 
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="flex-1 card-premium overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h3 className="font-bold text-gray-800">Pending Workers</h3>
+            <h3 className="font-display font-bold text-ink-900">Pending Workers</h3>
             <span className="text-xs bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full font-medium">{workers.length} pending</span>
           </div>
           {workers.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
               <UserCheck size={48} className="text-gray-300 mb-3" />
-              <p className="text-sm text-gray-400">All workers have been verified</p>
+              <p className="text-sm text-ink-600">All workers have been verified</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-50">
@@ -87,8 +87,8 @@ export default function PendingVerification() {
                       {(w.user?.fullName || '?').charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-800 truncate">{w.user?.fullName}</p>
-                      <p className="text-xs text-gray-400 truncate">{w.user?.email} {w.user?.phone ? `| ${w.user.phone}` : ''}</p>
+                      <p className="text-sm font-display font-semibold text-ink-900 truncate">{w.user?.fullName}</p>
+                      <p className="text-xs text-ink-600 truncate">{w.user?.email} {w.user?.phone ? `| ${w.user.phone}` : ''}</p>
                     </div>
                     <StatusBadge status="PENDING" />
                   </div>
@@ -98,13 +98,13 @@ export default function PendingVerification() {
           )}
 
           {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 px-5 py-4 border-t border-gray-100 bg-gray-50/50">
+            <div className="flex items-center justify-center gap-2 px-5 py-4 border-t border-gray-50 bg-gray-50/30">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1} className="p-2 rounded-xl border border-gray-200 hover:bg-white disabled:opacity-40">
                 <ChevronLeft size={16} />
               </button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button key={p} onClick={() => setPage(p)} className={`w-9 h-9 rounded-xl text-sm font-medium transition-all ${
-                  p === page ? 'bg-brand-600 text-white shadow-md' : 'border border-gray-200 hover:bg-white text-gray-600'
+                  p === page ? 'gradient-brand text-white shadow-md shadow-brand-600/20' : 'border border-gray-200 hover:bg-white text-ink-600'
                 }`}>{p}</button>
               ))}
               <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page >= totalPages} className="p-2 rounded-xl border border-gray-200 hover:bg-white disabled:opacity-40">
@@ -115,34 +115,34 @@ export default function PendingVerification() {
         </div>
 
         {selectedWorker ? (
-          <div className="w-full lg:w-96 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-fit lg:sticky lg:top-24">
+          <div className="w-full lg:w-96 card-premium p-6 h-fit lg:sticky lg:top-24">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-400 flex items-center justify-center text-white text-lg font-bold shadow-md">
                 {(selectedWorker.user?.fullName || '?').charAt(0).toUpperCase()}
               </div>
               <div>
-                <h3 className="font-bold text-gray-800">{selectedWorker.user?.fullName}</h3>
-                <p className="text-xs text-gray-400">{selectedWorker.user?.email}</p>
+                <h3 className="font-display font-bold text-ink-900">{selectedWorker.user?.fullName}</h3>
+                <p className="text-xs text-ink-600">{selectedWorker.user?.email}</p>
               </div>
             </div>
 
             <div className="space-y-4 mb-6">
               {selectedWorker.cnicNumber && (
                 <div>
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">CNIC Number</p>
-                  <p className="text-sm text-gray-700 bg-gray-50 rounded-xl px-3 py-2">{selectedWorker.cnicNumber}</p>
+                  <p className="text-xs font-medium text-ink-600 uppercase tracking-wider mb-1">CNIC Number</p>
+                  <p className="text-sm text-ink-900 bg-gray-50 rounded-xl px-3 py-2">{selectedWorker.cnicNumber}</p>
                 </div>
               )}
               <div className="grid grid-cols-2 gap-3">
                 {selectedWorker.cnicFront && (
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">CNIC Front</p>
+                    <p className="text-xs font-medium text-ink-600 uppercase tracking-wider mb-1">CNIC Front</p>
                     <img src={selectedWorker.cnicFront} alt="CNIC Front" className="w-full rounded-xl border border-gray-200 shadow-sm" />
                   </div>
                 )}
                 {selectedWorker.cnicBack && (
                   <div>
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">CNIC Back</p>
+                    <p className="text-xs font-medium text-ink-600 uppercase tracking-wider mb-1">CNIC Back</p>
                     <img src={selectedWorker.cnicBack} alt="CNIC Back" className="w-full rounded-xl border border-gray-200 shadow-sm" />
                   </div>
                 )}
@@ -150,12 +150,12 @@ export default function PendingVerification() {
             </div>
 
             <div className="mb-5">
-              <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">Verification Notes</label>
+              <label className="block text-xs font-medium text-ink-600 uppercase tracking-wider mb-1.5">Verification Notes</label>
               <textarea
                 placeholder="Add notes about this verification..."
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm resize-none transition-all"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl ring-focus outline-none text-sm resize-none transition-all"
                 rows={3}
               />
             </div>
@@ -176,9 +176,9 @@ export default function PendingVerification() {
             </div>
           </div>
         ) : (
-          <div className="w-full lg:w-96 bg-white rounded-2xl shadow-sm border border-gray-100 p-10 flex flex-col items-center justify-center text-center h-fit">
+          <div className="w-full lg:w-96 card-premium p-10 flex flex-col items-center justify-center text-center h-fit">
             <FileText size={48} className="text-gray-200 mb-3" />
-            <p className="text-sm text-gray-400">Select a worker to review their details</p>
+            <p className="text-sm text-ink-600">Select a worker to review their details</p>
           </div>
         )}
       </div>
