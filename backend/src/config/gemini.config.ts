@@ -16,11 +16,13 @@ export class GeminiService {
     return this.apiKeyValid;
   }
 
+  private readonly modelName = 'gemini-3-flash-preview';
+
   async search(query: string, location?: string): Promise<any> {
     if (!this.apiKeyValid) {
       throw new Error('GEMINI_KEY_INVALID');
     }
-    const model = this.ai.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = this.ai.getGenerativeModel({ model: this.modelName });
     const prompt = `You are a home services assistant for Pakistan. Extract: service_type, location, urgency from query.
 
 Query: "${query}"
@@ -36,7 +38,7 @@ Respond in JSON: {"service":"detected name","location":"detected or null","urgen
     if (!this.apiKeyValid) {
       throw new Error('GEMINI_KEY_INVALID');
     }
-    const model = this.ai.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = this.ai.getGenerativeModel({ model: this.modelName });
     const prompt = `You are a home services assistant for Pakistan. Be friendly and helpful.
 Previous: ${history.join('\n')}
 Customer: ${message}
