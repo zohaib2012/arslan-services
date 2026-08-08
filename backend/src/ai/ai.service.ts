@@ -18,12 +18,8 @@ export class AiAssistantService {
     if (this.gemini.isAvailable()) {
       try {
         return await this.gemini.search(q, location);
-      } catch (err: any) {
-        if (err?.message?.includes('GEMINI_KEY_INVALID')) {
-          // fall through to keyword matching
-        } else {
-          throw err;
-        }
+      } catch {
+        // Gemini unreachable or key invalid — fall through to keyword matching
       }
     }
 
@@ -34,10 +30,8 @@ export class AiAssistantService {
     if (this.gemini.isAvailable()) {
       try {
         return await this.gemini.chat(message, history);
-      } catch (err: any) {
-        if (!err?.message?.includes('GEMINI_KEY_INVALID')) {
-          throw err;
-        }
+      } catch {
+        // Gemini unreachable or key invalid — fall back to keyword reply
       }
     }
     return this.keywordReply(message);
