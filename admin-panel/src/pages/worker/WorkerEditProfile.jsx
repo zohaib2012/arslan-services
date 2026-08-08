@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { api } from '../../lib/api';
-import { ChevronLeft, Loader2 } from 'lucide-react';
+import { ChevronLeft, Loader2, Camera } from 'lucide-react';
 
 const languages = ['ENGLISH', 'URDU', 'PUNJABI', 'SINDHI', 'PASHTO', 'OTHER'];
 
@@ -12,8 +12,11 @@ export default function WorkerEditProfile() {
   const [experienceYears, setExperienceYears] = useState('');
   const [description, setDescription] = useState('');
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [photo, setPhoto] = useState('');
+  const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const fileRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -23,6 +26,7 @@ export default function WorkerEditProfile() {
         setExperienceYears(res.data.experienceYears != null ? String(res.data.experienceYears) : '');
         setDescription(res.data.description || '');
         setSelectedLanguages(res.data.languages || []);
+        setPhoto(res.data.user?.profilePhoto || '');
       } catch (err) {
         console.error(err);
       } finally {
@@ -35,6 +39,25 @@ export default function WorkerEditProfile() {
     setSelectedLanguages((prev) => (prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]));
   };
 
+  const handlePhoto = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', 'profile');
+      const res = await api.post('/upload/single', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      setPhoto(res.data.url);
+      toast.success('Photo uploaded. Save changes to update your profile.');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Upload failed.');
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -43,6 +66,7 @@ export default function WorkerEditProfile() {
       if (experienceYears !== '') payload.experienceYears = Number(experienceYears);
       if (description !== profile?.description) payload.description = description;
       payload.languages = selectedLanguages;
+      if (photo && photo !== profile?.user?.profilePhoto) payload.profilePhoto = photo;
       await api.put('/workers/me', payload);
       toast.success('Profile updated.');
       navigate('/worker/profile');
@@ -69,6 +93,35 @@ export default function WorkerEditProfile() {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Profile</h1>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 mb-1.5">Profile Photo</label>
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={uploading}
+            className="flex items-center gap-4 p-4 w-full rounded-2xl border-2 border-dashed border-gray-200 hover:border-brand-300 transition-colors disabled:opacity-50"
+          >
+            {photo ? (
+              <img src={photo} alt="Profile" className="w-16 h-16 rounded-2xl object-cover" />
+            ) : (
+              <div className="w-16 h-16 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-700 text-2xl font-bold">
+                {(profile?.user?.fullName || 'W').charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="text-left">
+              {uploading ? (
+                <p className="inline-flex items-center gap-2 text-sm text-brand-700 font-medium"><Loader2 className="animate-spin" size={16} /> Uploading...</p>
+              ) : (
+                <>
+                  <p className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-700"><Camera size={15} className="text-brand-600" /> Upload photo</p>
+                  <p className="text-xs text-gray-400 mt-0.5">JPG, PNG, WebP · up to 10MB</p>
+                </>
+              )}
+            </div>
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handlePhoto} />
+        </div>
+
         <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1.5">Experience (years)</label>
           <input
@@ -111,7 +164,7 @@ export default function WorkerEditProfile() {
 
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || uploading}
           className="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {saving ? <Loader2 className="animate-spin" size={18} /> : null}

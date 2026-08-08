@@ -165,26 +165,34 @@ export default function WorkerDetailPage() {
       </Link>
 
       {/* Header card */}
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div className="h-36 bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-600 relative">
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_20%,white,transparent_50%)]" />
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-card overflow-hidden mb-7">
+        <div className="h-40 gradient-brand relative">
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_70%_20%,white,transparent_55%)]" />
+          <div className="absolute inset-0 opacity-20 bg-dots" />
+          <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white/20 to-transparent" />
         </div>
-        <div className="px-6 pb-6 -mt-12 relative">
-          <div className="flex flex-col md:flex-row md:items-end gap-4">
-            <div className="w-24 h-24 rounded-2xl bg-white p-1.5 shadow-lg">
+        <div className="px-6 pb-6 -mt-14 relative">
+          <div className="flex flex-col md:flex-row md:items-end gap-5">
+            <div className="w-28 h-28 rounded-3xl bg-white p-1.5 shadow-xl shadow-brand-900/10">
               {photo ? (
-                <img src={photo} alt={name} className="w-full h-full rounded-xl object-cover" />
+                <img src={photo} alt={name} className="w-full h-full rounded-[20px] object-cover" />
               ) : (
-                <div className="w-full h-full rounded-xl bg-brand-50 flex items-center justify-center text-brand-700 text-3xl font-bold">
+                <div className="w-full h-full rounded-[20px] gradient-brand-soft flex items-center justify-center text-brand-700 text-4xl font-extrabold">
                   {name.charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
             <div className="flex-1 md:pb-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <h1 className="text-2xl font-bold text-gray-900">{name}</h1>
+                <h1 className="font-display text-2xl md:text-3xl font-extrabold text-ink-900">{name}</h1>
                 {worker.isOnline && (
-                  <span className="px-2.5 py-1 text-[11px] font-semibold text-white bg-emerald-500 rounded-full">Online</span>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-white bg-emerald-500 rounded-full">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                    </span>
+                    Online
+                  </span>
                 )}
                 {worker.verificationStatus === 'VERIFIED' && (
                   <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 rounded-full">
@@ -192,15 +200,15 @@ export default function WorkerDetailPage() {
                   </span>
                 )}
               </div>
-              <div className="flex items-center gap-2 mt-1.5">
-                <span className="flex items-center gap-1 text-sm font-semibold text-amber-600">
+              <div className="flex items-center gap-2 mt-2">
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-100 text-sm font-bold text-amber-700">
                   <Star size={15} className="fill-amber-400 text-amber-400" /> {formatRating(worker.avgRating)}
                 </span>
                 <span className="text-sm text-gray-400">({worker.totalReviews || 0} reviews)</span>
                 <span className="text-gray-300">•</span>
                 <span className="text-sm text-gray-500">{worker.completedJobs || 0} jobs done</span>
               </div>
-              <div className="flex items-center gap-3 mt-2 text-xs text-gray-500 flex-wrap">
+              <div className="flex items-center gap-3 mt-2.5 text-xs text-gray-500 flex-wrap">
                 {worker.experienceYears > 0 && (
                   <span className="inline-flex items-center gap-1"><Award size={13} className="text-brand-500" /> {worker.experienceYears} yrs experience</span>
                 )}
@@ -212,7 +220,7 @@ export default function WorkerDetailPage() {
                 )}
               </div>
             </div>
-            <div className="flex gap-2 md:pb-1">
+            <div className="flex flex-wrap gap-2 md:pb-1">
               <button
                 onClick={toggleFav}
                 className={`p-3 rounded-xl border transition-colors ${isFav ? 'bg-red-50 border-red-200 text-red-500' : 'bg-white border-gray-200 text-gray-400 hover:text-red-500'}`}
@@ -234,7 +242,7 @@ export default function WorkerDetailPage() {
               </button>
               <button
                 onClick={bookNow}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition-colors shadow-md shadow-brand-600/20"
+                className="btn-gold inline-flex items-center gap-2 px-5 py-3 text-white text-sm font-bold rounded-xl"
               >
                 <Calendar size={16} /> Book Now
               </button>
@@ -246,8 +254,8 @@ export default function WorkerDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           {/* About */}
-          <section className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h2 className="font-bold text-gray-900 mb-3">About</h2>
+          <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
+            <h2 className="font-display font-bold text-lg text-ink-900 mb-3">About</h2>
             <p className="text-sm text-gray-600 leading-relaxed">
               {worker.description || 'This professional has not added a description yet.'}
             </p>
@@ -255,11 +263,11 @@ export default function WorkerDetailPage() {
 
           {/* Services */}
           {services.length > 0 && (
-            <section className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="font-bold text-gray-900 mb-4">Services Offered</h2>
+            <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
+              <h2 className="font-display font-bold text-lg text-ink-900 mb-4">Services Offered</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {services.map((ws) => (
-                  <div key={ws.id} className="flex items-start gap-3 p-3 rounded-xl bg-gray-50">
+                  <div key={ws.id} className="flex items-start gap-3 p-3 rounded-xl bg-gray-50 hover:bg-brand-50/60 transition-colors">
                     {ws.service?.iconUrl ? (
                       <img src={ws.service.iconUrl} alt="" className="w-9 h-9 object-contain" />
                     ) : (
@@ -279,11 +287,11 @@ export default function WorkerDetailPage() {
 
           {/* Portfolio */}
           {portfolio.length > 0 && (
-            <section className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="font-bold text-gray-900 mb-4">Portfolio</h2>
+            <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
+              <h2 className="font-display font-bold text-lg text-ink-900 mb-4">Portfolio</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {portfolio.map((p) => (
-                  <div key={p.id} className="rounded-xl overflow-hidden bg-gray-100 aspect-square">
+                  <div key={p.id} className="rounded-xl overflow-hidden bg-gray-100 aspect-square hover:opacity-90 transition-opacity">
                     {p.mediaType === 'IMAGE' || p.mediaUrl?.includes('res.cloudinary.com') ? (
                       <img src={p.mediaUrl} alt={p.caption || 'portfolio'} className="w-full h-full object-cover" />
                     ) : (
@@ -298,13 +306,13 @@ export default function WorkerDetailPage() {
           )}
 
           {/* Reviews */}
-          <section className="bg-white rounded-2xl border border-gray-100 p-6">
+          <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-bold text-gray-900">
+              <h2 className="font-display font-bold text-lg text-ink-900">
                 Reviews
                 <span className="ml-2 text-sm font-medium text-gray-400">({reviewsTotal})</span>
               </h2>
-              <span className="flex items-center gap-1 text-sm font-semibold text-amber-600">
+              <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-100 text-sm font-bold text-amber-700">
                 <Star size={15} className="fill-amber-400 text-amber-400" /> {formatRating(worker.avgRating)}
               </span>
             </div>
@@ -351,9 +359,9 @@ export default function WorkerDetailPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Location map */}
-          <section className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+          <section className="bg-white rounded-2xl border border-gray-100 shadow-card overflow-hidden">
             <div className="p-4 pb-2">
-              <h2 className="font-bold text-gray-900 flex items-center gap-1.5"><MapPin size={16} className="text-brand-600" /> Service Areas</h2>
+              <h2 className="font-display font-bold text-lg text-ink-900 flex items-center gap-1.5"><MapPin size={17} className="text-brand-600" /> Service Areas</h2>
             </div>
             <div ref={mapContainer} className="w-full" style={{ height: 220 }} />
             {areas.length > 0 && (
@@ -370,8 +378,8 @@ export default function WorkerDetailPage() {
           </section>
 
           {/* Working hours */}
-          <section className="bg-white rounded-2xl border border-gray-100 p-5">
-            <h2 className="font-bold text-gray-900 flex items-center gap-1.5 mb-3"><Clock size={16} className="text-brand-600" /> Working Hours</h2>
+          <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5">
+            <h2 className="font-display font-bold text-lg text-ink-900 flex items-center gap-1.5 mb-3"><Clock size={17} className="text-brand-600" /> Working Hours</h2>
             {Object.keys(workingHours).length > 0 ? (
               <div className="space-y-1.5">
                 {Object.entries(workingHours).map(([day, hours]) => (
@@ -389,8 +397,8 @@ export default function WorkerDetailPage() {
           </section>
 
           {/* Trust badges */}
-          <section className="bg-white rounded-2xl border border-gray-100 p-5">
-            <h2 className="font-bold text-gray-900 mb-3">Trust & Safety</h2>
+          <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5">
+            <h2 className="font-display font-bold text-lg text-ink-900 mb-3">Trust & Safety</h2>
             <div className="space-y-2.5">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Shield size={15} className="text-brand-600" />
@@ -409,8 +417,8 @@ export default function WorkerDetailPage() {
 
           {/* Payment methods */}
           {paymentMethods.length > 0 && (
-            <section className="bg-white rounded-2xl border border-gray-100 p-5">
-              <h2 className="font-bold text-gray-900 mb-3">Payment Methods</h2>
+            <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5">
+              <h2 className="font-display font-bold text-lg text-ink-900 mb-3">Payment Methods</h2>
               <div className="space-y-2">
                 {paymentMethods.map((p) => (
                   <div key={p.id} className="flex items-center justify-between text-sm bg-gray-50 rounded-xl px-3 py-2.5">
@@ -428,7 +436,7 @@ export default function WorkerDetailPage() {
           {/* Book CTA */}
           <button
             onClick={bookNow}
-            className="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow-lg shadow-brand-600/20 transition-colors"
+            className="w-full py-4 rounded-2xl btn-gold text-white font-bold shadow-glow transition-transform hover:-translate-y-0.5"
           >
             Book This Worker
           </button>

@@ -14,6 +14,10 @@ export class UpdateWorkerProfileDto {
   @IsEnum(Language, { each: true })
   @IsOptional()
   languages?: Language[];
+
+  @IsString()
+  @IsOptional()
+  profilePhoto?: string;
 }
 
 export class SubmitVerificationDto {

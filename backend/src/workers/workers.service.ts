@@ -234,9 +234,20 @@ export class WorkersService {
     const profile = await this.prisma.workerProfile.findUnique({ where: { userId } });
     if (!profile) throw new NotFoundException('Worker profile not found');
 
+    const { profilePhoto, ...profileData } = dto;
+    const hasProfileData = Object.keys(profileData).length > 0;
+
+    if (profilePhoto) {
+      await this.prisma.user.update({ where: { id: userId }, data: { profilePhoto } });
+    }
+
+    if (!hasProfileData) {
+      return this.prisma.workerProfile.findUnique({ where: { userId } });
+    }
+
     return this.prisma.workerProfile.update({
       where: { userId },
-      data: dto,
+      data: profileData,
     });
   }
 

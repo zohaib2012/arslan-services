@@ -96,6 +96,8 @@ export default function SearchPage() {
   return (
     <div className="py-8 animate-fade-in">
       <div className="mb-8">
+        <p className="text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Find Professionals</p>
+        <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mt-1 mb-5">Search Services & Workers</h1>
         <form onSubmit={handleSubmit} className="flex gap-3 max-w-2xl">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -103,11 +105,11 @@ export default function SearchPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Search by worker, service or area..."
-              className="w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm"
+              className="w-full pl-11 pr-4 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-card text-sm"
             />
           </div>
-          <button type="submit" className="px-6 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-2xl transition-colors">
-            Search
+          <button type="submit" className="btn-primary px-7 py-4 text-white font-semibold rounded-2xl inline-flex items-center gap-2">
+            <Search size={16} /> Search
           </button>
         </form>
       </div>
@@ -116,8 +118,8 @@ export default function SearchPage() {
       <div className="flex gap-2 overflow-x-auto pb-3 mb-4">
         <button
           onClick={() => selectCategory('')}
-          className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
-            !categoryId ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'
+          className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold border transition-colors ${
+            !categoryId ? 'gradient-brand text-white border-transparent shadow-glow' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'
           }`}
         >
           All
@@ -126,8 +128,8 @@ export default function SearchPage() {
           <button
             key={cat.id}
             onClick={() => selectCategory(cat.id)}
-            className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
-              categoryId === cat.id ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'
+            className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold border transition-colors ${
+              categoryId === cat.id ? 'gradient-brand text-white border-transparent shadow-glow' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'
             }`}
           >
             {cat.nameEn}
@@ -142,8 +144,8 @@ export default function SearchPage() {
             <button
               key={svc.id}
               onClick={() => selectService(svc.id)}
-              className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
-                serviceId === svc.id ? 'bg-brand-50 text-brand-700 border-brand-300' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'
+              className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold border transition-colors ${
+                serviceId === svc.id ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-600 border-gray-200 hover:border-brand-300'
               }`}
             >
               <span className="inline-flex items-center gap-1.5"><Wrench size={13} /> {svc.nameEn}</span>
@@ -155,27 +157,27 @@ export default function SearchPage() {
       {/* Filters toggle */}
       <button
         onClick={() => setShowFilters(!showFilters)}
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-brand-700 mb-4"
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-brand-700 mb-4"
       >
         <SlidersHorizontal size={15} /> {showFilters ? 'Hide' : 'Show'} filters
       </button>
       {showFilters && (
-        <div className="flex flex-wrap gap-3 mb-6 p-4 bg-white rounded-2xl border border-gray-100">
+        <div className="flex flex-wrap gap-3 mb-6 p-4 bg-white rounded-2xl border border-gray-100 shadow-card">
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1">City / Area</label>
+            <label className="block text-xs font-bold text-gray-500 mb-1">City / Area</label>
             <input
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="e.g. Lahore"
-              className="px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-gray-500 mb-1">Min Rating</label>
+            <label className="block text-xs font-bold text-gray-500 mb-1">Min Rating</label>
             <select
               value={minRating}
               onChange={(e) => setMinRating(e.target.value)}
-              className="px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
               <option value="">Any rating</option>
               <option value="4.5">4.5+</option>
@@ -187,7 +189,7 @@ export default function SearchPage() {
           <div className="flex items-end">
             <button
               onClick={() => { setPage(1); runSearch(); }}
-              className="px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
+              className="px-5 py-2.5 gradient-brand text-white text-sm font-bold rounded-xl hover:brightness-105 transition-all shadow-glow"
             >
               Apply
             </button>
@@ -196,9 +198,9 @@ export default function SearchPage() {
       )}
 
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold text-gray-900">
+        <h2 className="font-display text-xl font-bold text-ink-900">
           {total} {total === 1 ? 'professional' : 'professionals'} found
-        </h1>
+        </h2>
         {q && (
           <p className="text-sm text-gray-500">
             for "<span className="font-semibold text-gray-700">{q}</span>"
@@ -209,15 +211,15 @@ export default function SearchPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-72 bg-gray-100 rounded-2xl animate-pulse" />
+            <div key={i} className="h-80 bg-white rounded-3xl animate-pulse" />
           ))}
         </div>
       ) : workers.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
-            <Search className="text-gray-400" size={26} />
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-brand-50 flex items-center justify-center mb-4">
+            <Search className="text-brand-600" size={26} />
           </div>
-          <h3 className="font-semibold text-gray-700">No workers found</h3>
+          <h3 className="font-display font-bold text-gray-700">No workers found</h3>
           <p className="text-sm text-gray-400 mt-1">Try a different search term or category.</p>
         </div>
       ) : (
@@ -233,17 +235,17 @@ export default function SearchPage() {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 disabled:opacity-40"
           >
             Previous
           </button>
-          <span className="px-4 py-2 text-sm font-semibold text-gray-700">
+          <span className="px-4 py-2 text-sm font-bold text-gray-700">
             Page {page} of {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:bg-gray-50 disabled:opacity-40"
           >
             Next
           </button>

@@ -154,7 +154,7 @@ export default function LoginPage() {
           {showGuestForm ? (
             <form onSubmit={handleGuest} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">Your name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Your name (Guest)</label>
                 <div className="relative">
                   <UserPlus className="absolute left-3 top-3.5 text-gray-400" size={18} />
                   <input

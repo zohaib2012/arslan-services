@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import { api } from '../../lib/api';
 import WorkerCard from '../../components/WorkerCard';
 import { MAPBOX_TOKEN, MAPBOX_STYLE, DEFAULT_CENTER, DEFAULT_ZOOM, getBrowserLocation, calculateDistance } from '../../lib/mapbox';
-import { MapPin, Locate, Loader2 } from 'lucide-react';
+import { MapPin, Locate, Loader2, ChevronDown } from 'lucide-react';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -131,31 +131,35 @@ export default function NearbyWorkersPage() {
   };
 
   return (
-    <div className="py-6 animate-fade-in">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+    <div className="py-8 animate-fade-in">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-7">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <MapPin className="text-brand-600" size={22} /> Nearby Workers
+          <p className="text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Discover Near You</p>
+          <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mt-1 flex items-center gap-2">
+            <MapPin className="text-brand-600" size={26} /> Nearby Workers
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-500 mt-1.5">
             {loading ? 'Finding professionals near you...' : `${workers.length} verified workers near ${center.lat.toFixed(2)}, ${center.lng.toFixed(2)}`}
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <select
-            value={radius}
-            onChange={(e) => handleRadiusChange(Number(e.target.value))}
-            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
-          >
-            <option value={5}>5 km radius</option>
-            <option value={10}>10 km radius</option>
-            <option value={20}>20 km radius</option>
-            <option value={50}>50 km radius</option>
-          </select>
+          <div className="relative">
+            <select
+              value={radius}
+              onChange={(e) => handleRadiusChange(Number(e.target.value))}
+              className="pl-4 pr-9 py-3 text-sm bg-white border border-gray-200 rounded-xl shadow-card focus:outline-none focus:ring-2 focus:ring-brand-500 appearance-none cursor-pointer"
+            >
+              <option value={5}>5 km radius</option>
+              <option value={10}>10 km radius</option>
+              <option value={20}>20 km radius</option>
+              <option value={50}>50 km radius</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={15} />
+          </div>
           <button
             onClick={locate}
             disabled={locating}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50"
+            className="btn-primary inline-flex items-center gap-2 px-5 py-3 text-white font-semibold rounded-xl disabled:opacity-50"
           >
             {locating ? <Loader2 className="animate-spin" size={16} /> : <Locate size={16} />}
             Use My Location
@@ -164,7 +168,7 @@ export default function NearbyWorkersPage() {
       </div>
 
       {geoError && (
-        <div className="mb-4 p-3 rounded-xl bg-amber-50 text-amber-700 text-sm">{geoError}</div>
+        <div className="mb-5 p-4 rounded-xl bg-amber-50 border border-amber-100 text-amber-700 text-sm">{geoError}</div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -172,14 +176,16 @@ export default function NearbyWorkersPage() {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="h-64 bg-gray-100 rounded-2xl animate-pulse" />
+                <div key={i} className="h-72 bg-gray-100 rounded-3xl animate-pulse" />
               ))}
             </div>
           ) : workers.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
-              <MapPin className="mx-auto text-gray-300 mb-3" size={36} />
-              <h3 className="font-semibold text-gray-700">No workers nearby</h3>
-              <p className="text-sm text-gray-400 mt-1">Try increasing the radius.</p>
+            <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-card">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-brand-50 flex items-center justify-center mb-4">
+                <MapPin className="text-brand-600" size={30} />
+              </div>
+              <h3 className="font-display font-bold text-gray-700">No workers nearby</h3>
+              <p className="text-sm text-gray-400 mt-1">Try increasing the radius or using your current location.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -195,7 +201,7 @@ export default function NearbyWorkersPage() {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="sticky top-20 rounded-2xl overflow-hidden border border-gray-100 shadow-sm" style={{ height: 480 }}>
+          <div className="sticky top-20 rounded-3xl overflow-hidden border border-gray-100 shadow-card" style={{ height: 480 }}>
             <div ref={mapContainer} className="w-full h-full" />
           </div>
         </div>

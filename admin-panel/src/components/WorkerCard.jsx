@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Star, MapPin, Wrench, Phone } from 'lucide-react';
+import { Star, MapPin, Wrench, Phone, ShieldCheck, BadgeCheck } from 'lucide-react';
 
 export function formatRating(v) {
   return v ? Number(v).toFixed(1) : '0.0';
@@ -10,34 +10,62 @@ export function workerServiceNames(worker) {
   return worker.workerServices.map((ws) => ws.service?.nameEn || ws.service?.nameUr).filter(Boolean);
 }
 
+function WorkerAvatar({ worker, name, className }) {
+  const photo = worker?.user?.profilePhoto || worker?.profilePhoto || null;
+  if (photo) {
+    return (
+      <img
+        src={photo}
+        alt={name}
+        className={`${className} object-cover`}
+        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+      />
+    );
+  }
+  return (
+    <div className={`${className} flex items-center justify-center font-display font-bold bg-gradient-to-br from-brand-600 to-brand-900 text-white`}>
+      {name.charAt(0).toUpperCase()}
+    </div>
+  );
+}
+
 export default function WorkerCard({ worker, showDistance, distanceKm }) {
   const name = worker?.user?.fullName || worker?.fullName || 'Worker';
-  const photo = worker?.user?.profilePhoto || worker?.profilePhoto || null;
   const services = workerServiceNames(worker).slice(0, 3);
   const areas = worker?.serviceAreas || [];
+  const verified = worker?.verificationStatus === 'VERIFIED';
 
   return (
     <Link
       to={`/workers/${worker.id}`}
-      className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all overflow-hidden flex flex-col"
+      className="group card-premium overflow-hidden flex flex-col animate-fade-in"
     >
-      <div className="h-32 bg-gradient-to-br from-brand-600 to-brand-800 relative flex items-center justify-center">
-        {photo ? (
-          <img src={photo} alt={name} className="w-full h-full object-cover" />
-        ) : (
-          <div className="w-16 h-16 rounded-2xl bg-white/15 flex items-center justify-center text-white text-2xl font-bold backdrop-blur">
-            {name.charAt(0).toUpperCase()}
+      <div className="relative h-44 overflow-hidden">
+        <div className="absolute inset-0 gradient-brand">
+          <div className="absolute inset-0 bg-dots opacity-40" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center pt-6">
+          <div className="relative">
+            <div className="w-24 h-24 rounded-full overflow-hidden ring-4 ring-white/90 shadow-xl animate-glow-pulse">
+              <WorkerAvatar worker={worker} name={name} className="w-full h-full" />
+            </div>
+            {verified && (
+              <span className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-md">
+                <BadgeCheck size={18} className="text-brand-600" />
+              </span>
+            )}
           </div>
-        )}
-        <div className="absolute top-3 right-3 flex gap-1.5">
+        </div>
+
+        <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
           {worker?.isOnline && (
-            <span className="px-2 py-0.5 text-[10px] font-semibold text-white bg-emerald-500 rounded-full shadow">
-              Online
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold text-white bg-emerald-500 rounded-full shadow-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> Online
             </span>
           )}
-          {worker?.verificationStatus === 'VERIFIED' && (
-            <span className="px-2 py-0.5 text-[10px] font-semibold text-emerald-700 bg-white rounded-full shadow">
-              ✅ Verified
+          {verified && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] font-semibold text-brand-800 bg-white/95 rounded-full shadow-md">
+              <ShieldCheck size={11} /> Verified
             </span>
           )}
         </div>
@@ -46,11 +74,13 @@ export default function WorkerCard({ worker, showDistance, distanceKm }) {
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <h3 className="font-semibold text-gray-900 truncate">{name}</h3>
-            <div className="flex items-center gap-1 mt-0.5">
-              <Star className="text-amber-400 fill-amber-400" size={13} />
-              <span className="text-xs font-medium text-gray-600">{formatRating(worker?.avgRating)}</span>
-              <span className="text-xs text-gray-400">({worker?.totalReviews || 0} reviews)</span>
+            <h3 className="font-display font-bold text-gray-900 truncate group-hover:text-brand-700 transition-colors">{name}</h3>
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50">
+                <Star className="text-amber-400 fill-amber-400" size={13} />
+                <span className="text-xs font-bold text-gray-700">{formatRating(worker?.avgRating)}</span>
+              </span>
+              <span className="text-xs text-gray-400">({worker?.totalReviews || 0})</span>
             </div>
           </div>
         </div>
@@ -58,43 +88,42 @@ export default function WorkerCard({ worker, showDistance, distanceKm }) {
         {services.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-2.5">
             {services.map((s) => (
-              <span key={s} className="px-2 py-0.5 text-[10px] font-medium text-brand-700 bg-brand-50 rounded-full">
+              <span key={s} className="px-2.5 py-1 text-[10px] font-semibold text-brand-700 bg-brand-50 rounded-full">
                 {s}
               </span>
             ))}
           </div>
         )}
 
-        <div className="mt-3 space-y-1 text-xs text-gray-500 flex-1">
+        <div className="mt-3 space-y-1.5 text-xs text-gray-500 flex-1">
           <div className="flex items-center gap-1.5">
-            <Wrench size={12} className="text-gray-400" />
+            <Wrench size={13} className="text-brand-500" />
             <span>{worker?.completedJobs || 0} jobs done</span>
-            <span className="text-gray-300 mx-1">•</span>
+            <span className="text-gray-300 mx-0.5">•</span>
             <span>{worker?.experienceYears || 0} yrs exp</span>
           </div>
-          {showDistance && distanceKm != null && (
+          {showDistance && distanceKm != null ? (
             <div className="flex items-center gap-1.5">
-              <MapPin size={12} className="text-gray-400" />
+              <MapPin size={13} className="text-brand-500" />
               <span>{distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${distanceKm.toFixed(1)}km`} away</span>
             </div>
-          )}
-          {areas.length > 0 && (
+          ) : areas.length > 0 ? (
             <div className="flex items-center gap-1.5 truncate">
-              <MapPin size={12} className="text-gray-400" />
+              <MapPin size={13} className="text-brand-500" />
               <span className="truncate">{areas.map((a) => a.city || a.area).filter(Boolean).join(', ')}</span>
             </div>
-          )}
+          ) : null}
         </div>
 
-        <div className="mt-3 pt-3 border-t border-gray-50 flex gap-2">
+        <div className="mt-3 pt-3 border-t border-gray-100 flex gap-2">
           <a
             href={`tel:${worker?.user?.phone || worker?.phone || ''}`}
             onClick={(e) => e.stopPropagation()}
-            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-gray-50 hover:bg-gray-100 text-xs font-medium text-gray-600 transition-colors"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-xs font-semibold text-gray-600 transition-colors"
           >
             <Phone size={13} /> Call
           </a>
-          <span className="flex-1 text-center py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-xs font-semibold text-white transition-colors">
+          <span className="flex-1 text-center py-2.5 rounded-xl bg-brand-50 text-brand-700 group-hover:bg-brand-600 group-hover:text-white text-xs font-bold transition-colors">
             View Profile
           </span>
         </div>

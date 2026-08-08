@@ -208,15 +208,16 @@ export default function CreateBookingPage() {
 
   return (
     <div className="py-8 max-w-4xl mx-auto animate-fade-in">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Book a Service</h1>
+      <p className="text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Book a Service</p>
+      <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mb-6">Book a Service</h1>
 
       {/* Stepper */}
       <div className="flex items-center gap-2 mb-8">
         {steps.map((label, i) => (
           <div key={label} className="flex items-center gap-2">
             <div
-              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-                i === step ? 'bg-brand-600 text-white' : i < step ? 'bg-brand-50 text-brand-700' : 'bg-gray-100 text-gray-400'
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                i === step ? 'gradient-brand text-white shadow-glow' : i < step ? 'bg-brand-50 text-brand-700' : 'bg-gray-100 text-gray-400'
               }`}
             >
               {i < step ? <Check size={15} /> : <span>{i + 1}</span>}
@@ -230,8 +231,8 @@ export default function CreateBookingPage() {
       {/* Step 0: Select service & worker */}
       {step === 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
+            <h2 className="font-display font-bold text-lg text-ink-900 mb-4 flex items-center gap-2">
               <Wrench size={17} className="text-brand-600" /> Choose Service
             </h2>
             {services.length === 0 ? (
@@ -241,8 +242,8 @@ export default function CreateBookingPage() {
                 <div className="flex flex-wrap gap-2 mb-3">
                   <button
                     onClick={() => setSelectedCategory('')}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                      selectedCategory === '' ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                      selectedCategory === '' ? 'gradient-brand text-white shadow-glow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
                     All
@@ -251,8 +252,8 @@ export default function CreateBookingPage() {
                     <button
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                        selectedCategory === cat ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                        selectedCategory === cat ? 'gradient-brand text-white shadow-glow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
                       {cat}
@@ -265,7 +266,7 @@ export default function CreateBookingPage() {
                       key={s.id}
                       onClick={() => handleServiceSelect(s.id)}
                       className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-colors ${
-                        serviceId === s.id ? 'border-brand-500 bg-brand-50' : 'border-gray-100 hover:border-brand-200'
+                        serviceId === s.id ? 'border-brand-500 bg-brand-50 shadow-glow' : 'border-gray-100 hover:border-brand-200'
                       }`}
                     >
                       {s.iconUrl ? (
@@ -286,8 +287,8 @@ export default function CreateBookingPage() {
             )}
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
+            <h2 className="font-display font-bold text-lg text-ink-900 mb-4 flex items-center gap-2">
               <MapPin size={17} className="text-brand-600" /> Choose Professional
             </h2>
             {!serviceId ? (
@@ -308,7 +309,7 @@ export default function CreateBookingPage() {
                       key={w.id}
                       onClick={() => { setWorkerId(w.id); setWorker(w); }}
                       className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-colors ${
-                        workerId === w.id ? 'border-brand-500 bg-brand-50' : 'border-gray-100 hover:border-brand-200'
+                        workerId === w.id ? 'border-brand-500 bg-brand-50 shadow-glow' : 'border-gray-100 hover:border-brand-200'
                       }`}
                     >
                       {w.user?.profilePhoto ? (
@@ -323,7 +324,7 @@ export default function CreateBookingPage() {
                         <p className="text-xs text-gray-400 truncate">{servicesList.join(', ')}</p>
                       </div>
                       <div className="flex flex-col items-end shrink-0">
-                        <span className="text-xs font-semibold text-amber-600">{w.avgRating || '0.0'} ★</span>
+                        <span className="text-xs font-bold text-amber-600">{w.avgRating || '0.0'} ★</span>
                         <span className="text-[10px] text-gray-400">{w.completedJobs || 0} jobs</span>
                       </div>
                     </button>
@@ -338,8 +339,8 @@ export default function CreateBookingPage() {
       {/* Step 1: Schedule & details */}
       {step === 1 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
-            <h2 className="font-bold text-gray-900 flex items-center gap-2">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6 space-y-5">
+            <h2 className="font-display font-bold text-lg text-ink-900 flex items-center gap-2">
               <Calendar size={17} className="text-brand-600" /> Schedule & Job Details
             </h2>
 
@@ -349,7 +350,7 @@ export default function CreateBookingPage() {
                 <button
                   onClick={() => setBookingType('INSTANT')}
                   className={`py-3 rounded-xl text-sm font-semibold border transition-colors ${
-                    bookingType === 'INSTANT' ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-500'
+                    bookingType === 'INSTANT' ? 'border-brand-500 bg-brand-50 text-brand-700 shadow-glow' : 'border-gray-200 text-gray-500'
                   }`}
                 >
                   As soon as possible
@@ -357,7 +358,7 @@ export default function CreateBookingPage() {
                 <button
                   onClick={() => setBookingType('SCHEDULED')}
                   className={`py-3 rounded-xl text-sm font-semibold border transition-colors ${
-                    bookingType === 'SCHEDULED' ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-500'
+                    bookingType === 'SCHEDULED' ? 'border-brand-500 bg-brand-50 text-brand-700 shadow-glow' : 'border-gray-200 text-gray-500'
                   }`}
                 >
                   Schedule a time
@@ -400,9 +401,9 @@ export default function CreateBookingPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6 space-y-5">
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-gray-900 flex items-center gap-2">
+              <h2 className="font-display font-bold text-lg text-ink-900 flex items-center gap-2">
                 <MapPin size={17} className="text-brand-600" /> Job Location
               </h2>
               <button
@@ -438,8 +439,8 @@ export default function CreateBookingPage() {
 
       {/* Step 2: Confirm */}
       {step === 2 && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h2 className="font-bold text-gray-900 mb-5">Review Your Booking</h2>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-card p-6">
+          <h2 className="font-display font-bold text-xl text-ink-900 mb-5">Review Your Booking</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div className="p-4 rounded-2xl bg-gray-50 flex items-center gap-3">
               {workerPhoto ? (
@@ -491,7 +492,7 @@ export default function CreateBookingPage() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-2xl btn-gold text-white font-bold disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {submitting ? <Loader2 className="animate-spin" size={18} /> : <Check size={18} />}
             {submitting ? 'Creating Booking...' : 'Confirm Booking'}
@@ -511,7 +512,7 @@ export default function CreateBookingPage() {
         {step < steps.length - 1 ? (
           <button
             onClick={handleNext}
-            className="inline-flex items-center gap-1.5 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition-colors"
+            className="btn-primary inline-flex items-center gap-1.5 px-6 py-3 text-white font-bold rounded-xl"
           >
             Continue <ChevronRight size={16} />
           </button>
@@ -533,10 +534,10 @@ export default function CreateBookingPage() {
             >
               <X size={18} />
             </button>
-            <div className="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center mb-4">
+            <div className="w-14 h-14 rounded-2xl gradient-brand-soft flex items-center justify-center mb-4">
               <UserPlus className="text-brand-700" size={26} />
             </div>
-            <h3 className="text-xl font-bold text-gray-900">Continue without an account?</h3>
+            <h3 className="font-display text-xl font-bold text-ink-900">Continue without an account?</h3>
             <p className="text-sm text-gray-500 mt-2">
               Book as a guest to get your job done right away. You can create an account anytime to track bookings, chat and more.
             </p>
@@ -554,7 +555,7 @@ export default function CreateBookingPage() {
               <button
                 type="submit"
                 disabled={guestLoading}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition-colors disabled:opacity-60"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl btn-primary text-white font-bold disabled:opacity-60"
               >
                 {guestLoading ? <Loader2 className="animate-spin" size={18} /> : <UserPlus size={18} />}
                 {guestLoading ? 'Placing booking...' : 'Continue as Guest'}
