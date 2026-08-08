@@ -31,7 +31,11 @@ Respond in JSON: {"service":"detected name","location":"detected or null","urgen
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    try { return JSON.parse(text || '{}'); } catch { return { followup_question: 'Could you specify what service you need?' }; }
+    try {
+      const cleaned = text.replace(/```json|```/g, '').trim();
+      const json = cleaned.substring(cleaned.indexOf('{'), cleaned.lastIndexOf('}') + 1);
+      return JSON.parse(json || '{}');
+    } catch { return { followup_question: 'Could you specify what service you need?' }; }
   }
 
   async chat(message: string, history: string[] = []): Promise<string> {
