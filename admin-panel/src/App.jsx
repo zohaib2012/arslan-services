@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
+import InstallPrompt from './components/InstallPrompt';
 
 import CustomerLayout from './layouts/CustomerLayout';
 import CustomerDashboardLayout from './layouts/CustomerDashboardLayout';
@@ -113,6 +114,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Toaster position="top-right" />
+        <InstallPrompt />
         <Routes>
           <Route path="/auth/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
           <Route path="/auth/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />

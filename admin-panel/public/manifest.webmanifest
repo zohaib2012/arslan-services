@@ -1,0 +1,41 @@
+{
+  "name": "Arslan Services",
+  "short_name": "Arslan",
+  "description": "Find trusted home services professionals — plumbers, electricians, AC technicians and more, verified near you.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F6F9F7",
+  "theme_color": "#006837",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find Workers",
+      "url": "/search",
+      "description": "Search professionals near you"
+    },
+    {
+      "name": "Book a Service",
+      "url": "/book",
+      "description": "Create a new booking"
+    }
+  ]
+}
