@@ -95,24 +95,88 @@ export class WorkersService {
   }
 
   async searchWorkers(query: string) {
-    return this.prisma.workerProfile.findMany({
-      where: {
-        verificationStatus: 'VERIFIED',
-        OR: [
-          { user: { fullName: { contains: query, mode: 'insensitive' } } },
-          { description: { contains: query, mode: 'insensitive' } },
-          { workerServices: { some: { service: { nameEn: { contains: query, mode: 'insensitive' } } } } },
-          { serviceAreas: { some: { city: { contains: query, mode: 'insensitive' } } } },
-        ],
-      },
-      include: {
-        user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
-        workerServices: { include: { service: true } },
-        serviceAreas: true,
-        paymentMethods: true,
-      },
-      take: 20,
+    const q = (query || '').trim();
+    const stopWords = new Set([
+      'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'is', 'are', 'my',
+      'i', 'me', 'we', 'need', 'needs', 'find', 'please', 'help', 'want', 'would',
+      'some', 'any', 'this', 'that', 'with', 'and', 'or', 'from', 'near', 'around',
+      'fix', 'repair', 'get', 'service', 'have', 'has', 'do', 'does', 'can', 'you',
+    ]);
+
+    const include = {
+      user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
+      workerServices: { include: { service: { include: { category: true } } } },
+      serviceAreas: true,
+      paymentMethods: true,
+    };
+
+    if (!q) {
+      return this.prisma.workerProfile.findMany({
+        where: { verificationStatus: 'VERIFIED' },
+        include,
+        take: 20,
+      });
+    }
+
+    const words = q.toLowerCase().split(/\s+/).filter((w) => w.length >= 2 && !stopWords.has(w));
+    const where: any = { verificationStatus: 'VERIFIED' };
+
+    if (words.length === 0) {
+      where.OR = [
+        { user: { fullName: { contains: q, mode: 'insensitive' } } },
+        { description: { contains: q, mode: 'insensitive' } },
+      ];
+      return this.prisma.workerProfile.findMany({ where, include, take: 20 });
+    }
+
+    // Any word matching ANY worker detail field (name, service, category, city, area, description)
+    const orConditions: any[] = [];
+    for (const w of words) {
+      orConditions.push(
+        { user: { fullName: { contains: w, mode: 'insensitive' } } },
+        { description: { contains: w, mode: 'insensitive' } },
+        { workerServices: { some: { service: { nameEn: { contains: w, mode: 'insensitive' } } } } },
+        { workerServices: { some: { service: { nameUr: { contains: w, mode: 'insensitive' } } } } },
+        { workerServices: { some: { service: { category: { nameEn: { contains: w, mode: 'insensitive' } } } } } },
+        { serviceAreas: { some: { city: { contains: w, mode: 'insensitive' } } } },
+        { serviceAreas: { some: { area: { contains: w, mode: 'insensitive' } } } },
+      );
+    }
+    where.OR = orConditions;
+
+    const workers = await this.prisma.workerProfile.findMany({
+      where,
+      include,
+      take: 50,
     });
+
+    // Rank by relevance: count how many query words match the worker's details
+    const scored = workers
+      .map((w) => {
+        const haystack = [
+          w.user?.fullName || '',
+          w.description || '',
+          ...(w.workerServices || []).flatMap((ws) => [
+            ws.service?.nameEn,
+            ws.service?.nameUr,
+            ws.service?.category?.nameEn,
+          ]),
+          ...(w.serviceAreas || []).flatMap((a) => [a.city, a.area]),
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        let score = 0;
+        for (const wd of words) {
+          if (haystack.includes(wd)) score++;
+        }
+        if (haystack.includes(q.toLowerCase())) score += 3;
+        if (w.isOnline) score += 0.5;
+        return { worker: w, score };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    return scored.slice(0, 20).map((s) => s.worker);
   }
 
   async getWorkerById(workerId: string) {

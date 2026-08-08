@@ -33,7 +33,7 @@ export default function AiSearchPage() {
       setParsed(data);
       setSearchedQuery(query.trim());
 
-      const searchTerm = data.service || query.trim();
+      const searchTerm = [data.service, query.trim()].filter(Boolean).join(' ');
       const workerRes = await api.get('/workers/search', { params: { q: searchTerm } });
       setWorkers(workerRes.data || []);
     } catch (err) {
