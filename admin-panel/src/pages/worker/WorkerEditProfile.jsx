@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { api } from '../../lib/api';
-import { ChevronLeft, Loader2, Camera } from 'lucide-react';
+import { ChevronLeft, Loader2, Camera, ImagePlus } from 'lucide-react';
 
 const languages = ['ENGLISH', 'URDU', 'PUNJABI', 'SINDHI', 'PASHTO', 'OTHER'];
 
@@ -13,10 +13,12 @@ export default function WorkerEditProfile() {
   const [description, setDescription] = useState('');
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [photo, setPhoto] = useState('');
-  const [uploading, setUploading] = useState(false);
+  const [coverPhoto, setCoverPhoto] = useState('');
+  const [uploading, setUploading] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const fileRef = useRef(null);
+  const photoRef = useRef(null);
+  const coverRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -27,6 +29,7 @@ export default function WorkerEditProfile() {
         setDescription(res.data.description || '');
         setSelectedLanguages(res.data.languages || []);
         setPhoto(res.data.user?.profilePhoto || '');
+        setCoverPhoto(res.data.coverPhoto || '');
       } catch (err) {
         console.error(err);
       } finally {
@@ -39,22 +42,23 @@ export default function WorkerEditProfile() {
     setSelectedLanguages((prev) => (prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]));
   };
 
-  const handlePhoto = async (e) => {
+  const handleUpload = async (e, field) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
+    setUploading(field);
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('folder', 'profile');
+      formData.append('folder', field === 'profilePhoto' ? 'profile' : 'cover');
       const res = await api.post('/upload/single', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-      setPhoto(res.data.url);
+      if (field === 'profilePhoto') setPhoto(res.data.url);
+      else setCoverPhoto(res.data.url);
       toast.success('Photo uploaded. Save changes to update your profile.');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Upload failed.');
     } finally {
-      setUploading(false);
-      if (fileRef.current) fileRef.current.value = '';
+      setUploading('');
+      if (e.target) e.target.value = '';
     }
   };
 
@@ -67,6 +71,7 @@ export default function WorkerEditProfile() {
       if (description !== profile?.description) payload.description = description;
       payload.languages = selectedLanguages;
       if (photo && photo !== profile?.user?.profilePhoto) payload.profilePhoto = photo;
+      if (coverPhoto !== profile?.coverPhoto) payload.coverPhoto = coverPhoto;
       await api.put('/workers/me', payload);
       toast.success('Profile updated.');
       navigate('/worker/profile');
@@ -94,11 +99,37 @@ export default function WorkerEditProfile() {
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
         <div>
+          <label className="block text-xs font-semibold text-gray-500 mb-1.5">Profile Thumbnail (card cover image)</label>
+          <button
+            type="button"
+            onClick={() => coverRef.current?.click()}
+            disabled={uploading === 'coverPhoto'}
+            className="relative w-full h-36 rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 hover:border-brand-300 transition-colors disabled:opacity-50 group"
+          >
+            {coverPhoto ? (
+              <img src={coverPhoto} alt="Thumbnail" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <div className="absolute inset-0 gradient-brand-soft flex flex-col items-center justify-center">
+                <ImagePlus size={26} className="text-brand-600 mb-1.5" />
+                <p className="text-sm font-semibold text-brand-700">Add card thumbnail</p>
+                <p className="text-xs text-gray-500 mt-0.5">JPG, PNG, WebP · up to 10MB</p>
+              </div>
+            )}
+            {uploading === 'coverPhoto' && (
+              <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
+                <Loader2 className="animate-spin text-brand-600" size={26} />
+              </div>
+            )}
+          </button>
+          <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleUpload(e, 'coverPhoto')} />
+        </div>
+
+        <div>
           <label className="block text-xs font-semibold text-gray-500 mb-1.5">Profile Photo</label>
           <button
             type="button"
-            onClick={() => fileRef.current?.click()}
-            disabled={uploading}
+            onClick={() => photoRef.current?.click()}
+            disabled={uploading === 'profilePhoto'}
             className="flex items-center gap-4 p-4 w-full rounded-2xl border-2 border-dashed border-gray-200 hover:border-brand-300 transition-colors disabled:opacity-50"
           >
             {photo ? (
@@ -109,7 +140,7 @@ export default function WorkerEditProfile() {
               </div>
             )}
             <div className="text-left">
-              {uploading ? (
+              {uploading === 'profilePhoto' ? (
                 <p className="inline-flex items-center gap-2 text-sm text-brand-700 font-medium"><Loader2 className="animate-spin" size={16} /> Uploading...</p>
               ) : (
                 <>
@@ -119,7 +150,7 @@ export default function WorkerEditProfile() {
               )}
             </div>
           </button>
-          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handlePhoto} />
+          <input ref={photoRef} type="file" accept="image/*" className="hidden" onChange={(e) => handleUpload(e, 'profilePhoto')} />
         </div>
 
         <div>

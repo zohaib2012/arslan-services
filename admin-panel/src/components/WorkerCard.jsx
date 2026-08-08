@@ -23,6 +23,7 @@ const CATEGORY_THUMBNAILS = {
 const DEFAULT_THUMBNAIL = 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80';
 
 export function workerThumbnail(worker) {
+  if (worker?.coverPhoto) return worker.coverPhoto;
   const categoryName = worker?.workerServices?.[0]?.service?.category?.nameEn;
   return CATEGORY_THUMBNAILS[categoryName] || DEFAULT_THUMBNAIL;
 }

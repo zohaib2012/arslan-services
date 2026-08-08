@@ -166,10 +166,16 @@ export default function WorkerDetailPage() {
 
       {/* Header card */}
       <div className="bg-white rounded-3xl border border-gray-100 shadow-card overflow-hidden mb-7">
-        <div className="h-40 gradient-brand relative">
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_70%_20%,white,transparent_55%)]" />
-          <div className="absolute inset-0 opacity-20 bg-dots" />
-          <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white/20 to-transparent" />
+        <div className="h-40 relative">
+          {worker.coverPhoto ? (
+            <img src={worker.coverPhoto} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <div className="h-full gradient-brand relative">
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_70%_20%,white,transparent_55%)]" />
+              <div className="absolute inset-0 opacity-20 bg-dots" />
+            </div>
+          )}
+          <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
         </div>
         <div className="px-6 pb-6 -mt-14 relative">
           <div className="flex flex-col md:flex-row md:items-end gap-5">

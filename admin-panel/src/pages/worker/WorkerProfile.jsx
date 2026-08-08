@@ -61,8 +61,14 @@ export default function WorkerProfile() {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Worker Profile</h1>
 
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6">
-        <div className="h-24 bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-600 relative">
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_20%,white,transparent_50%)]" />
+        <div className="h-24 relative">
+          {profile.coverPhoto ? (
+            <img src={profile.coverPhoto} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <div className="h-full bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-600 relative">
+              <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_70%_20%,white,transparent_50%)]" />
+            </div>
+          )}
         </div>
         <div className="px-6 pb-6 -mt-10">
           <div className="flex items-end gap-4">

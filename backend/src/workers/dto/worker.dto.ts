@@ -18,6 +18,10 @@ export class UpdateWorkerProfileDto {
   @IsString()
   @IsOptional()
   profilePhoto?: string;
+
+  @IsString()
+  @IsOptional()
+  coverPhoto?: string;
 }
 
 export class SubmitVerificationDto {
