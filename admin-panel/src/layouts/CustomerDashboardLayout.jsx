@@ -70,7 +70,7 @@ export default function CustomerDashboardLayout() {
               <Wrench className="text-emerald-300" size={20} />
             </div>
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Arslan</h1>
+              <h1 className="text-base font-bold text-white tracking-tight">Easyservice</h1>
               <p className="text-[10px] text-emerald-300/80 font-medium uppercase tracking-widest">Customer Panel</p>
             </div>
           </div>

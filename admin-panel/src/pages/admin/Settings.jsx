@@ -7,7 +7,7 @@ export default function Settings() {
   const [settings, setSettings] = useState(() => {
     const stored = localStorage.getItem('adminSettings');
     return stored ? JSON.parse(stored) : {
-      platformName: 'Arslan Services',
+      platformName: 'Easyservice',
       supportEmail: '',
       supportPhone: '',
       commissionRate: 0,
@@ -182,7 +182,7 @@ export default function Settings() {
           </div>
           <div className="space-y-3">
             {[
-              { label: 'Platform', value: 'Arslan Services Admin Panel' },
+              { label: 'Platform', value: 'Easyservice Admin Panel' },
               { label: 'Version', value: '1.0.0' },
               { label: 'Environment', value: 'Production' },
               { label: 'Theme', value: 'Premium Green' },

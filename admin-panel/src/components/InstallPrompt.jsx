@@ -45,7 +45,7 @@ export default function InstallPrompt() {
           <Download size={20} className="text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-bold text-gray-900">Install Arslan Services</p>
+          <p className="text-sm font-bold text-gray-900">Install Easyservice</p>
           <p className="text-xs text-gray-500 mt-0.5">Install as an app for faster access.</p>
         </div>
         <button

@@ -174,7 +174,7 @@ export default function NearbyWorkersPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-5">
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-5">
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="h-72 bg-gray-100 rounded-3xl animate-pulse" />
               ))}
@@ -188,7 +188,7 @@ export default function NearbyWorkersPage() {
               <p className="text-sm text-gray-400 mt-1">Try increasing the radius or using your current location.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-5">
               {workers.map((w) => {
                 const area = w.serviceAreas?.find((a) => a.latitude != null && a.longitude != null);
                 const dist = area

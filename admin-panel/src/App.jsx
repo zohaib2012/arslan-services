@@ -21,6 +21,10 @@ import AiSearchPage from './pages/website/AiSearchPage';
 import NearbyWorkersPage from './pages/website/NearbyWorkersPage';
 import WorkerDetailPage from './pages/website/WorkerDetailPage';
 import CreateBookingPage from './pages/website/CreateBookingPage';
+import AboutUs from './pages/website/AboutUs';
+import ContactUs from './pages/website/ContactUs';
+import TermsAndConditions from './pages/website/TermsAndConditions';
+import PrivacyPolicy from './pages/website/PrivacyPolicy';
 
 import CustomerDashboardHome from './pages/customer/DashboardHome';
 import MyBookings from './pages/customer/MyBookings';
@@ -130,6 +134,10 @@ export default function App() {
             <Route path="workers/nearby" element={<NearbyWorkersPage />} />
             <Route path="workers/:id" element={<WorkerDetailPage />} />
             <Route path="book" element={<CreateBookingPage />} />
+            <Route path="about" element={<AboutUs />} />
+            <Route path="contact" element={<ContactUs />} />
+            <Route path="terms" element={<TermsAndConditions />} />
+            <Route path="privacy" element={<PrivacyPolicy />} />
           </Route>
 
           <Route path="/admin" element={<RequireRole role="admin"><AdminLayout /></RequireRole>}>

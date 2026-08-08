@@ -42,8 +42,7 @@ export default function CustomerLayout({ isDashboard = false }) {
                 <Wrench className="text-white" size={18} />
               </div>
               <div>
-                <span className="text-base font-bold text-brand-800 tracking-tight">Arslan</span>
-                <span className="text-base font-bold text-brand-800 tracking-tight"> Services</span>
+                <span className="text-base font-bold text-brand-800 tracking-tight">Easyservice</span>
               </div>
             </Link>
 
@@ -198,7 +197,7 @@ export default function CustomerLayout({ isDashboard = false }) {
                 <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
                   <Wrench className="text-emerald-300" size={18} />
                 </div>
-                <span className="text-base font-bold">Arslan Services</span>
+                <span className="text-base font-bold">Easyservice</span>
               </div>
               <p className="text-sm text-emerald-100/60 leading-relaxed">
                 Pakistan's trusted home services marketplace. Verified professionals at your doorstep.
@@ -210,7 +209,8 @@ export default function CustomerLayout({ isDashboard = false }) {
                 <li><Link to="/workers/nearby" className="hover:text-white transition-colors">Find Workers</Link></li>
                 <li><Link to="/search" className="hover:text-white transition-colors">Search Services</Link></li>
                 <li><Link to="/ai-search" className="hover:text-white transition-colors">AI Assistant</Link></li>
-                <li><Link to="/auth/register" className="hover:text-white transition-colors">Become a Worker</Link></li>
+                <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
+                <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
               </ul>
             </div>
             <div>
@@ -231,10 +231,10 @@ export default function CustomerLayout({ isDashboard = false }) {
             </div>
           </div>
           <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-emerald-100/40">© {new Date().getFullYear()} Arslan Services. All rights reserved.</p>
+            <p className="text-xs text-emerald-100/40">© {new Date().getFullYear()} Easyservice. All rights reserved.</p>
             <div className="flex items-center gap-4 text-xs text-emerald-100/40">
-              <span>Privacy Policy</span>
-              <span>Terms of Service</span>
+              <Link to="/privacy" className="hover:text-emerald-300/60 transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-emerald-300/60 transition-colors">Terms of Service</Link>
             </div>
           </div>
         </div>

@@ -57,7 +57,7 @@ export default function RegisterPage() {
             <Wrench className="text-emerald-300" size={40} />
           </div>
           <h2 className="text-3xl font-bold text-center leading-tight">
-            Join Arslan Services
+            Join Easyservice
           </h2>
           <p className="text-emerald-100/70 text-center mt-4 max-w-md">
             Create an account to book services or start earning as a verified professional.

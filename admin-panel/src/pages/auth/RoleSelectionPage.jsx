@@ -27,7 +27,7 @@ export default function RoleSelectionPage() {
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-white">Choose Your Role</h1>
-          <p className="text-emerald-100/70 mt-2">How would you like to use Arslan Services?</p>
+          <p className="text-emerald-100/70 mt-2">How would you like to use Easyservice?</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <button

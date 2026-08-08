@@ -38,7 +38,7 @@ export default function Login() {
             <Building2 className="text-white" size={32} />
           </div>
           <h1 className="text-4xl font-bold text-white mb-4 leading-tight">
-            Arslan Services
+            Easyservice
           </h1>
           <p className="text-emerald-200/80 text-lg leading-relaxed max-w-md">
             Complete home services marketplace platform. Manage customers, workers, bookings, and more from one dashboard.
@@ -124,7 +124,7 @@ export default function Login() {
           </form>
 
           <p className="text-center text-xs text-gray-400 mt-8">
-            &copy; 2026 Arslan Services. All rights reserved.
+            &copy; 2026 Easyservice. All rights reserved.
           </p>
         </div>
       </div>

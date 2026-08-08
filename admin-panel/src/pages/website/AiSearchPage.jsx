@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
 import WorkerCard from '../../components/WorkerCard';
+import { CardSkeleton } from '../../components/SkeletonLoader';
 import { Sparkles, Send, Loader2, MessageSquare, Wand2, MapPin, AlertTriangle, Wrench, ChevronRight } from 'lucide-react';
 
 const examples = [
@@ -91,9 +92,9 @@ export default function AiSearchPage() {
       )}
 
       {loading && (
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="mt-8 grid grid-cols-2 gap-5">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-72 bg-gray-100 rounded-3xl animate-pulse" />
+            <CardSkeleton key={i} />
           ))}
         </div>
       )}
@@ -129,7 +130,7 @@ export default function AiSearchPage() {
             <span className="text-sm font-medium text-gray-400">for "{searchedQuery}"</span>
           </h2>
           {workers.length ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-2 gap-5">
               {workers.map((w) => (
                 <WorkerCard key={w.id} worker={w} />
               ))}

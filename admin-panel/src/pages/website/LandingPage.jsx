@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import WorkerCard, { formatRating } from '../../components/WorkerCard';
+import { CardSkeleton } from '../../components/SkeletonLoader';
 import { MapPin, Star, ArrowRight, Sparkles, Shield, Clock, Search, Wrench, Zap, PhoneCall, Wallet, Home, BadgeCheck, ChevronRight } from 'lucide-react';
 
 export default function LandingPage() {
@@ -159,18 +160,18 @@ export default function LandingPage() {
           </Link>
         </div>
         {loading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="flex gap-4 overflow-x-auto pb-2">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="h-36 bg-white rounded-2xl animate-pulse" />
+              <div key={i} className="shrink-0 w-40 h-40 bg-white rounded-2xl animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="flex gap-4 overflow-x-auto pb-2 snap-x sm:grid sm:grid-cols-3 md:grid-cols-4 sm:overflow-visible">
             {categories.map((cat) => (
               <Link
                 key={cat.id}
                 to={`/search?category=${cat.id}`}
-                className="group card-premium p-5 flex flex-col items-start"
+                className="shrink-0 w-40 sm:w-auto group card-premium p-5 flex flex-col items-start snap-start"
               >
                 <div className="w-14 h-14 rounded-2xl bg-brand-50 flex items-center justify-center mb-4 group-hover:gradient-brand group-hover:shadow-glow transition-all duration-300">
                   {cat.iconUrl ? (
@@ -202,10 +203,10 @@ export default function LandingPage() {
               See all workers <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {loading
               ? Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="h-80 bg-gray-50 rounded-3xl animate-pulse" />
+                  <CardSkeleton key={i} lines={2} />
                 ))
               : workers.map((w) => <WorkerCard key={w.id} worker={w} />)}
             {!loading && workers.length === 0 && (

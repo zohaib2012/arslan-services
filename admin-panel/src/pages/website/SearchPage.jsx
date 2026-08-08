@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../../lib/api';
 import WorkerCard from '../../components/WorkerCard';
+import { CardSkeleton } from '../../components/SkeletonLoader';
 import { Search, Wrench, Loader2, SlidersHorizontal } from 'lucide-react';
 
 export default function SearchPage() {
@@ -209,9 +210,9 @@ export default function SearchPage() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-80 bg-white rounded-3xl animate-pulse" />
+            <CardSkeleton key={i} />
           ))}
         </div>
       ) : workers.length === 0 ? (
