@@ -30,7 +30,7 @@ export default function RegisterPage() {
     }
     setLoading(true);
     try {
-      const res = await fetch('http://187.127.218.111/api/auth/register', {
+      const res = await fetch('https://easyservice.tech/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fullName, email, phone, password, role }),

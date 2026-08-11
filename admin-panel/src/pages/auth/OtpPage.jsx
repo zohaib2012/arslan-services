@@ -38,7 +38,7 @@ export default function OtpPage() {
     }
     setLoading(true);
     try {
-      const res = await fetch('http://187.127.218.111/api/auth/verify-otp', {
+      const res = await fetch('https://easyservice.tech/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, otp }),
@@ -65,7 +65,7 @@ export default function OtpPage() {
     if (countdown > 0) return;
     setCountdown(30);
     try {
-      await fetch('http://187.127.218.111/api/auth/send-otp', {
+      await fetch('https://easyservice.tech/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone }),

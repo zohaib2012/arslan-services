@@ -15,7 +15,7 @@ export function connectSocket() {
   if (socket) return socket;
 
   const userId = getCurrentUserId();
-  socket = io('http://187.127.218.111/chat', {
+  socket = io('https://easyservice.tech/chat', {
     path: '/socket.io',
     transports: ['websocket', 'polling'],
     query: { userId },

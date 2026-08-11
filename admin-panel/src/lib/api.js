@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://187.127.218.111';
+const BASE_URL = 'https://easyservice.tech';
 
 export const api = axios.create({
   baseURL: `${BASE_URL}/api`,

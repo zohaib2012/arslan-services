@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../lib/api';
 
 const api = axios.create({
-  baseURL: 'http://187.127.218.111/api/admin',
+  baseURL: 'https://easyservice.tech/api/admin',
   headers: { 'Content-Type': 'application/json' },
 });
 
