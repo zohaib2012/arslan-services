@@ -32,12 +32,20 @@ const menuGroups = [
   },
 ];
 
+const mobileTabs = [
+  { path: '/', label: 'Home', icon: Home },
+  { path: '/dashboard/bookings', label: 'Bookings', icon: Calendar },
+  { path: '/dashboard/chat-list', label: 'Chat', icon: MessageSquare },
+  { path: '/dashboard', label: 'Profile', icon: User, exact: true },
+];
+
 export default function CustomerDashboardLayout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const userMenuRef = useRef(null);
 
   useEffect(() => {
@@ -48,11 +56,22 @@ export default function CustomerDashboardLayout() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const handleLogout = () => { logout(); navigate('/'); };
 
   const isActive = (path, exact) => {
     if (exact) return location.pathname === path;
     return location.pathname === path || location.pathname.startsWith(path + '/');
+  };
+
+  const isMobileTabActive = (tab) => {
+    if (tab.exact) return location.pathname === tab.path;
+    return location.pathname === tab.path || location.pathname.startsWith(tab.path + '/');
   };
 
   return (
@@ -70,7 +89,7 @@ export default function CustomerDashboardLayout() {
               <Wrench className="text-emerald-300" size={20} />
             </div>
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Easyservice</h1>
+              <h1 className="text-base font-bold text-white tracking-tight">KAR SAAZ</h1>
               <p className="text-[10px] text-emerald-300/80 font-medium uppercase tracking-widest">Customer Panel</p>
             </div>
           </div>
@@ -125,23 +144,33 @@ export default function CustomerDashboardLayout() {
       </aside>
 
       <main className="flex-1 flex flex-col overflow-hidden">
-        <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 h-16 flex items-center justify-between px-6">
+        <header className={`sticky top-0 z-10 h-16 flex items-center justify-between px-4 lg:px-6 transition-colors ${
+          scrolled ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/60 shadow-sm' : 'bg-transparent lg:bg-white/80'
+        }`}>
           <div className="flex items-center gap-4">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-500 hover:text-gray-700">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-gray-500 hover:text-gray-700 p-1">
               <Menu size={22} />
             </button>
-            <div className="hidden sm:flex items-center gap-2 text-sm text-gray-400">
+            <div className="hidden lg:flex items-center gap-2 text-sm text-gray-400">
               <span className="text-gray-600 font-medium capitalize">
                 {location.pathname.split('/').filter(Boolean).join(' / ') || 'Dashboard'}
               </span>
             </div>
+            <h1 className="lg:hidden font-display font-bold text-ink-900">Customer Panel</h1>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/dashboard/notifications')}
+              className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full"
+            >
+              <Bell size={20} />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
+            </button>
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-100 transition-colors"
+                className="flex items-center gap-3 px-2 py-1.5 rounded-xl hover:bg-gray-100 transition-colors"
               >
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white text-xs font-bold shadow-md shadow-brand-600/20">
                   {(user?.fullName || 'U').charAt(0).toUpperCase()}
@@ -150,7 +179,7 @@ export default function CustomerDashboardLayout() {
                   <p className="text-sm font-medium text-gray-700 leading-tight">{user?.fullName || 'Customer'}</p>
                   <p className="text-xs text-gray-400">{user?.email || user?.phone || 'Customer'}</p>
                 </div>
-                <ChevronDown size={14} className={`text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown size={14} className={`hidden sm:block text-gray-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {userMenuOpen && (
@@ -183,12 +212,35 @@ export default function CustomerDashboardLayout() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-auto p-6 lg:p-8">
+        <div className="flex-1 overflow-auto p-4 lg:p-8 pb-24 lg:pb-8">
           <div className="animate-fade-in max-w-7xl mx-auto">
             <Outlet />
           </div>
         </div>
       </main>
+
+      {/* Mobile bottom tabs */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-safe">
+        <div className="flex items-center justify-around h-[4.25rem] px-2">
+          {mobileTabs.map((tab) => {
+            const Icon = tab.icon;
+            const active = isMobileTabActive(tab);
+            return (
+              <NavLink
+                key={tab.path}
+                to={tab.path}
+                end={tab.exact}
+                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] py-1 rounded-xl transition-colors ${
+                  active ? 'text-brand-700' : 'text-gray-400'
+                }`}
+              >
+                <Icon size={22} strokeWidth={active ? 2.5 : 2} />
+                <span className="text-[10px] font-medium">{tab.label}</span>
+              </NavLink>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
