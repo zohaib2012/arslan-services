@@ -354,14 +354,20 @@ export class WorkersService {
       ...priceFor(serviceId),
     }));
 
+    const customPrices = dto.customPrices || {};
     const custom = (dto.customServices || [])
       .map((name) => name.trim())
       .filter(Boolean)
-      .map((name) => ({
-        workerId: profile.id,
-        serviceId: null,
-        customServiceName: name,
-      }));
+      .map((name) => {
+        const p = customPrices[name];
+        return {
+          workerId: profile.id,
+          serviceId: null,
+          customServiceName: name,
+          priceMin: p?.min != null && !Number.isNaN(Number(p.min)) ? Number(p.min) : undefined,
+          priceMax: p?.max != null && !Number.isNaN(Number(p.max)) ? Number(p.max) : undefined,
+        };
+      });
 
     const rows = [...standard, ...custom];
 

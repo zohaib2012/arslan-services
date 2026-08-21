@@ -28,42 +28,10 @@ const SERVICE_ICONS = {
   Mechanic: Car,
 };
 
-const SERVICE_IMAGES = {
-  plumbing: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80',
-  electrician: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&q=80',
-  'ac repair': 'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=800&q=80',
-  cleaning: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?w=800&q=80',
-  painting: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80',
-  carpentry: 'https://images.unsplash.com/photo-1540821924489-7690c70c4eac?w=800&q=80',
-  mechanic: 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800&q=80',
-  'bike mechanic': 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&q=80',
-  'car mechanic': 'https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800&q=80',
-  'pest control': 'https://images.unsplash.com/photo-1625244724120-1fd1d34d00f6?w=800&q=80',
-  masonry: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80',
-  washing: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=800&q=80',
-  gas: 'https://images.unsplash.com/photo-1585909695284-32d2985ac9c0?w=800&q=80',
-  furniture: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80',
-  wiring: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=800&q=80',
-};
-
 const DEFAULT_SERVICE_IMAGE = 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80';
 
 function serviceImage(service) {
-  if (service?.imageUrl) return service.imageUrl;
-  if (service?.iconUrl) return service.iconUrl;
-  const keys = [
-    service?.nameEn,
-    service?.nameUr,
-    service?.category?.nameEn,
-    service?.category?.nameUr,
-  ].filter(Boolean);
-  for (const k of keys) {
-    const match = SERVICE_IMAGES[k.toLowerCase()];
-    if (match) return match;
-  }
-  const categoryName = service?.category?.nameEn?.toLowerCase();
-  const found = Object.keys(SERVICE_IMAGES).find((k) => categoryName?.includes(k) || k.includes(categoryName || ''));
-  return found ? SERVICE_IMAGES[found] : DEFAULT_SERVICE_IMAGE;
+  return service?.imageUrl || service?.iconUrl || DEFAULT_SERVICE_IMAGE;
 }
 
 const TRUST_BADGES = [

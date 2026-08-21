@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import toast from 'react-hot-toast';
 import { api } from '../../lib/api';
@@ -11,7 +11,7 @@ import {
   getBrowserLocation, reverseGeocode, geocode,
 } from '../../lib/mapbox';
 import {
-  Wrench, MapPin, Loader2, ShieldCheck, X, UserPlus, Calendar, Locate, Check, User,
+  Wrench, MapPin, Loader2, ShieldCheck, X, UserPlus, Calendar, Locate, Check, User, Star,
 } from 'lucide-react';
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -19,10 +19,9 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 export default function CreateBookingPage() {
   const [searchParams] = useSearchParams();
   const preselectedWorker = searchParams.get('worker') || '';
+  const serviceFilter = searchParams.get('service') || '';
 
   const [worker, setWorker] = useState(null);
-  const [services, setServices] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
   const [workerOptions, setWorkerOptions] = useState([]);
   const [serviceId, setServiceId] = useState('');
   const [workerId, setWorkerId] = useState('');
@@ -32,7 +31,7 @@ export default function CreateBookingPage() {
   const [address, setAddress] = useState('');
   const [customerNotes, setCustomerNotes] = useState('');
   const [coords, setCoords] = useState(null);
-  const [searchingWorkers, setSearchingWorkers] = useState(false);
+  const [loadingWorkers, setLoadingWorkers] = useState(false);
   const [locating, setLocating] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const mapContainer = useRef(null);
@@ -44,64 +43,52 @@ export default function CreateBookingPage() {
   const [guestName, setGuestName] = useState('');
   const [guestLoading, setGuestLoading] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await api.get('/services');
-        setServices(res.data || []);
-        if (preselectedWorker) {
-          setServiceId((prev) => prev || (res.data?.[0]?.id || ''));
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    })();
-  }, [preselectedWorker]);
+  const pickWorkerService = (w) => {
+    const list = w?.workerServices || [];
+    const primary = list.find((ws) => ws.serviceId) || list[0];
+    return primary?.serviceId || '';
+  };
 
-  useEffect(() => {
-    if (!workerId) return;
-    (async () => {
-      try {
-        const res = await api.get(`/workers/${workerId}`);
-        setWorker(res.data);
-        const primaryService = res.data?.workerServices?.find((ws) => ws.serviceId) || res.data?.workerServices?.[0];
-        if (primaryService?.serviceId && !serviceId) setServiceId(primaryService.serviceId);
-      } catch (err) {
-        console.error(err);
-        setWorker(null);
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workerId]);
-
-  useEffect(() => {
-    if (!preselectedWorker) return;
-    setWorkerId(preselectedWorker);
-  }, [preselectedWorker]);
-
-  const loadWorkersForService = async (sid) => {
-    if (!sid) return;
-    setSearchingWorkers(true);
+  const loadWorkers = async () => {
+    setLoadingWorkers(true);
     try {
-      const res = await api.get('/workers', { params: { serviceId: sid, page: 1, limit: 20 } });
+      const params = { page: 1, limit: 20 };
+      if (serviceFilter) params.serviceId = serviceFilter;
+      const res = await api.get('/workers', { params });
       setWorkerOptions(res.data?.workers || []);
     } catch (err) {
       console.error(err);
       setWorkerOptions([]);
     } finally {
-      setSearchingWorkers(false);
+      setLoadingWorkers(false);
     }
   };
 
-  const handleServiceSelect = (sid) => {
-    setServiceId(sid);
+  useEffect(() => {
     if (preselectedWorker) {
       setWorkerId(preselectedWorker);
-      return;
+      (async () => {
+        try {
+          const res = await api.get(`/workers/${preselectedWorker}`);
+          setWorker(res.data);
+          const sid = pickWorkerService(res.data);
+          if (sid) setServiceId(sid);
+        } catch (err) {
+          console.error(err);
+          toast.error('Could not load the selected professional.');
+        }
+      })();
+    } else {
+      loadWorkers();
     }
-    setWorkerId('');
-    setWorker(null);
-    loadWorkersForService(sid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [preselectedWorker]);
+
+  const selectWorker = (w) => {
+    setWorkerId(w.id);
+    setWorker(w);
+    const sid = pickWorkerService(w);
+    if (sid) setServiceId(sid);
   };
 
   const initMap = (c) => {
@@ -170,11 +157,6 @@ export default function CreateBookingPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const categories = [...new Set((services || []).map((s) => s.category?.nameEn).filter(Boolean))];
-  const filteredServices = selectedCategory
-    ? (services || []).filter((s) => s.category?.nameEn === selectedCategory)
-    : services || [];
-
   const resolveLocation = async () => {
     if (coords) return coords;
     if (address.trim()) {
@@ -189,12 +171,12 @@ export default function CreateBookingPage() {
   };
 
   const validate = async () => {
-    if (!serviceId) {
-      toast.error('Please choose a service.');
-      return false;
-    }
     if (!workerId) {
       toast.error('Please choose a professional.');
+      return false;
+    }
+    if (!serviceId) {
+      toast.error('The selected professional has no service assigned yet. Please pick another professional.');
       return false;
     }
     if (!description.trim()) {
@@ -262,12 +244,16 @@ export default function CreateBookingPage() {
 
   const workerName = worker?.user?.fullName || workerOptions.find((w) => w.id === workerId)?.user?.fullName || '';
   const workerPhoto = worker?.user?.profilePhoto || workerOptions.find((w) => w.id === workerId)?.user?.profilePhoto;
-  const selectedService = services.find((s) => s.id === serviceId);
+  const selectedWorkerServices = (worker?.workerServices || []).map((ws) => ({
+    id: ws.serviceId,
+    name: ws.service?.nameEn || ws.customServiceName,
+  })).filter((s) => s.id);
+  const selectedServiceName = selectedWorkerServices.find((s) => s.id === serviceId)?.name || '';
 
   const renderWorkerButton = (w) => (
     <button
       key={w.id}
-      onClick={() => { setWorkerId(w.id); setWorker(w); }}
+      onClick={() => selectWorker(w)}
       className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-colors ${
         workerId === w.id ? 'border-brand-500 bg-brand-50 shadow-glow' : 'border-gray-100 hover:border-brand-200'
       }`}
@@ -284,7 +270,7 @@ export default function CreateBookingPage() {
         <p className="text-xs text-gray-400 truncate">{(w.workerServices || []).map((ws) => ws.service?.nameEn || ws.customServiceName).filter(Boolean).join(', ')}</p>
       </div>
       <div className="flex flex-col items-end shrink-0">
-        <span className="text-xs font-bold text-amber-600">{w.avgRating || '0.0'} ★</span>
+        <span className="text-xs font-bold text-amber-600 flex items-center gap-0.5"><Star size={11} className="fill-amber-400" /> {w.avgRating || '0.0'}</span>
         <span className="text-[10px] text-gray-400">{w.completedJobs || 0} jobs</span>
       </div>
     </button>
@@ -295,111 +281,71 @@ export default function CreateBookingPage() {
       <BackButton to="/" className="mb-4" />
       <p className="text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Book a Service</p>
       <h1 className="font-display text-2xl md:text-4xl font-extrabold text-ink-900 mb-2">Book a Service</h1>
-      <p className="text-sm text-gray-500 mb-6">Quick & easy — pick a service, a professional and share your location. Done in one step.</p>
+      <p className="text-sm text-gray-500 mb-6">Pick a professional, tell us what you need and share your location. Done in one step.</p>
 
       <div className="space-y-6">
-        {/* Step 1: Choose service */}
+        {/* Step 1: Choose professional */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6">
           <h2 className="font-display font-bold text-lg text-ink-900 mb-4 flex items-center gap-2">
             <span className="w-6 h-6 rounded-lg gradient-brand text-white flex items-center justify-center text-xs font-bold">1</span>
-            <Wrench size={17} className="text-brand-600" /> Choose Service
+            <User size={17} className="text-brand-600" /> Choose Professional
           </h2>
-          {services.length === 0 ? (
-            <div className="text-center py-8 text-gray-400 text-sm">Loading services...</div>
-          ) : (
-            <>
-              <div className="flex flex-wrap gap-2 mb-3">
-                <button
-                  onClick={() => setSelectedCategory('')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
-                    selectedCategory === '' ? 'gradient-brand text-white shadow-glow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  All
-                </button>
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
-                      selectedCategory === cat ? 'gradient-brand text-white shadow-glow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-              <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
-                {filteredServices.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => handleServiceSelect(s.id)}
-                    className={`w-full text-left flex items-center gap-3 p-3 rounded-xl border transition-colors ${
-                      serviceId === s.id ? 'border-brand-500 bg-brand-50 shadow-glow' : 'border-gray-100 hover:border-brand-200'
-                    }`}
-                  >
-                    {s.iconUrl ? (
-                      <img src={s.iconUrl} alt="" className="w-9 h-9 object-contain" />
-                    ) : (
-                      <div className="w-9 h-9 rounded-xl bg-brand-50 flex items-center justify-center">
-                        <Wrench className="text-brand-600" size={16} />
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800 truncate">{s.nameEn}</p>
-                      <p className="text-xs text-gray-400">{s.category?.nameEn}</p>
-                    </div>
-                    {serviceId === s.id && <Check size={16} className="text-brand-600 shrink-0" />}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </section>
 
-        {/* Step 2: Choose professional */}
-        <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6">
-          <h2 className="font-display font-bold text-lg text-ink-900 mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 rounded-lg gradient-brand text-white flex items-center justify-center text-xs font-bold">2</span>
-            <MapPin size={17} className="text-brand-600" /> Choose Professional
-          </h2>
-          {!serviceId ? (
-            <p className="text-sm text-gray-400 py-4 text-center">Select a service first to see available professionals.</p>
-          ) : searchingWorkers ? (
+          {preselectedWorker && worker ? (
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3 p-3 rounded-xl border border-brand-200 bg-brand-50/50">
+                {workerPhoto ? (
+                  <img src={workerPhoto} alt="" className="w-12 h-12 rounded-full object-cover" />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 font-bold text-base">
+                    {(workerName || 'W').charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-800 truncate">{workerName}</p>
+                  <p className="text-xs text-gray-400 truncate">{(worker.workerServices || []).map((ws) => ws.service?.nameEn || ws.customServiceName).filter(Boolean).join(', ')}</p>
+                  <p className="text-xs text-amber-600 font-bold mt-0.5">{worker.avgRating || '0.0'} ★ · {worker.completedJobs || 0} jobs</p>
+                </div>
+                <Link to="/workers/nearby" className="shrink-0 text-xs font-bold text-brand-700 hover:underline">Change</Link>
+              </div>
+
+              {selectedWorkerServices.length > 1 && (
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1.5">Service</label>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedWorkerServices.map((s) => (
+                      <button
+                        key={s.id}
+                        onClick={() => setServiceId(s.id)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+                          serviceId === s.id ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-500 hover:border-brand-300'
+                        }`}
+                      >
+                        {s.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : loadingWorkers ? (
             <div className="flex flex-col items-center py-6">
               <Loader2 className="animate-spin text-brand-600 mb-3" size={24} />
               <p className="text-sm text-gray-400">Finding professionals...</p>
             </div>
-          ) : workerOptions.length === 0 && !worker ? (
-            <p className="text-sm text-gray-400 py-4 text-center">No professionals available for this service yet.</p>
-          ) : workerOptions.length > 0 ? (
-            <div className="max-h-72 overflow-y-auto space-y-2 pr-1">
+          ) : workerOptions.length === 0 ? (
+            <p className="text-sm text-gray-400 py-4 text-center">No professionals available right now.</p>
+          ) : (
+            <div className="max-h-80 overflow-y-auto space-y-2 pr-1">
               {workerOptions.map((w) => renderWorkerButton(w))}
-            </div>
-          ) : null}
-
-          {worker && (
-            <div className="flex items-center gap-3 p-3 rounded-xl border border-brand-200 bg-brand-50/50">
-              {workerPhoto ? (
-                <img src={workerPhoto} alt="" className="w-10 h-10 rounded-full object-cover" />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 font-bold text-sm">
-                  {(workerName || 'W').charAt(0).toUpperCase()}
-                </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-800 truncate">{workerName}</p>
-                <p className="text-xs text-gray-400 truncate">{(worker.workerServices || []).map((ws) => ws.service?.nameEn || ws.customServiceName).filter(Boolean).join(', ')}</p>
-              </div>
-              <span className="text-xs font-bold text-amber-600">{worker.avgRating || '0.0'} ★</span>
             </div>
           )}
         </section>
 
-        {/* Step 3: Schedule & details */}
+        {/* Step 2: Schedule & details */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6 space-y-5">
           <h2 className="font-display font-bold text-lg text-ink-900 flex items-center gap-2">
-            <span className="w-6 h-6 rounded-lg gradient-brand text-white flex items-center justify-center text-xs font-bold">3</span>
+            <span className="w-6 h-6 rounded-lg gradient-brand text-white flex items-center justify-center text-xs font-bold">2</span>
             <Calendar size={17} className="text-brand-600" /> Schedule & Job Details
           </h2>
 
@@ -460,11 +406,11 @@ export default function CreateBookingPage() {
           </div>
         </section>
 
-        {/* Step 4: Location */}
+        {/* Step 3: Location */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6 space-y-5">
           <div className="flex items-center justify-between">
             <h2 className="font-display font-bold text-lg text-ink-900 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg gradient-brand text-white flex items-center justify-center text-xs font-bold">4</span>
+              <span className="w-6 h-6 rounded-lg gradient-brand text-white flex items-center justify-center text-xs font-bold">3</span>
               <MapPin size={17} className="text-brand-600" /> Job Location
             </h2>
             <button
@@ -522,7 +468,7 @@ export default function CreateBookingPage() {
               </div>
               <div className="min-w-0">
                 <p className="text-[10px] text-gray-400">Service</p>
-                <p className="text-xs font-semibold text-gray-800 truncate">{selectedService?.nameEn || 'Not selected'}</p>
+                <p className="text-xs font-semibold text-gray-800 truncate">{selectedServiceName || 'Auto from worker'}</p>
               </div>
             </div>
             <div className="p-3 rounded-xl bg-gray-50 flex items-center gap-2.5 min-w-0">

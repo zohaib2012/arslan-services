@@ -126,4 +126,8 @@ export class UpdateWorkerServicesDto {
   @IsObject()
   @IsOptional()
   prices?: Record<string, { min?: number; max?: number }>;
+
+  @IsObject()
+  @IsOptional()
+  customPrices?: Record<string, { min?: number; max?: number }>;
 }

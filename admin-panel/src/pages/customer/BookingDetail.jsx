@@ -5,7 +5,7 @@ import { api } from '../../lib/api';
 import StatusBadge from '../../components/StatusBadge';
 import {
   ChevronLeft, MapPin, Calendar, MessageCircle, Star, AlertTriangle,
-  Loader2, Clock, CheckCircle2, XCircle, Phone,
+  Loader2, Clock, XCircle, Phone,
 } from 'lucide-react';
 
 export default function BookingDetail() {
@@ -205,14 +205,15 @@ export default function BookingDetail() {
         </div>
       )}
 
-      {booking.status === 'COMPLETED' && (
+      {/* Rate the worker — available at any time */}
+      {booking.status !== 'CANCELLED' && (
         <div className="card-premium p-5 mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="text-emerald-500" size={22} />
+            <Star className="text-amber-500" size={22} />
             <div>
-              <p className="font-semibold text-ink-900">Job completed</p>
+              <p className="font-semibold text-ink-900">Rate {worker?.fullName}</p>
               <p className="text-xs text-gray-400">
-                {booking.review ? `You rated ${booking.review.rating}★` : 'Rate your experience below'}
+                {booking.review ? `You rated ${booking.review.rating}★` : 'Share your experience — rating is open anytime'}
               </p>
             </div>
           </div>

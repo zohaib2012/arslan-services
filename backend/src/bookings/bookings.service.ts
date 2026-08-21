@@ -36,23 +36,6 @@ export class BookingsService {
       throw new BadRequestException('Service not available');
     }
 
-    const existing = await this.prisma.booking.findFirst({
-      where: {
-        customerId,
-        workerId: dto.workerId,
-        OR: [
-          { status: 'ACCEPTED' },
-          { status: 'PENDING', expiryAt: { gt: new Date() } },
-        ],
-      },
-    });
-
-    if (existing) {
-      throw new BadRequestException(
-        'You already have an active booking with this worker. Please wait for it to complete or cancel it first.',
-      );
-    }
-
     const expiryMinutes = dto.bookingType === 'EMERGENCY' ? 15 : 60;
     const expiryAt = new Date(Date.now() + expiryMinutes * 60 * 1000);
 

@@ -7,10 +7,10 @@ export class ReviewsService {
 
   async create(userId: string, bookingId: string, rating: number, comment?: string) {
     const booking = await this.prisma.booking.findFirst({
-      where: { id: bookingId, customerId: userId, status: 'COMPLETED' },
+      where: { id: bookingId, customerId: userId },
     });
 
-    if (!booking) throw new BadRequestException('Booking not found or not completed');
+    if (!booking) throw new BadRequestException('Booking not found');
 
     const existing = await this.prisma.review.findUnique({
       where: { bookingId },

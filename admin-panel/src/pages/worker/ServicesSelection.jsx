@@ -10,6 +10,7 @@ export default function ServicesSelection() {
   const [selected, setSelected] = useState([]);
   const [prices, setPrices] = useState({});
   const [customServices, setCustomServices] = useState([]);
+  const [customPrices, setCustomPrices] = useState({});
   const [customInput, setCustomInput] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -25,7 +26,8 @@ export default function ServicesSelection() {
         if (profRes.status === 'fulfilled') {
           const ws = profRes.value.data?.workerServices || [];
           setSelected(ws.filter((w) => w.serviceId).map((w) => w.serviceId));
-          setCustomServices(ws.filter((w) => w.customServiceName).map((w) => w.customServiceName));
+          const custom = ws.filter((w) => w.customServiceName);
+          setCustomServices(custom.map((w) => w.customServiceName));
           const priceMap = {};
           ws.forEach((w) => {
             if (w.serviceId) {
@@ -36,6 +38,14 @@ export default function ServicesSelection() {
             }
           });
           setPrices(priceMap);
+          const customPriceMap = {};
+          custom.forEach((w) => {
+            customPriceMap[w.customServiceName] = {
+              min: w.priceMin != null ? Number(w.priceMin) : '',
+              max: w.priceMax != null ? Number(w.priceMax) : '',
+            };
+          });
+          setCustomPrices(customPriceMap);
         }
       } catch (err) {
         console.error(err);
@@ -76,11 +86,24 @@ export default function ServicesSelection() {
       return;
     }
     setCustomServices((prev) => [...prev, name]);
+    setCustomPrices((prev) => ({ ...prev, [name]: { min: '', max: '' } }));
     setCustomInput('');
   };
 
   const removeCustom = (name) => {
     setCustomServices((prev) => prev.filter((s) => s !== name));
+    setCustomPrices((prev) => {
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
+  };
+
+  const setCustomPrice = (name, field, value) => {
+    setCustomPrices((prev) => ({
+      ...prev,
+      [name]: { ...(prev[name] || {}), [field]: value },
+    }));
   };
 
   const serviceName = (id) => {
@@ -102,7 +125,15 @@ export default function ServicesSelection() {
           cleanPrices[id] = { min, max };
         }
       });
-      await api.put('/workers/me/services', { serviceIds: selected, customServices, prices: cleanPrices });
+      const cleanCustomPrices = {};
+      Object.entries(customPrices).forEach(([name, p]) => {
+        const min = p.min === '' ? null : Number(p.min);
+        const max = p.max === '' ? null : Number(p.max);
+        if ((min != null && !Number.isNaN(min)) || (max != null && !Number.isNaN(max))) {
+          cleanCustomPrices[name] = { min, max };
+        }
+      });
+      await api.put('/workers/me/services', { serviceIds: selected, customServices, prices: cleanPrices, customPrices: cleanCustomPrices });
       toast.success('Services updated.');
       navigate('/worker/profile');
     } catch (err) {
@@ -156,14 +187,41 @@ export default function ServicesSelection() {
           </button>
         </div>
         {customServices.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="space-y-3 mt-3">
             {customServices.map((name) => (
-              <span key={name} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-600 text-white text-xs font-semibold">
-                {name}
-                <button type="button" onClick={() => removeCustom(name)} className="hover:text-red-200">
-                  <X size={13} />
-                </button>
-              </span>
+              <div key={name} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-xl bg-white border border-gray-100">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-800 truncate">{name}</p>
+                  <p className="text-[11px] text-gray-400">Custom service · set your visit charge</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Min Rs."
+                    value={customPrices[name]?.min ?? ''}
+                    onChange={(e) => setCustomPrice(name, 'min', e.target.value)}
+                    className="w-28 px-3 py-2 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                  <span className="text-gray-400 text-xs">to</span>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Max Rs."
+                    value={customPrices[name]?.max ?? ''}
+                    onChange={(e) => setCustomPrice(name, 'max', e.target.value)}
+                    className="w-28 px-3 py-2 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeCustom(name)}
+                    className="p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
+                    title="Remove"
+                  >
+                    <X size={15} />
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         )}
