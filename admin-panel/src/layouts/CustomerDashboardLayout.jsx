@@ -80,16 +80,16 @@ export default function CustomerDashboardLayout() {
         <div className="fixed inset-0 z-20 bg-black/30 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      <aside className={`fixed lg:static inset-y-0 left-0 z-30 w-72 bg-gradient-to-b from-brand-800 via-brand-700 to-brand-900 shadow-2xl transform transition-all duration-300 lg:translate-x-0 ${
+      <aside className={`fixed lg:static inset-y-0 left-0 z-30 w-72 bg-gradient-to-b from-brand-800 via-brand-700 to-brand-900 shadow-2xl transform transition-all duration-300 lg:translate-x-0 flex flex-col ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-white/10">
+        <div className="flex items-center justify-between h-16 px-6 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
               <Wrench className="text-emerald-300" size={20} />
             </div>
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">KAR SAAZ</h1>
+              <h1 className="text-base font-bold text-white tracking-tight">Easy service</h1>
               <p className="text-[10px] text-emerald-300/80 font-medium uppercase tracking-widest">Customer Panel</p>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function CustomerDashboardLayout() {
           </button>
         </div>
 
-        <nav className="p-4 space-y-6 overflow-y-auto pb-24" style={{ height: 'calc(100% - 4rem)' }}>
+        <nav className="p-4 space-y-6 overflow-y-auto flex-1 min-h-0">
           {menuGroups.map((group) => (
             <div key={group.label}>
               <p className="text-[10px] font-semibold uppercase tracking-widest text-emerald-300/50 mb-2 px-3">
@@ -127,7 +127,7 @@ export default function CustomerDashboardLayout() {
           ))}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10 bg-brand-800/50 backdrop-blur-sm">
+        <div className="shrink-0 p-4 border-t border-white/10 bg-brand-800/50 backdrop-blur-sm">
           <button
             onClick={() => navigate('/')}
             className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm text-emerald-100/70 hover:text-white hover:bg-white/5 transition-all mb-1"
@@ -212,7 +212,7 @@ export default function CustomerDashboardLayout() {
           </div>
         </header>
 
-        <div className="flex-1 overflow-auto p-4 lg:p-8 pb-24 lg:pb-8">
+        <div className="flex-1 overflow-auto p-4 lg:p-8 pb-32 lg:pb-8">
           <div className="animate-fade-in max-w-7xl mx-auto">
             <Outlet />
           </div>
@@ -220,23 +220,23 @@ export default function CustomerDashboardLayout() {
       </main>
 
       {/* Mobile bottom tabs */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-safe">
-        <div className="flex items-center justify-around h-[4.25rem] px-2">
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-around h-16 px-2">
           {mobileTabs.map((tab) => {
             const Icon = tab.icon;
             const active = isMobileTabActive(tab);
             return (
-              <NavLink
+              <button
                 key={tab.path}
-                to={tab.path}
-                end={tab.exact}
-                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] py-1 rounded-xl transition-colors ${
+                type="button"
+                onClick={() => navigate(tab.path)}
+                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] h-full py-1 rounded-xl transition-colors active:scale-95 ${
                   active ? 'text-brand-700' : 'text-gray-400'
                 }`}
               >
                 <Icon size={22} strokeWidth={active ? 2.5 : 2} />
                 <span className="text-[10px] font-medium">{tab.label}</span>
-              </NavLink>
+              </button>
             );
           })}
         </div>

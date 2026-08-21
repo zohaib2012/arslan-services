@@ -18,7 +18,7 @@ export class AdminSupportController {
     const where: any = {};
     if (status) where.status = status;
     const [tickets, total] = await Promise.all([
-      this.prisma.supportTicket.findMany({ where, skip, take, orderBy: { createdAt: 'desc' }, include: { user: { select: { fullName: true } } } }),
+      this.prisma.supportTicket.findMany({ where, skip, take, orderBy: { createdAt: 'desc' }, include: { user: { select: { fullName: true, phone: true } } } }),
       this.prisma.supportTicket.count({ where }),
     ]);
     return { tickets, total, page: Number(page), totalPages: Math.ceil(total / take) };
@@ -35,17 +35,20 @@ export class PublicSupportController {
   constructor(private prisma: PrismaService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   async createTicket(
-    @CurrentUser('id') userId: string,
     @Body('subject') subject: string,
     @Body('description') description: string,
+    @Body('name') name: string,
+    @Body('phone') phone: string,
+    @Body('userId') userId?: string,
   ) {
     return this.prisma.supportTicket.create({
       data: {
-        userId,
         subject,
         description,
+        name: name || null,
+        phone: phone || null,
+        userId: userId || null,
         status: 'OPEN',
       },
     });

@@ -71,9 +71,8 @@ export default function SupportTickets() {
                         <p className="text-sm font-medium text-gray-800 truncate">{t.subject}</p>
                       </div>
                       <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <span>{t.user?.fullName || 'User'}</span>
-                        <span>·</span>
-                        <span className="capitalize">{t.category?.replace(/_/g, ' ')}</span>
+                        <span>{t.name || t.user?.fullName || 'User'}</span>
+                        {t.phone && <><span>·</span><span>{t.phone}</span></>}
                         {t.createdAt && <><span>·</span><span>{new Date(t.createdAt).toLocaleDateString()}</span></>}
                       </div>
                     </div>
@@ -94,7 +93,10 @@ export default function SupportTickets() {
               <h3 className="font-bold text-gray-800">{selected.subject}</h3>
               <StatusBadge status={selected.status} />
             </div>
-            <p className="text-xs text-gray-400 mb-5">By {selected.user?.fullName} · {selected.category?.replace(/_/g, ' ')}</p>
+            <p className="text-xs text-gray-400 mb-5">
+              By {selected.name || selected.user?.fullName || 'Unknown'}
+              {selected.phone && <> · {selected.phone}</>}
+            </p>
 
             <div className="bg-gray-50 rounded-xl p-4 mb-5">
               <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Description</p>

@@ -1,8 +1,10 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import WorkerCard from '../../components/WorkerCard';
 import { CardSkeleton } from '../../components/SkeletonLoader';
+import { getStoredLocation, calculateDistance } from '../../lib/location';
+import { workerPriceRange } from '../../components/WorkerCard';
 import {
   Search, Wrench, Loader2, SlidersHorizontal, ChevronLeft, MapPin,
   Sparkles, ChevronDown,
@@ -21,6 +23,7 @@ export default function SearchPage() {
   const initialQ = searchParams.get('q') || '';
   const initialCategory = searchParams.get('category') || '';
   const initialService = searchParams.get('service') || '';
+  const userLocation = useMemo(() => getStoredLocation(), []);
 
   const [q, setQ] = useState(initialQ);
   const [input, setInput] = useState(initialQ);
@@ -59,7 +62,8 @@ export default function SearchPage() {
     try {
       const params = { page, limit: 12 };
       if (q) params.search = q;
-      if (categoryId) params.serviceId = serviceId || undefined;
+      if (serviceId) params.serviceId = serviceId;
+      else if (categoryId) params.categoryId = categoryId;
       if (minRating) params.rating = minRating;
       if (city) params.city = city;
       if (activeFilter === 'rated') params.sort = 'rating';
@@ -67,7 +71,20 @@ export default function SearchPage() {
       if (activeFilter === 'price') params.sort = 'price';
       const res = await api.get('/workers', { params });
       const data = res.data;
-      setWorkers(data.workers || []);
+      let list = data.workers || [];
+
+      // Sort by stored customer location when nearest filter selected
+      if (activeFilter === 'nearest' && userLocation) {
+        list = list.map((w) => {
+          const area = w.serviceAreas?.find((a) => a.latitude != null && a.longitude != null);
+          const dist = area
+            ? calculateDistance(userLocation.lat, userLocation.lng, Number(area.latitude), Number(area.longitude))
+            : Infinity;
+          return { ...w, distanceKm: dist };
+        }).sort((a, b) => (a.distanceKm || Infinity) - (b.distanceKm || Infinity));
+      }
+
+      setWorkers(list);
       setTotal(data.total || 0);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
@@ -76,7 +93,7 @@ export default function SearchPage() {
     } finally {
       setLoading(false);
     }
-  }, [q, categoryId, serviceId, minRating, city, page, activeFilter]);
+  }, [q, categoryId, serviceId, minRating, city, page, activeFilter, userLocation]);
 
   useEffect(() => {
     runSearch();
@@ -275,7 +292,8 @@ export default function SearchPage() {
           {workers.slice(0, 5).map((w, i) => {
             const top = [18, 55, 30, 70, 45][i % 5];
             const left = [15, 45, 75, 25, 65][i % 5];
-            const price = w.minRate || [800, 750, 900, 650, 700][i % 5];
+            const range = workerPriceRange(w);
+            const price = range?.min || [800, 750, 900, 650, 700][i % 5];
             return (
               <Link
                 key={w.id}
@@ -337,7 +355,7 @@ export default function SearchPage() {
                 key={w.id}
                 worker={w}
                 showDistance
-                distanceKm={w.distanceKm || [1.3, 2.1, 2.8, 3.2, 0.9][idx % 5]}
+                distanceKm={w.distanceKm}
                 tag={['BEST MATCH', 'TOP RATED', 'FAST SERVICE', 'BUDGET FRIENDLY'][idx % 4]}
               />
             ))}

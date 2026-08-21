@@ -8,11 +8,13 @@ export default function InstallPrompt() {
   useEffect(() => {
     const onBeforeInstall = (e) => {
       e.preventDefault();
+      window.deferredPrompt = e;
       setDeferredPrompt(e);
     };
     const onInstalled = () => {
       setInstalled(true);
       setDeferredPrompt(null);
+      window.deferredPrompt = null;
     };
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
@@ -33,15 +35,18 @@ export default function InstallPrompt() {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') setInstalled(true);
-    setDeferredPrompt(null);
+    if (outcome === 'accepted') {
+      setInstalled(true);
+      setDeferredPrompt(null);
+      window.deferredPrompt = null;
+    }
   };
 
   return (
     <div className="bg-gradient-to-r from-brand-800 via-brand-700 to-brand-900">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center justify-between gap-2">
         <span className="text-[11px] sm:text-sm text-emerald-100 truncate">
-          <strong>Install Easyservice App</strong> — add to home screen for quick access
+          <strong>Install Easy service App</strong> — add to home screen for quick access
         </span>
         <button
           onClick={handleInstall}

@@ -27,6 +27,8 @@ export type AggregateSupportTicket = {
 export type SupportTicketMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  name: string | null
+  phone: string | null
   subject: string | null
   description: string | null
   status: string | null
@@ -40,6 +42,8 @@ export type SupportTicketMinAggregateOutputType = {
 export type SupportTicketMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  name: string | null
+  phone: string | null
   subject: string | null
   description: string | null
   status: string | null
@@ -53,6 +57,8 @@ export type SupportTicketMaxAggregateOutputType = {
 export type SupportTicketCountAggregateOutputType = {
   id: number
   userId: number
+  name: number
+  phone: number
   subject: number
   description: number
   status: number
@@ -68,6 +74,8 @@ export type SupportTicketCountAggregateOutputType = {
 export type SupportTicketMinAggregateInputType = {
   id?: true
   userId?: true
+  name?: true
+  phone?: true
   subject?: true
   description?: true
   status?: true
@@ -81,6 +89,8 @@ export type SupportTicketMinAggregateInputType = {
 export type SupportTicketMaxAggregateInputType = {
   id?: true
   userId?: true
+  name?: true
+  phone?: true
   subject?: true
   description?: true
   status?: true
@@ -94,6 +104,8 @@ export type SupportTicketMaxAggregateInputType = {
 export type SupportTicketCountAggregateInputType = {
   id?: true
   userId?: true
+  name?: true
+  phone?: true
   subject?: true
   description?: true
   status?: true
@@ -179,7 +191,9 @@ export type SupportTicketGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 
 export type SupportTicketGroupByOutputType = {
   id: string
-  userId: string
+  userId: string | null
+  name: string | null
+  phone: string | null
   subject: string
   description: string
   status: string
@@ -213,7 +227,9 @@ export type SupportTicketWhereInput = {
   OR?: Prisma.SupportTicketWhereInput[]
   NOT?: Prisma.SupportTicketWhereInput | Prisma.SupportTicketWhereInput[]
   id?: Prisma.UuidFilter<"SupportTicket"> | string
-  userId?: Prisma.UuidFilter<"SupportTicket"> | string
+  userId?: Prisma.UuidNullableFilter<"SupportTicket"> | string | null
+  name?: Prisma.StringNullableFilter<"SupportTicket"> | string | null
+  phone?: Prisma.StringNullableFilter<"SupportTicket"> | string | null
   subject?: Prisma.StringFilter<"SupportTicket"> | string
   description?: Prisma.StringFilter<"SupportTicket"> | string
   status?: Prisma.StringFilter<"SupportTicket"> | string
@@ -222,12 +238,14 @@ export type SupportTicketWhereInput = {
   resolvedAt?: Prisma.DateTimeNullableFilter<"SupportTicket"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SupportTicket"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupportTicket"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type SupportTicketOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -244,7 +262,9 @@ export type SupportTicketWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SupportTicketWhereInput | Prisma.SupportTicketWhereInput[]
   OR?: Prisma.SupportTicketWhereInput[]
   NOT?: Prisma.SupportTicketWhereInput | Prisma.SupportTicketWhereInput[]
-  userId?: Prisma.UuidFilter<"SupportTicket"> | string
+  userId?: Prisma.UuidNullableFilter<"SupportTicket"> | string | null
+  name?: Prisma.StringNullableFilter<"SupportTicket"> | string | null
+  phone?: Prisma.StringNullableFilter<"SupportTicket"> | string | null
   subject?: Prisma.StringFilter<"SupportTicket"> | string
   description?: Prisma.StringFilter<"SupportTicket"> | string
   status?: Prisma.StringFilter<"SupportTicket"> | string
@@ -253,12 +273,14 @@ export type SupportTicketWhereUniqueInput = Prisma.AtLeast<{
   resolvedAt?: Prisma.DateTimeNullableFilter<"SupportTicket"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"SupportTicket"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupportTicket"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type SupportTicketOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   subject?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -277,7 +299,9 @@ export type SupportTicketScalarWhereWithAggregatesInput = {
   OR?: Prisma.SupportTicketScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SupportTicketScalarWhereWithAggregatesInput | Prisma.SupportTicketScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"SupportTicket"> | string
-  userId?: Prisma.UuidWithAggregatesFilter<"SupportTicket"> | string
+  userId?: Prisma.UuidNullableWithAggregatesFilter<"SupportTicket"> | string | null
+  name?: Prisma.StringNullableWithAggregatesFilter<"SupportTicket"> | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"SupportTicket"> | string | null
   subject?: Prisma.StringWithAggregatesFilter<"SupportTicket"> | string
   description?: Prisma.StringWithAggregatesFilter<"SupportTicket"> | string
   status?: Prisma.StringWithAggregatesFilter<"SupportTicket"> | string
@@ -290,6 +314,8 @@ export type SupportTicketScalarWhereWithAggregatesInput = {
 
 export type SupportTicketCreateInput = {
   id?: string
+  name?: string | null
+  phone?: string | null
   subject: string
   description: string
   status?: string
@@ -298,12 +324,14 @@ export type SupportTicketCreateInput = {
   resolvedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutSupportTicketsInput
+  user?: Prisma.UserCreateNestedOneWithoutSupportTicketsInput
 }
 
 export type SupportTicketUncheckedCreateInput = {
   id?: string
-  userId: string
+  userId?: string | null
+  name?: string | null
+  phone?: string | null
   subject: string
   description: string
   status?: string
@@ -316,6 +344,8 @@ export type SupportTicketUncheckedCreateInput = {
 
 export type SupportTicketUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -324,12 +354,14 @@ export type SupportTicketUpdateInput = {
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutSupportTicketsNestedInput
+  user?: Prisma.UserUpdateOneWithoutSupportTicketsNestedInput
 }
 
 export type SupportTicketUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -342,7 +374,9 @@ export type SupportTicketUncheckedUpdateInput = {
 
 export type SupportTicketCreateManyInput = {
   id?: string
-  userId: string
+  userId?: string | null
+  name?: string | null
+  phone?: string | null
   subject: string
   description: string
   status?: string
@@ -355,6 +389,8 @@ export type SupportTicketCreateManyInput = {
 
 export type SupportTicketUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -367,7 +403,9 @@ export type SupportTicketUpdateManyMutationInput = {
 
 export type SupportTicketUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -391,6 +429,8 @@ export type SupportTicketOrderByRelationAggregateInput = {
 export type SupportTicketCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -404,6 +444,8 @@ export type SupportTicketCountOrderByAggregateInput = {
 export type SupportTicketMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -417,6 +459,8 @@ export type SupportTicketMaxOrderByAggregateInput = {
 export type SupportTicketMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   description?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -471,6 +515,8 @@ export type SupportTicketUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type SupportTicketCreateWithoutUserInput = {
   id?: string
+  name?: string | null
+  phone?: string | null
   subject: string
   description: string
   status?: string
@@ -483,6 +529,8 @@ export type SupportTicketCreateWithoutUserInput = {
 
 export type SupportTicketUncheckedCreateWithoutUserInput = {
   id?: string
+  name?: string | null
+  phone?: string | null
   subject: string
   description: string
   status?: string
@@ -524,7 +572,9 @@ export type SupportTicketScalarWhereInput = {
   OR?: Prisma.SupportTicketScalarWhereInput[]
   NOT?: Prisma.SupportTicketScalarWhereInput | Prisma.SupportTicketScalarWhereInput[]
   id?: Prisma.UuidFilter<"SupportTicket"> | string
-  userId?: Prisma.UuidFilter<"SupportTicket"> | string
+  userId?: Prisma.UuidNullableFilter<"SupportTicket"> | string | null
+  name?: Prisma.StringNullableFilter<"SupportTicket"> | string | null
+  phone?: Prisma.StringNullableFilter<"SupportTicket"> | string | null
   subject?: Prisma.StringFilter<"SupportTicket"> | string
   description?: Prisma.StringFilter<"SupportTicket"> | string
   status?: Prisma.StringFilter<"SupportTicket"> | string
@@ -537,6 +587,8 @@ export type SupportTicketScalarWhereInput = {
 
 export type SupportTicketCreateManyUserInput = {
   id?: string
+  name?: string | null
+  phone?: string | null
   subject: string
   description: string
   status?: string
@@ -549,6 +601,8 @@ export type SupportTicketCreateManyUserInput = {
 
 export type SupportTicketUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -561,6 +615,8 @@ export type SupportTicketUpdateWithoutUserInput = {
 
 export type SupportTicketUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -573,6 +629,8 @@ export type SupportTicketUncheckedUpdateWithoutUserInput = {
 
 export type SupportTicketUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -588,6 +646,8 @@ export type SupportTicketUncheckedUpdateManyWithoutUserInput = {
 export type SupportTicketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  name?: boolean
+  phone?: boolean
   subject?: boolean
   description?: boolean
   status?: boolean
@@ -596,12 +656,14 @@ export type SupportTicketSelect<ExtArgs extends runtime.Types.Extensions.Interna
   resolvedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.SupportTicket$userArgs<ExtArgs>
 }, ExtArgs["result"]["supportTicket"]>
 
 export type SupportTicketSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  name?: boolean
+  phone?: boolean
   subject?: boolean
   description?: boolean
   status?: boolean
@@ -610,12 +672,14 @@ export type SupportTicketSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   resolvedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.SupportTicket$userArgs<ExtArgs>
 }, ExtArgs["result"]["supportTicket"]>
 
 export type SupportTicketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  name?: boolean
+  phone?: boolean
   subject?: boolean
   description?: boolean
   status?: boolean
@@ -624,12 +688,14 @@ export type SupportTicketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   resolvedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.SupportTicket$userArgs<ExtArgs>
 }, ExtArgs["result"]["supportTicket"]>
 
 export type SupportTicketSelectScalar = {
   id?: boolean
   userId?: boolean
+  name?: boolean
+  phone?: boolean
   subject?: boolean
   description?: boolean
   status?: boolean
@@ -640,25 +706,27 @@ export type SupportTicketSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SupportTicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "subject" | "description" | "status" | "priority" | "resolvedBy" | "resolvedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["supportTicket"]>
+export type SupportTicketOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "phone" | "subject" | "description" | "status" | "priority" | "resolvedBy" | "resolvedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["supportTicket"]>
 export type SupportTicketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.SupportTicket$userArgs<ExtArgs>
 }
 export type SupportTicketIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.SupportTicket$userArgs<ExtArgs>
 }
 export type SupportTicketIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.SupportTicket$userArgs<ExtArgs>
 }
 
 export type $SupportTicketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SupportTicket"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    userId: string
+    userId: string | null
+    name: string | null
+    phone: string | null
     subject: string
     description: string
     status: string
@@ -1061,7 +1129,7 @@ readonly fields: SupportTicketFieldRefs;
  */
 export interface Prisma__SupportTicketClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.SupportTicket$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupportTicket$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1093,6 +1161,8 @@ export interface Prisma__SupportTicketClient<T, Null = never, ExtArgs extends ru
 export interface SupportTicketFieldRefs {
   readonly id: Prisma.FieldRef<"SupportTicket", 'String'>
   readonly userId: Prisma.FieldRef<"SupportTicket", 'String'>
+  readonly name: Prisma.FieldRef<"SupportTicket", 'String'>
+  readonly phone: Prisma.FieldRef<"SupportTicket", 'String'>
   readonly subject: Prisma.FieldRef<"SupportTicket", 'String'>
   readonly description: Prisma.FieldRef<"SupportTicket", 'String'>
   readonly status: Prisma.FieldRef<"SupportTicket", 'String'>
@@ -1499,6 +1569,25 @@ export type SupportTicketDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many SupportTickets to delete.
    */
   limit?: number
+}
+
+/**
+ * SupportTicket.user
+ */
+export type SupportTicket$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

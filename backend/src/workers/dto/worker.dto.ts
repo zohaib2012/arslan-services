@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsInt, IsBoolean, IsArray, IsEnum, Min, Max } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsBoolean, IsArray, IsEnum, IsObject, Min, Max } from 'class-validator';
 import { PaymentMethodType, Language } from '../../generated/prisma';
 
 export class UpdateWorkerProfileDto {
@@ -117,4 +117,13 @@ export class UpdateWorkerServicesDto {
   @IsArray()
   @IsString({ each: true })
   serviceIds: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  customServices?: string[];
+
+  @IsObject()
+  @IsOptional()
+  prices?: Record<string, { min?: number; max?: number }>;
 }

@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send, Globe } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MapPin, Phone, Mail, Clock, Send, Globe, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function ContactUs() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
 
@@ -33,23 +35,31 @@ export default function ContactUs() {
   ];
 
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in pb-6 md:pb-0">
+      {/* Mobile header */}
+      <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 py-3 flex items-center gap-3">
+        <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-full">
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="font-display font-bold text-ink-900">Contact Us</h1>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 gradient-brand">
           <div className="absolute inset-0 bg-dots opacity-30" />
           <div className="absolute -top-32 -right-24 w-96 h-96 rounded-full bg-brand-400/20 blur-3xl" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-24">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-emerald-50 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-emerald-50 mb-4 md:mb-6">
               <Mail size={14} className="text-gold-400" />
               Get in Touch
             </div>
-            <h1 className="font-display text-4xl md:text-6xl font-extrabold leading-[1.08] tracking-tight text-white">
+            <h1 className="font-display text-3xl md:text-6xl font-extrabold leading-[1.08] tracking-tight text-white">
               Contact <span className="text-gradient-gold">Us</span>
             </h1>
-            <p className="mt-6 text-lg md:text-xl text-emerald-50/80 leading-relaxed max-w-2xl">
+            <p className="mt-4 md:mt-6 text-base md:text-xl text-emerald-50/80 leading-relaxed max-w-2xl">
               Have questions, feedback, or need help? We'd love to hear from you.
               Reach out and our team will respond promptly.
             </p>
@@ -61,16 +71,16 @@ export default function ContactUs() {
       </section>
 
       {/* Contact Form + Sidebar */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <section className="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-8">
           {/* Form */}
-          <div className="lg:col-span-2 card-premium p-8">
-            <h2 className="font-display text-2xl font-extrabold text-ink-900 mb-2">Send us a Message</h2>
-            <p className="text-gray-500 text-sm mb-8">Fill out the form below and we'll respond within 24 hours.</p>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="lg:col-span-2 card-premium p-5 md:p-8">
+            <h2 className="font-display text-xl md:text-2xl font-extrabold text-ink-900 mb-2">Send us a Message</h2>
+            <p className="text-gray-500 text-xs md:text-sm mb-6 md:mb-8">Fill out the form below and we'll respond within 24 hours.</p>
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-ink-900 mb-1.5">Full Name</label>
+                  <label className="block text-xs md:text-sm font-semibold text-ink-900 mb-1.5">Full Name</label>
                   <input
                     name="name"
                     value={form.name}
@@ -81,7 +91,7 @@ export default function ContactUs() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-ink-900 mb-1.5">Email Address</label>
+                  <label className="block text-xs md:text-sm font-semibold text-ink-900 mb-1.5">Email Address</label>
                   <input
                     name="email"
                     type="email"
@@ -94,7 +104,7 @@ export default function ContactUs() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-ink-900 mb-1.5">Subject</label>
+                <label className="block text-xs md:text-sm font-semibold text-ink-900 mb-1.5">Subject</label>
                 <input
                   name="subject"
                   value={form.subject}
@@ -105,13 +115,13 @@ export default function ContactUs() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-ink-900 mb-1.5">Message</label>
+                <label className="block text-xs md:text-sm font-semibold text-ink-900 mb-1.5">Message</label>
                 <textarea
                   name="message"
                   value={form.message}
                   onChange={handleChange}
                   required
-                  rows={5}
+                  rows={4}
                   placeholder="Tell us more about your query..."
                   className="w-full px-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none"
                 />
@@ -119,7 +129,7 @@ export default function ContactUs() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center gap-2 px-8 py-3.5 gradient-brand text-white font-bold rounded-xl shadow-md shadow-brand-500/25 hover:shadow-lg transition-all disabled:opacity-60"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 gradient-brand text-white font-bold rounded-xl shadow-md shadow-brand-500/25 hover:shadow-lg transition-all disabled:opacity-60"
               >
                 <Send size={18} /> {submitting ? 'Sending...' : 'Send Message'}
               </button>
@@ -127,21 +137,21 @@ export default function ContactUs() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-5">
+          <div className="space-y-4 md:space-y-5">
             {contactInfo.map((item, i) => (
-              <div key={i} className="card-premium p-5">
-                <div className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl gradient-brand text-white flex items-center justify-center shrink-0 shadow-glow">
+              <div key={i} className="card-premium p-4 md:p-5">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl gradient-brand text-white flex items-center justify-center shrink-0 shadow-glow">
                     {item.icon}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-ink-900">{item.label}</p>
+                    <p className="text-xs md:text-sm font-semibold text-ink-900">{item.label}</p>
                     {item.href ? (
-                      <a href={item.href} className="text-sm text-gray-500 hover:text-brand-700 transition-colors">
+                      <a href={item.href} className="text-xs md:text-sm text-gray-500 hover:text-brand-700 transition-colors">
                         {item.value}
                       </a>
                     ) : (
-                      <p className="text-sm text-gray-500">{item.value}</p>
+                      <p className="text-xs md:text-sm text-gray-500">{item.value}</p>
                     )}
                   </div>
                 </div>
@@ -149,15 +159,15 @@ export default function ContactUs() {
             ))}
 
             {/* Social Links */}
-            <div className="card-premium p-5">
-              <p className="text-sm font-semibold text-ink-900 mb-3">Follow Us</p>
+            <div className="card-premium p-4 md:p-5">
+              <p className="text-xs md:text-sm font-semibold text-ink-900 mb-3">Follow Us</p>
               <div className="flex items-center gap-2.5">
                 {social.map((s, i) => (
                   <a
                     key={i}
                     href="#"
                     aria-label={s.label}
-                    className="w-11 h-11 rounded-xl bg-gray-50 hover:gradient-brand hover:text-white text-gray-500 flex items-center justify-center transition-all hover:shadow-glow"
+                    className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gray-50 hover:gradient-brand hover:text-white text-gray-500 flex items-center justify-center transition-all hover:shadow-glow"
                   >
                     {s.icon}
                   </a>
@@ -169,19 +179,19 @@ export default function ContactUs() {
       </section>
 
       {/* Map Placeholder */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
-        <div className="card-premium p-8 text-center">
-          <div className="w-20 h-20 mx-auto rounded-2xl gradient-brand text-white flex items-center justify-center mb-5 shadow-glow">
-            <MapPin size={32} />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-10 md:pb-16">
+        <div className="card-premium p-5 md:p-8 text-center">
+          <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-2xl gradient-brand text-white flex items-center justify-center mb-4 md:mb-5 shadow-glow">
+            <MapPin size={28} className="md:w-8 md:h-8" />
           </div>
-          <h3 className="font-display font-bold text-xl text-ink-900">Visit Our Office</h3>
-          <p className="text-gray-500 mt-2">
+          <h3 className="font-display font-bold text-lg md:text-xl text-ink-900">Visit Our Office</h3>
+          <p className="text-sm text-gray-500 mt-2">
             123 Main Boulevard, Gulberg III, Lahore, Punjab, Pakistan
           </p>
-          <p className="text-sm text-brand-600 font-medium mt-1">
+          <p className="text-xs md:text-sm text-brand-600 font-medium mt-1">
             We're open Monday to Saturday, 9:00 AM — 7:00 PM
           </p>
-          <div className="mt-6 h-64 bg-gray-100 rounded-2xl flex items-center justify-center">
+          <div className="mt-5 md:mt-6 h-48 md:h-64 bg-gray-100 rounded-2xl flex items-center justify-center">
             <span className="text-gray-400 text-sm">Map Integration</span>
           </div>
         </div>

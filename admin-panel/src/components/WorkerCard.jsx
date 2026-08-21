@@ -7,7 +7,28 @@ export function formatRating(v) {
 
 export function workerServiceNames(worker) {
   if (!worker?.workerServices?.length) return [];
-  return worker.workerServices.map((ws) => ws.service?.nameEn || ws.service?.nameUr).filter(Boolean);
+  return worker.workerServices
+    .map((ws) => ws.service?.nameEn || ws.service?.nameUr || ws.customServiceName)
+    .filter(Boolean);
+}
+
+export function workerPriceRange(worker) {
+  const values = (worker?.workerServices || [])
+    .map((ws) => {
+      const min = ws?.priceMin != null ? Number(ws.priceMin) : null;
+      const max = ws?.priceMax != null ? Number(ws.priceMax) : null;
+      return [min, max].filter((v) => v != null && !Number.isNaN(v));
+    })
+    .flat();
+  if (!values.length) return null;
+  return { min: Math.min(...values), max: Math.max(...values) };
+}
+
+export function formatPriceRange(worker) {
+  const range = workerPriceRange(worker);
+  if (!range) return null;
+  const fmt = (v) => `Rs. ${Number(v).toLocaleString()}`;
+  return range.min === range.max ? fmt(range.min) : `${fmt(range.min)} - ${fmt(range.max)}`;
 }
 
 const CATEGORY_THUMBNAILS = {
@@ -53,9 +74,7 @@ export default function WorkerCard({ worker, showDistance, distanceKm, tag }) {
   const areas = worker?.serviceAreas || [];
   const verified = worker?.verificationStatus === 'VERIFIED';
   const thumbnail = workerThumbnail(worker);
-  const minRate = worker?.minRate;
-  const maxRate = worker?.maxRate;
-  const priceRange = minRate && maxRate ? `Rs. ${Number(minRate).toLocaleString()} - ${Number(maxRate).toLocaleString()}` : 'Rs. 800 - 1,200';
+  const priceRange = formatPriceRange(worker) || 'Price on request';
 
   return (
     <Link
@@ -63,54 +82,56 @@ export default function WorkerCard({ worker, showDistance, distanceKm, tag }) {
       className="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-card hover:-translate-y-0.5 transition-all animate-fade-in overflow-hidden"
     >
       {/* Mobile horizontal layout */}
-      <div className="md:hidden flex gap-3 p-3">
+      <div className="md:hidden flex gap-4 p-4">
         <div className="relative shrink-0">
-          <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100">
+          <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 ring-2 ring-gray-50">
             <WorkerAvatar worker={worker} name={name} className="w-full h-full" />
           </div>
           {worker?.isOnline && (
-            <span className="absolute bottom-0.5 right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white" />
+            <span className="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white" />
           )}
         </div>
         <div className="flex-1 min-w-0 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-1">
-              <h3 className="font-display font-bold text-sm text-ink-900 truncate">{name}</h3>
-              {verified && <BadgeCheck size={14} className="text-brand-600 shrink-0" />}
+            <div className="flex items-center gap-1.5">
+              <h3 className="font-display font-bold text-[15px] text-ink-900 truncate">{name}</h3>
+              {verified && <BadgeCheck size={16} className="text-brand-600 shrink-0" />}
             </div>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <Star size={12} className="fill-amber-400 text-amber-400" />
+            <div className="flex items-center gap-1.5 mt-1">
+              <Star size={13} className="fill-amber-400 text-amber-400" />
               <span className="text-xs font-bold text-gray-800">{formatRating(worker?.avgRating)}</span>
-              <span className="text-[10px] text-gray-400">({worker?.totalReviews || 0} reviews)</span>
+              <span className="text-[11px] text-gray-400">({worker?.totalReviews || 0})</span>
               {showDistance && distanceKm != null && (
                 <>
                   <span className="text-gray-300">•</span>
-                  <span className="text-[10px] text-gray-500">{distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${Number(distanceKm).toFixed(1)}km`} away</span>
+                  <span className="text-[11px] text-gray-500">{distanceKm < 1 ? `${Math.round(distanceKm * 1000)}m` : `${Number(distanceKm).toFixed(1)}km`}</span>
                 </>
               )}
             </div>
-            <p className="text-xs font-bold text-ink-900 mt-1.5">{priceRange} <span className="text-[10px] font-normal text-gray-400">/ visit</span></p>
+            <p className="text-sm font-bold text-ink-900 mt-2">{priceRange} <span className="text-[11px] font-normal text-gray-400">/ visit</span></p>
           </div>
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex flex-wrap items-center gap-2 mt-2.5">
             {tag && (
-              <span className="px-2 py-0.5 rounded-md bg-brand-50 text-[9px] font-bold text-brand-700 uppercase tracking-wide">
+              <span className="px-2 py-1 rounded-lg bg-brand-50 text-[10px] font-bold text-brand-700 uppercase tracking-wide">
                 {tag}
               </span>
             )}
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-[9px] font-bold text-emerald-700">
-              <ShieldCheck size={10} /> Verified
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-emerald-50 text-[10px] font-bold text-emerald-700">
+              <ShieldCheck size={11} /> Verified
             </span>
-            <span className="px-2 py-0.5 rounded-md bg-gray-100 text-[9px] font-bold text-gray-600">
-              {worker?.isOnline ? 'Available Now' : 'Available'}
-            </span>
+            {worker?.isOnline && (
+              <span className="px-2 py-1 rounded-lg bg-gray-100 text-[10px] font-bold text-gray-600">
+                Available Now
+              </span>
+            )}
           </div>
         </div>
         <div className="shrink-0 flex flex-col justify-end">
           <button
             onClick={(e) => { e.preventDefault(); window.location.href = `/book?worker=${worker.id}`; }}
-            className="px-4 py-2 rounded-xl bg-brand-600 text-white text-xs font-bold shadow-sm hover:bg-brand-700 transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-brand-600 text-white text-xs font-bold shadow-sm hover:bg-brand-700 transition-colors"
           >
-            Book Now
+            Book
           </button>
         </div>
       </div>

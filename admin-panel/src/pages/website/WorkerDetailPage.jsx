@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
-import { formatRating } from '../../components/WorkerCard';
+import { formatRating, formatPriceRange } from '../../components/WorkerCard';
 import { MAPBOX_TOKEN, MAPBOX_STYLE, DEFAULT_CENTER } from '../../lib/mapbox';
 import {
   Star, MapPin, Phone, MessageCircle, BadgeCheck, Shield,
@@ -123,10 +123,6 @@ export default function WorkerDetailPage() {
   };
 
   const bookNow = () => {
-    if (!isAuthenticated) {
-      navigate('/auth/login');
-      return;
-    }
     navigate(`/book?worker=${id}`);
   };
 
@@ -157,15 +153,13 @@ export default function WorkerDetailPage() {
   const portfolio = worker.portfolio || [];
   const workingHours = worker.workingHoursJson || {};
   const languages = worker.languages || [];
-  const minRate = worker?.minRate;
-  const maxRate = worker?.maxRate;
-  const priceRange = minRate && maxRate ? `Rs. ${Number(minRate).toLocaleString()} - ${Number(maxRate).toLocaleString()}` : 'Rs. 800 - 1,200';
+  const priceRange = formatPriceRange(worker) || 'Price on request';
 
   const stats = [
-    { icon: MapPin, value: '1.3 km', label: 'Away' },
-    { icon: Clock, value: `${worker.experienceYears || 10}+ Years`, label: 'Experience' },
-    { icon: Star, value: worker.totalReviews || 245, label: 'Reviews' },
-    { icon: CheckCircle2, value: '98%', label: 'On-time' },
+    { icon: Award, value: `${worker.experienceYears || 0}+ Years`, label: 'Experience' },
+    { icon: CheckCircle2, value: `${worker.completedJobs || 0}`, label: 'Jobs Done' },
+    { icon: Users, value: `${worker.totalReviews || 0}`, label: 'Reviews' },
+    { icon: Star, value: formatRating(worker.avgRating), label: 'Rating' },
   ];
 
   return (
@@ -315,14 +309,27 @@ export default function WorkerDetailPage() {
             {/* Services */}
             {services.length > 0 && (
               <section className="bg-white rounded-2xl border border-gray-100 shadow-card p-5 md:p-6">
-                <h2 className="font-display font-bold text-lg text-ink-900 mb-4">Services</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {services.map((ws) => (
-                    <div key={ws.id} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-gray-50">
-                      <Check size={16} className="text-brand-600" />
-                      <p className="text-sm font-semibold text-gray-800">{ws.service?.nameEn}</p>
-                    </div>
-                  ))}
+                <h2 className="font-display font-bold text-lg text-ink-900 mb-4">Services & Prices</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {services.map((ws) => {
+                    const min = ws.priceMin != null ? Number(ws.priceMin) : null;
+                    const max = ws.priceMax != null ? Number(ws.priceMax) : null;
+                    const hasPrice = (min != null && !Number.isNaN(min)) || (max != null && !Number.isNaN(max));
+                    const priceText = !hasPrice
+                      ? null
+                      : min != null && max != null
+                        ? `Rs. ${min.toLocaleString()} - ${max.toLocaleString()}`
+                        : `Rs. ${(min ?? max).toLocaleString()}`;
+                    return (
+                      <div key={ws.id} className="flex items-center gap-2.5 p-3 rounded-xl bg-gray-50">
+                        <Check size={16} className="text-brand-600 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold text-gray-800 truncate">{ws.service?.nameEn || ws.customServiceName}</p>
+                          {priceText && <p className="text-xs text-brand-700 font-semibold">{priceText}<span className="text-gray-400 font-normal"> / visit</span></p>}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             )}
@@ -397,21 +404,19 @@ export default function WorkerDetailPage() {
               <div className="space-y-3 text-sm">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">Service</span>
-                  <span className="font-semibold text-ink-900">{services[0]?.service?.nameEn || 'AC Repair'}</span>
+                  <span className="font-semibold text-ink-900 text-right">{services[0]?.service?.nameEn || services[0]?.customServiceName || 'Home Service'}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-500">Date & Time</span>
-                  <button className="font-semibold text-brand-700">Change</button>
-                </div>
-                <p className="text-xs text-gray-600">Tomorrow, 18 May 2025 at 02:00 PM</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500">Address</span>
-                  <button className="font-semibold text-brand-700">Change</button>
-                </div>
-                <p className="text-xs text-gray-600">House # 24, Street 10, DHA Phase 5, Karachi, Pakistan</p>
-                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                  <span className="text-gray-500">Estimated Price</span>
+                  <span className="text-gray-500">Visit Charge</span>
                   <span className="font-bold text-ink-900">{priceRange}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500">Rating</span>
+                  <span className="font-semibold text-ink-900">{formatRating(worker.avgRating)} ★ ({worker.totalReviews || 0})</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500">Availability</span>
+                  <span className="font-semibold text-ink-900">{worker.isOnline ? 'Available now' : 'Offline'}</span>
                 </div>
               </div>
               <button
@@ -496,17 +501,33 @@ export default function WorkerDetailPage() {
       </div>
 
       {/* Mobile bottom book bar */}
-      <div className="md:hidden fixed bottom-[4.25rem] left-0 right-0 z-40 bg-white border-t border-gray-100 px-4 py-3 flex items-center justify-between">
-        <div>
-          <p className="font-display font-bold text-ink-900">{priceRange}</p>
+      <div className="md:hidden fixed bottom-[4.25rem] left-0 right-0 z-40 bg-white border-t border-gray-100 px-3 py-2.5 flex items-center gap-2">
+        <div className="min-w-0">
+          <p className="font-display font-bold text-ink-900 text-sm truncate">{priceRange}</p>
           <p className="text-[10px] text-gray-400">Estimated Price</p>
         </div>
-        <button
-          onClick={bookNow}
-          className="px-6 py-3 rounded-2xl gradient-brand text-white font-bold shadow-glow flex items-center gap-2"
-        >
-          Proceed to Book <ArrowRight size={18} />
-        </button>
+        <div className="ml-auto flex items-center gap-2 shrink-0">
+          <a
+            href={`tel:${worker.user?.phone || ''}`}
+            className="flex items-center justify-center w-11 h-11 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100"
+            title="Call"
+          >
+            <Phone size={18} />
+          </a>
+          <button
+            onClick={startChat}
+            className="flex items-center justify-center w-11 h-11 rounded-xl bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100"
+            title="Message"
+          >
+            <MessageCircle size={18} />
+          </button>
+          <button
+            onClick={bookNow}
+            className="px-5 py-3 rounded-xl gradient-brand text-white text-sm font-bold shadow-glow flex items-center gap-1.5 whitespace-nowrap"
+          >
+            Book <ArrowRight size={16} />
+          </button>
+        </div>
       </div>
     </div>
   );

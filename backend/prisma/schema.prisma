@@ -221,6 +221,7 @@ model Service {
   nameUr      String   @map("name_ur")
   slug        String   @unique
   iconUrl     String?  @map("icon_url")
+  imageUrl    String?  @map("image_url")
   descriptionEn String? @map("description_en")
   descriptionUr String? @map("description_ur")
   isActive    Boolean  @default(true) @map("is_active")
@@ -236,13 +237,16 @@ model Service {
 }
 
 model WorkerService {
-  id        String   @id @default(uuid()) @db.Uuid
-  workerId  String   @map("worker_id") @db.Uuid
-  serviceId String   @map("service_id") @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at")
+  id                String   @id @default(uuid()) @db.Uuid
+  workerId          String   @map("worker_id") @db.Uuid
+  serviceId         String?  @map("service_id") @db.Uuid
+  customServiceName String?  @map("custom_service_name")
+  priceMin          Decimal? @map("price_min") @db.Decimal(12, 2)
+  priceMax          Decimal? @map("price_max") @db.Decimal(12, 2)
+  createdAt         DateTime @default(now()) @map("created_at")
 
   worker  WorkerProfile @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  service Service       @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  service Service?      @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
   @@unique([workerId, serviceId])
   @@map("worker_services")
@@ -384,7 +388,9 @@ model ChatMessage {
 
 model SupportTicket {
   id          String   @id @default(uuid()) @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
+  userId      String?  @map("user_id") @db.Uuid
+  name        String?  @map("name")
+  phone       String?  @map("phone")
   subject     String
   description String
   status      String   @default("OPEN")
@@ -394,7 +400,7 @@ model SupportTicket {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
 
   @@map("support_tickets")
 }

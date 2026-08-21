@@ -127,6 +127,7 @@ export const WorkerProfileScalarFieldEnum = {
   verifiedBy: 'verifiedBy',
   experienceYears: 'experienceYears',
   description: 'description',
+  coverPhoto: 'coverPhoto',
   responseTimeMinutes: 'responseTimeMinutes',
   isOnline: 'isOnline',
   workingHoursJson: 'workingHoursJson',
@@ -206,6 +207,7 @@ export const ServiceScalarFieldEnum = {
   nameUr: 'nameUr',
   slug: 'slug',
   iconUrl: 'iconUrl',
+  imageUrl: 'imageUrl',
   descriptionEn: 'descriptionEn',
   descriptionUr: 'descriptionUr',
   isActive: 'isActive',
@@ -221,6 +223,9 @@ export const WorkerServiceScalarFieldEnum = {
   id: 'id',
   workerId: 'workerId',
   serviceId: 'serviceId',
+  customServiceName: 'customServiceName',
+  priceMin: 'priceMin',
+  priceMax: 'priceMax',
   createdAt: 'createdAt'
 } as const
 
@@ -341,6 +346,8 @@ export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[key
 export const SupportTicketScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  name: 'name',
+  phone: 'phone',
   subject: 'subject',
   description: 'description',
   status: 'status',

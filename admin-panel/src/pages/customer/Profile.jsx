@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, Phone, User, Shield, ChevronRight, LogOut } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -24,6 +25,7 @@ export default function Profile() {
 
   return (
     <div className="max-w-2xl mx-auto animate-fade-in">
+      <BackButton to="/dashboard" className="mb-4" />
       <h1 className="font-display text-2xl font-bold text-ink-900 mb-6">My Profile</h1>
 
       <div className="card-premium rounded-2xl p-6 mb-6 flex flex-wrap items-center gap-4">

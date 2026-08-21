@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import { MessageSquare, Loader2 } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 export default function ChatList() {
   const [conversations, setConversations] = useState([]);
@@ -31,6 +32,7 @@ export default function ChatList() {
 
   return (
     <div className="animate-fade-in">
+      <BackButton to="/dashboard" className="mb-4" />
       <h1 className="font-display text-2xl font-bold text-ink-900 mb-6">Messages</h1>
       {conversations.length === 0 ? (
         <div className="text-center py-20 card-premium rounded-2xl">

@@ -60,6 +60,8 @@ export class AuthService {
       },
     });
 
+    await this.notifyAdminsAboutNewUser(user);
+
     const tokens = await this.generateTokens(user.id, user.role);
     return { user: this.sanitizeUser(user), ...tokens };
   }
@@ -247,6 +249,35 @@ export class AuthService {
 
     await this.redisService.del(`reset:${token}`);
     return { message: 'Password reset successfully' };
+  }
+
+  private async notifyAdminsAboutNewUser(user: any) {
+    try {
+      const admins = await this.prisma.user.findMany({
+        where: { role: { in: ['ADMIN', 'SUPER_ADMIN'] }, isBlocked: false },
+        select: { id: true },
+      });
+
+      if (admins.length === 0) return;
+
+      const isWorker = user.role === 'WORKER';
+      const title = isWorker ? 'New Worker Registered' : 'New Customer Registered';
+      const body = isWorker
+        ? `${user.fullName} registered as a worker and needs verification. Contact: ${user.email || user.phone || 'N/A'}`
+        : `${user.fullName} created a customer account. Contact: ${user.email || user.phone || 'N/A'}`;
+
+      await this.prisma.notification.createMany({
+        data: admins.map((a) => ({
+          userId: a.id,
+          type: 'PROMOTION' as any,
+          title,
+          body,
+          data: { kind: 'NEW_USER', role: user.role, userId: user.id, name: user.fullName },
+        })),
+      });
+    } catch (err) {
+      console.error('Failed to notify admins about new user:', err);
+    }
   }
 
   private async generateTokens(userId: string, role: UserRole) {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Wrench, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, UserPlus } from 'lucide-react';
+import { Wrench, Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, UserPlus, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function LoginPage() {
@@ -79,7 +79,13 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-6">
+      <div className="flex-1 flex items-center justify-center p-6 relative">
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-5 left-5 inline-flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-brand-700 transition-colors"
+        >
+          <ChevronLeft size={20} /> Back
+        </button>
         <div className="w-full max-w-md">
           <div className="lg:hidden flex justify-center mb-8">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center">

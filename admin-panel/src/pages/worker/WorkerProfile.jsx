@@ -6,6 +6,7 @@ import {
   Mail, Phone, Star, Wrench, MapPin, Clock, ChevronRight,
   Loader2, BadgeCheck, Wallet, Camera, FileText,
 } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 export default function WorkerProfile() {
   const [profile, setProfile] = useState(null);
@@ -58,6 +59,7 @@ export default function WorkerProfile() {
 
   return (
     <div className="max-w-2xl mx-auto animate-fade-in pb-10">
+      <BackButton to="/worker/dashboard" className="mb-4" />
       {/* Profile header card */}
       <div className="card-premium overflow-hidden mb-6">
         <div className="h-32 md:h-40 relative">

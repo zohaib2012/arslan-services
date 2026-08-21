@@ -54,6 +54,7 @@ export type WorkerProfileMinAggregateOutputType = {
   verifiedBy: string | null
   experienceYears: number | null
   description: string | null
+  coverPhoto: string | null
   responseTimeMinutes: number | null
   isOnline: boolean | null
   completedJobs: number | null
@@ -75,6 +76,7 @@ export type WorkerProfileMaxAggregateOutputType = {
   verifiedBy: string | null
   experienceYears: number | null
   description: string | null
+  coverPhoto: string | null
   responseTimeMinutes: number | null
   isOnline: boolean | null
   completedJobs: number | null
@@ -96,6 +98,7 @@ export type WorkerProfileCountAggregateOutputType = {
   verifiedBy: number
   experienceYears: number
   description: number
+  coverPhoto: number
   responseTimeMinutes: number
   isOnline: number
   workingHoursJson: number
@@ -137,6 +140,7 @@ export type WorkerProfileMinAggregateInputType = {
   verifiedBy?: true
   experienceYears?: true
   description?: true
+  coverPhoto?: true
   responseTimeMinutes?: true
   isOnline?: true
   completedJobs?: true
@@ -158,6 +162,7 @@ export type WorkerProfileMaxAggregateInputType = {
   verifiedBy?: true
   experienceYears?: true
   description?: true
+  coverPhoto?: true
   responseTimeMinutes?: true
   isOnline?: true
   completedJobs?: true
@@ -179,6 +184,7 @@ export type WorkerProfileCountAggregateInputType = {
   verifiedBy?: true
   experienceYears?: true
   description?: true
+  coverPhoto?: true
   responseTimeMinutes?: true
   isOnline?: true
   workingHoursJson?: true
@@ -289,6 +295,7 @@ export type WorkerProfileGroupByOutputType = {
   verifiedBy: string | null
   experienceYears: number | null
   description: string | null
+  coverPhoto: string | null
   responseTimeMinutes: number | null
   isOnline: boolean
   workingHoursJson: runtime.JsonValue | null
@@ -335,6 +342,7 @@ export type WorkerProfileWhereInput = {
   verifiedBy?: Prisma.UuidNullableFilter<"WorkerProfile"> | string | null
   experienceYears?: Prisma.IntNullableFilter<"WorkerProfile"> | number | null
   description?: Prisma.StringNullableFilter<"WorkerProfile"> | string | null
+  coverPhoto?: Prisma.StringNullableFilter<"WorkerProfile"> | string | null
   responseTimeMinutes?: Prisma.IntNullableFilter<"WorkerProfile"> | number | null
   isOnline?: Prisma.BoolFilter<"WorkerProfile"> | boolean
   workingHoursJson?: Prisma.JsonNullableFilter<"WorkerProfile">
@@ -367,6 +375,7 @@ export type WorkerProfileOrderByWithRelationInput = {
   verifiedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   experienceYears?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   responseTimeMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   workingHoursJson?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -402,6 +411,7 @@ export type WorkerProfileWhereUniqueInput = Prisma.AtLeast<{
   verifiedBy?: Prisma.UuidNullableFilter<"WorkerProfile"> | string | null
   experienceYears?: Prisma.IntNullableFilter<"WorkerProfile"> | number | null
   description?: Prisma.StringNullableFilter<"WorkerProfile"> | string | null
+  coverPhoto?: Prisma.StringNullableFilter<"WorkerProfile"> | string | null
   responseTimeMinutes?: Prisma.IntNullableFilter<"WorkerProfile"> | number | null
   isOnline?: Prisma.BoolFilter<"WorkerProfile"> | boolean
   workingHoursJson?: Prisma.JsonNullableFilter<"WorkerProfile">
@@ -434,6 +444,7 @@ export type WorkerProfileOrderByWithAggregationInput = {
   verifiedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   experienceYears?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverPhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   responseTimeMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   workingHoursJson?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -465,6 +476,7 @@ export type WorkerProfileScalarWhereWithAggregatesInput = {
   verifiedBy?: Prisma.UuidNullableWithAggregatesFilter<"WorkerProfile"> | string | null
   experienceYears?: Prisma.IntNullableWithAggregatesFilter<"WorkerProfile"> | number | null
   description?: Prisma.StringNullableWithAggregatesFilter<"WorkerProfile"> | string | null
+  coverPhoto?: Prisma.StringNullableWithAggregatesFilter<"WorkerProfile"> | string | null
   responseTimeMinutes?: Prisma.IntNullableWithAggregatesFilter<"WorkerProfile"> | number | null
   isOnline?: Prisma.BoolWithAggregatesFilter<"WorkerProfile"> | boolean
   workingHoursJson?: Prisma.JsonNullableWithAggregatesFilter<"WorkerProfile">
@@ -487,6 +499,7 @@ export type WorkerProfileCreateInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -519,6 +532,7 @@ export type WorkerProfileUncheckedCreateInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -549,6 +563,7 @@ export type WorkerProfileUpdateInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -581,6 +596,7 @@ export type WorkerProfileUncheckedUpdateInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -612,6 +628,7 @@ export type WorkerProfileCreateManyInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -634,6 +651,7 @@ export type WorkerProfileUpdateManyMutationInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -657,6 +675,7 @@ export type WorkerProfileUncheckedUpdateManyInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -693,6 +712,7 @@ export type WorkerProfileCountOrderByAggregateInput = {
   verifiedBy?: Prisma.SortOrder
   experienceYears?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  coverPhoto?: Prisma.SortOrder
   responseTimeMinutes?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   workingHoursJson?: Prisma.SortOrder
@@ -724,6 +744,7 @@ export type WorkerProfileMaxOrderByAggregateInput = {
   verifiedBy?: Prisma.SortOrder
   experienceYears?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  coverPhoto?: Prisma.SortOrder
   responseTimeMinutes?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   completedJobs?: Prisma.SortOrder
@@ -745,6 +766,7 @@ export type WorkerProfileMinOrderByAggregateInput = {
   verifiedBy?: Prisma.SortOrder
   experienceYears?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  coverPhoto?: Prisma.SortOrder
   responseTimeMinutes?: Prisma.SortOrder
   isOnline?: Prisma.SortOrder
   completedJobs?: Prisma.SortOrder
@@ -959,6 +981,7 @@ export type WorkerProfileCreateWithoutUserInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -989,6 +1012,7 @@ export type WorkerProfileUncheckedCreateWithoutUserInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1035,6 +1059,7 @@ export type WorkerProfileUpdateWithoutUserInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1065,6 +1090,7 @@ export type WorkerProfileUncheckedUpdateWithoutUserInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1095,6 +1121,7 @@ export type WorkerProfileCreateWithoutPortfolioInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1126,6 +1153,7 @@ export type WorkerProfileUncheckedCreateWithoutPortfolioInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1171,6 +1199,7 @@ export type WorkerProfileUpdateWithoutPortfolioInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1202,6 +1231,7 @@ export type WorkerProfileUncheckedUpdateWithoutPortfolioInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1231,6 +1261,7 @@ export type WorkerProfileCreateWithoutPaymentMethodsInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1262,6 +1293,7 @@ export type WorkerProfileUncheckedCreateWithoutPaymentMethodsInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1307,6 +1339,7 @@ export type WorkerProfileUpdateWithoutPaymentMethodsInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1338,6 +1371,7 @@ export type WorkerProfileUncheckedUpdateWithoutPaymentMethodsInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1367,6 +1401,7 @@ export type WorkerProfileCreateWithoutServiceAreasInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1398,6 +1433,7 @@ export type WorkerProfileUncheckedCreateWithoutServiceAreasInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1443,6 +1479,7 @@ export type WorkerProfileUpdateWithoutServiceAreasInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1474,6 +1511,7 @@ export type WorkerProfileUncheckedUpdateWithoutServiceAreasInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1503,6 +1541,7 @@ export type WorkerProfileCreateWithoutWorkerServicesInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1534,6 +1573,7 @@ export type WorkerProfileUncheckedCreateWithoutWorkerServicesInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1579,6 +1619,7 @@ export type WorkerProfileUpdateWithoutWorkerServicesInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1610,6 +1651,7 @@ export type WorkerProfileUncheckedUpdateWithoutWorkerServicesInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1639,6 +1681,7 @@ export type WorkerProfileCreateWithoutWorkerBookingsInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1670,6 +1713,7 @@ export type WorkerProfileUncheckedCreateWithoutWorkerBookingsInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1715,6 +1759,7 @@ export type WorkerProfileUpdateWithoutWorkerBookingsInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1746,6 +1791,7 @@ export type WorkerProfileUncheckedUpdateWithoutWorkerBookingsInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1775,6 +1821,7 @@ export type WorkerProfileCreateWithoutReviewsInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1806,6 +1853,7 @@ export type WorkerProfileUncheckedCreateWithoutReviewsInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1851,6 +1899,7 @@ export type WorkerProfileUpdateWithoutReviewsInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1882,6 +1931,7 @@ export type WorkerProfileUncheckedUpdateWithoutReviewsInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1911,6 +1961,7 @@ export type WorkerProfileCreateWithoutFavoritesInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1942,6 +1993,7 @@ export type WorkerProfileUncheckedCreateWithoutFavoritesInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1987,6 +2039,7 @@ export type WorkerProfileUpdateWithoutFavoritesInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2018,6 +2071,7 @@ export type WorkerProfileUncheckedUpdateWithoutFavoritesInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2047,6 +2101,7 @@ export type WorkerProfileCreateWithoutBlockedByInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2078,6 +2133,7 @@ export type WorkerProfileUncheckedCreateWithoutBlockedByInput = {
   verifiedBy?: string | null
   experienceYears?: number | null
   description?: string | null
+  coverPhoto?: string | null
   responseTimeMinutes?: number | null
   isOnline?: boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2123,6 +2179,7 @@ export type WorkerProfileUpdateWithoutBlockedByInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2154,6 +2211,7 @@ export type WorkerProfileUncheckedUpdateWithoutBlockedByInput = {
   verifiedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experienceYears?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responseTimeMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
   workingHoursJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2278,6 +2336,7 @@ export type WorkerProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   verifiedBy?: boolean
   experienceYears?: boolean
   description?: boolean
+  coverPhoto?: boolean
   responseTimeMinutes?: boolean
   isOnline?: boolean
   workingHoursJson?: boolean
@@ -2311,6 +2370,7 @@ export type WorkerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   verifiedBy?: boolean
   experienceYears?: boolean
   description?: boolean
+  coverPhoto?: boolean
   responseTimeMinutes?: boolean
   isOnline?: boolean
   workingHoursJson?: boolean
@@ -2335,6 +2395,7 @@ export type WorkerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   verifiedBy?: boolean
   experienceYears?: boolean
   description?: boolean
+  coverPhoto?: boolean
   responseTimeMinutes?: boolean
   isOnline?: boolean
   workingHoursJson?: boolean
@@ -2359,6 +2420,7 @@ export type WorkerProfileSelectScalar = {
   verifiedBy?: boolean
   experienceYears?: boolean
   description?: boolean
+  coverPhoto?: boolean
   responseTimeMinutes?: boolean
   isOnline?: boolean
   workingHoursJson?: boolean
@@ -2370,7 +2432,7 @@ export type WorkerProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WorkerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "cnicFront" | "cnicBack" | "cnicNumber" | "verificationStatus" | "verificationNotes" | "verifiedAt" | "verifiedBy" | "experienceYears" | "description" | "responseTimeMinutes" | "isOnline" | "workingHoursJson" | "languages" | "completedJobs" | "avgRating" | "totalReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["workerProfile"]>
+export type WorkerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "cnicFront" | "cnicBack" | "cnicNumber" | "verificationStatus" | "verificationNotes" | "verifiedAt" | "verifiedBy" | "experienceYears" | "description" | "coverPhoto" | "responseTimeMinutes" | "isOnline" | "workingHoursJson" | "languages" | "completedJobs" | "avgRating" | "totalReviews" | "createdAt" | "updatedAt", ExtArgs["result"]["workerProfile"]>
 export type WorkerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   portfolio?: boolean | Prisma.WorkerProfile$portfolioArgs<ExtArgs>
@@ -2415,6 +2477,7 @@ export type $WorkerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     verifiedBy: string | null
     experienceYears: number | null
     description: string | null
+    coverPhoto: string | null
     responseTimeMinutes: number | null
     isOnline: boolean
     workingHoursJson: runtime.JsonValue | null
@@ -2867,6 +2930,7 @@ export interface WorkerProfileFieldRefs {
   readonly verifiedBy: Prisma.FieldRef<"WorkerProfile", 'String'>
   readonly experienceYears: Prisma.FieldRef<"WorkerProfile", 'Int'>
   readonly description: Prisma.FieldRef<"WorkerProfile", 'String'>
+  readonly coverPhoto: Prisma.FieldRef<"WorkerProfile", 'String'>
   readonly responseTimeMinutes: Prisma.FieldRef<"WorkerProfile", 'Int'>
   readonly isOnline: Prisma.FieldRef<"WorkerProfile", 'Boolean'>
   readonly workingHoursJson: Prisma.FieldRef<"WorkerProfile", 'Json'>

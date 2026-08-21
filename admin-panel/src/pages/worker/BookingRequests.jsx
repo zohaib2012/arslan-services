@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import StatusBadge from '../../components/StatusBadge';
 import { Clock, Briefcase, Loader2, MapPin } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 export default function BookingRequests() {
   const [bookings, setBookings] = useState([]);
@@ -24,6 +25,7 @@ export default function BookingRequests() {
 
   return (
     <div className="animate-fade-in">
+      <BackButton to="/worker/dashboard" className="mb-4" />
       <h1 className="font-display text-2xl font-extrabold text-ink-900 mb-6">Booking Requests</h1>
 
       {loading ? (

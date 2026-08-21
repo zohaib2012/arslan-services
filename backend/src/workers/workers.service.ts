@@ -16,7 +16,7 @@ export class WorkersService {
   constructor(private prisma: PrismaService) {}
 
   async getWorkers(query: any) {
-    const { serviceId, city, search, rating, page = 1, limit = 20 } = query;
+    const { serviceId, categoryId, city, search, rating, page = 1, limit = 20 } = query;
     const skip = (Number(page) - 1) * Number(limit);
 
     const where: any = {
@@ -26,6 +26,8 @@ export class WorkersService {
 
     if (serviceId) {
       where.workerServices = { some: { serviceId } };
+    } else if (categoryId) {
+      where.workerServices = { some: { service: { categoryId } } };
     }
 
     if (city) {
@@ -336,18 +338,40 @@ export class WorkersService {
 
     await this.prisma.workerService.deleteMany({ where: { workerId: profile.id } });
 
-    if (dto.serviceIds.length > 0) {
-      await this.prisma.workerService.createMany({
-        data: dto.serviceIds.map((serviceId) => ({
-          workerId: profile.id,
-          serviceId,
-        })),
-      });
+    const prices = dto.prices || {};
+    const priceFor = (serviceId: string) => {
+      const p = prices[serviceId];
+      if (!p) return { priceMin: undefined, priceMax: undefined };
+      return {
+        priceMin: p.min != null && !Number.isNaN(Number(p.min)) ? Number(p.min) : undefined,
+        priceMax: p.max != null && !Number.isNaN(Number(p.max)) ? Number(p.max) : undefined,
+      };
+    };
+
+    const standard = (dto.serviceIds || []).map((serviceId) => ({
+      workerId: profile.id,
+      serviceId,
+      ...priceFor(serviceId),
+    }));
+
+    const custom = (dto.customServices || [])
+      .map((name) => name.trim())
+      .filter(Boolean)
+      .map((name) => ({
+        workerId: profile.id,
+        serviceId: null,
+        customServiceName: name,
+      }));
+
+    const rows = [...standard, ...custom];
+
+    if (rows.length > 0) {
+      await this.prisma.workerService.createMany({ data: rows });
     }
 
     return this.prisma.workerService.findMany({
       where: { workerId: profile.id },
-      include: { service: true },
+      include: { service: { include: { category: true } } },
     });
   }
 

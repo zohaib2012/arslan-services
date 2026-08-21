@@ -41,6 +41,7 @@ export type ServiceMinAggregateOutputType = {
   nameUr: string | null
   slug: string | null
   iconUrl: string | null
+  imageUrl: string | null
   descriptionEn: string | null
   descriptionUr: string | null
   isActive: boolean | null
@@ -56,6 +57,7 @@ export type ServiceMaxAggregateOutputType = {
   nameUr: string | null
   slug: string | null
   iconUrl: string | null
+  imageUrl: string | null
   descriptionEn: string | null
   descriptionUr: string | null
   isActive: boolean | null
@@ -71,6 +73,7 @@ export type ServiceCountAggregateOutputType = {
   nameUr: number
   slug: number
   iconUrl: number
+  imageUrl: number
   descriptionEn: number
   descriptionUr: number
   isActive: number
@@ -96,6 +99,7 @@ export type ServiceMinAggregateInputType = {
   nameUr?: true
   slug?: true
   iconUrl?: true
+  imageUrl?: true
   descriptionEn?: true
   descriptionUr?: true
   isActive?: true
@@ -111,6 +115,7 @@ export type ServiceMaxAggregateInputType = {
   nameUr?: true
   slug?: true
   iconUrl?: true
+  imageUrl?: true
   descriptionEn?: true
   descriptionUr?: true
   isActive?: true
@@ -126,6 +131,7 @@ export type ServiceCountAggregateInputType = {
   nameUr?: true
   slug?: true
   iconUrl?: true
+  imageUrl?: true
   descriptionEn?: true
   descriptionUr?: true
   isActive?: true
@@ -228,6 +234,7 @@ export type ServiceGroupByOutputType = {
   nameUr: string
   slug: string
   iconUrl: string | null
+  imageUrl: string | null
   descriptionEn: string | null
   descriptionUr: string | null
   isActive: boolean
@@ -266,6 +273,7 @@ export type ServiceWhereInput = {
   nameUr?: Prisma.StringFilter<"Service"> | string
   slug?: Prisma.StringFilter<"Service"> | string
   iconUrl?: Prisma.StringNullableFilter<"Service"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionEn?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionUr?: Prisma.StringNullableFilter<"Service"> | string | null
   isActive?: Prisma.BoolFilter<"Service"> | boolean
@@ -284,6 +292,7 @@ export type ServiceOrderByWithRelationInput = {
   nameUr?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   iconUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   descriptionUr?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -305,6 +314,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   nameEn?: Prisma.StringFilter<"Service"> | string
   nameUr?: Prisma.StringFilter<"Service"> | string
   iconUrl?: Prisma.StringNullableFilter<"Service"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionEn?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionUr?: Prisma.StringNullableFilter<"Service"> | string | null
   isActive?: Prisma.BoolFilter<"Service"> | boolean
@@ -323,6 +333,7 @@ export type ServiceOrderByWithAggregationInput = {
   nameUr?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   iconUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   descriptionUr?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -346,6 +357,7 @@ export type ServiceScalarWhereWithAggregatesInput = {
   nameUr?: Prisma.StringWithAggregatesFilter<"Service"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Service"> | string
   iconUrl?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   descriptionEn?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   descriptionUr?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"Service"> | boolean
@@ -360,6 +372,7 @@ export type ServiceCreateInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -378,6 +391,7 @@ export type ServiceUncheckedCreateInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -394,6 +408,7 @@ export type ServiceUpdateInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -412,6 +427,7 @@ export type ServiceUncheckedUpdateInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -429,6 +445,7 @@ export type ServiceCreateManyInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -443,6 +460,7 @@ export type ServiceUpdateManyMutationInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -458,6 +476,7 @@ export type ServiceUncheckedUpdateManyInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -483,6 +502,7 @@ export type ServiceCountOrderByAggregateInput = {
   nameUr?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   iconUrl?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   descriptionUr?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -502,6 +522,7 @@ export type ServiceMaxOrderByAggregateInput = {
   nameUr?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   iconUrl?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   descriptionUr?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -517,6 +538,7 @@ export type ServiceMinOrderByAggregateInput = {
   nameUr?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   iconUrl?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   descriptionUr?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -527,6 +549,11 @@ export type ServiceMinOrderByAggregateInput = {
 
 export type ServiceSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
+}
+
+export type ServiceNullableScalarRelationFilter = {
+  is?: Prisma.ServiceWhereInput | null
+  isNot?: Prisma.ServiceWhereInput | null
 }
 
 export type ServiceScalarRelationFilter = {
@@ -582,10 +609,12 @@ export type ServiceCreateNestedOneWithoutWorkerServicesInput = {
   connect?: Prisma.ServiceWhereUniqueInput
 }
 
-export type ServiceUpdateOneRequiredWithoutWorkerServicesNestedInput = {
+export type ServiceUpdateOneWithoutWorkerServicesNestedInput = {
   create?: Prisma.XOR<Prisma.ServiceCreateWithoutWorkerServicesInput, Prisma.ServiceUncheckedCreateWithoutWorkerServicesInput>
   connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutWorkerServicesInput
   upsert?: Prisma.ServiceUpsertWithoutWorkerServicesInput
+  disconnect?: Prisma.ServiceWhereInput | boolean
+  delete?: Prisma.ServiceWhereInput | boolean
   connect?: Prisma.ServiceWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutWorkerServicesInput, Prisma.ServiceUpdateWithoutWorkerServicesInput>, Prisma.ServiceUncheckedUpdateWithoutWorkerServicesInput>
 }
@@ -610,6 +639,7 @@ export type ServiceCreateWithoutCategoryInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -626,6 +656,7 @@ export type ServiceUncheckedCreateWithoutCategoryInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -672,6 +703,7 @@ export type ServiceScalarWhereInput = {
   nameUr?: Prisma.StringFilter<"Service"> | string
   slug?: Prisma.StringFilter<"Service"> | string
   iconUrl?: Prisma.StringNullableFilter<"Service"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionEn?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionUr?: Prisma.StringNullableFilter<"Service"> | string | null
   isActive?: Prisma.BoolFilter<"Service"> | boolean
@@ -686,6 +718,7 @@ export type ServiceCreateWithoutWorkerServicesInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -703,6 +736,7 @@ export type ServiceUncheckedCreateWithoutWorkerServicesInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -734,6 +768,7 @@ export type ServiceUpdateWithoutWorkerServicesInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -751,6 +786,7 @@ export type ServiceUncheckedUpdateWithoutWorkerServicesInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -766,6 +802,7 @@ export type ServiceCreateWithoutBookingsInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -783,6 +820,7 @@ export type ServiceUncheckedCreateWithoutBookingsInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -814,6 +852,7 @@ export type ServiceUpdateWithoutBookingsInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -831,6 +870,7 @@ export type ServiceUncheckedUpdateWithoutBookingsInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -846,6 +886,7 @@ export type ServiceCreateManyCategoryInput = {
   nameUr: string
   slug: string
   iconUrl?: string | null
+  imageUrl?: string | null
   descriptionEn?: string | null
   descriptionUr?: string | null
   isActive?: boolean
@@ -860,6 +901,7 @@ export type ServiceUpdateWithoutCategoryInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -876,6 +918,7 @@ export type ServiceUncheckedUpdateWithoutCategoryInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -892,6 +935,7 @@ export type ServiceUncheckedUpdateManyWithoutCategoryInput = {
   nameUr?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   iconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionUr?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -947,6 +991,7 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   nameUr?: boolean
   slug?: boolean
   iconUrl?: boolean
+  imageUrl?: boolean
   descriptionEn?: boolean
   descriptionUr?: boolean
   isActive?: boolean
@@ -966,6 +1011,7 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   nameUr?: boolean
   slug?: boolean
   iconUrl?: boolean
+  imageUrl?: boolean
   descriptionEn?: boolean
   descriptionUr?: boolean
   isActive?: boolean
@@ -982,6 +1028,7 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   nameUr?: boolean
   slug?: boolean
   iconUrl?: boolean
+  imageUrl?: boolean
   descriptionEn?: boolean
   descriptionUr?: boolean
   isActive?: boolean
@@ -998,6 +1045,7 @@ export type ServiceSelectScalar = {
   nameUr?: boolean
   slug?: boolean
   iconUrl?: boolean
+  imageUrl?: boolean
   descriptionEn?: boolean
   descriptionUr?: boolean
   isActive?: boolean
@@ -1006,7 +1054,7 @@ export type ServiceSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "nameEn" | "nameUr" | "slug" | "iconUrl" | "descriptionEn" | "descriptionUr" | "isActive" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "nameEn" | "nameUr" | "slug" | "iconUrl" | "imageUrl" | "descriptionEn" | "descriptionUr" | "isActive" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   workerServices?: boolean | Prisma.Service$workerServicesArgs<ExtArgs>
@@ -1034,6 +1082,7 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     nameUr: string
     slug: string
     iconUrl: string | null
+    imageUrl: string | null
     descriptionEn: string | null
     descriptionUr: string | null
     isActive: boolean
@@ -1472,6 +1521,7 @@ export interface ServiceFieldRefs {
   readonly nameUr: Prisma.FieldRef<"Service", 'String'>
   readonly slug: Prisma.FieldRef<"Service", 'String'>
   readonly iconUrl: Prisma.FieldRef<"Service", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Service", 'String'>
   readonly descriptionEn: Prisma.FieldRef<"Service", 'String'>
   readonly descriptionUr: Prisma.FieldRef<"Service", 'String'>
   readonly isActive: Prisma.FieldRef<"Service", 'Boolean'>

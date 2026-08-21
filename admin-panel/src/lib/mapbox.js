@@ -16,11 +16,17 @@ export async function geocode(query) {
 }
 
 export async function reverseGeocode(lat, lng) {
-  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_TOKEN}&country=pk&limit=1`;
+  const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_TOKEN}&country=pk&limit=5`;
   const res = await fetch(url);
   const data = await res.json();
-  const f = data.features?.[0];
-  return f ? { placeName: f.place_name, center: f.center } : null;
+  const features = data.features || [];
+  if (!features.length) return null;
+
+  const addr = features.find((f) => f.place_type?.includes('address'));
+  const street = features.find((f) => f.place_type?.includes('street'));
+  const chosen = addr || street || features[0];
+
+  return { placeName: chosen.place_name, center: chosen.center, placeType: chosen.place_type };
 }
 
 export function calculateDistance(lat1, lng1, lat2, lng2) {

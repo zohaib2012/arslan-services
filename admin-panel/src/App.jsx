@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { getBrowserLocation, setStoredLocation } from './lib/location';
 import { Toaster } from 'react-hot-toast';
 
 import CustomerLayout from './layouts/CustomerLayout';
@@ -113,6 +115,12 @@ function PublicOnly({ children }) {
 }
 
 export default function App() {
+  useEffect(() => {
+    getBrowserLocation().then((loc) => {
+      if (loc) setStoredLocation(loc);
+    });
+  }, []);
+
   return (
     <BrowserRouter>
       <AuthProvider>

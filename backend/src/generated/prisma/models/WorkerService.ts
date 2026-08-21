@@ -20,14 +20,29 @@ export type WorkerServiceModel = runtime.Types.Result.DefaultSelection<Prisma.$W
 
 export type AggregateWorkerService = {
   _count: WorkerServiceCountAggregateOutputType | null
+  _avg: WorkerServiceAvgAggregateOutputType | null
+  _sum: WorkerServiceSumAggregateOutputType | null
   _min: WorkerServiceMinAggregateOutputType | null
   _max: WorkerServiceMaxAggregateOutputType | null
+}
+
+export type WorkerServiceAvgAggregateOutputType = {
+  priceMin: runtime.Decimal | null
+  priceMax: runtime.Decimal | null
+}
+
+export type WorkerServiceSumAggregateOutputType = {
+  priceMin: runtime.Decimal | null
+  priceMax: runtime.Decimal | null
 }
 
 export type WorkerServiceMinAggregateOutputType = {
   id: string | null
   workerId: string | null
   serviceId: string | null
+  customServiceName: string | null
+  priceMin: runtime.Decimal | null
+  priceMax: runtime.Decimal | null
   createdAt: Date | null
 }
 
@@ -35,6 +50,9 @@ export type WorkerServiceMaxAggregateOutputType = {
   id: string | null
   workerId: string | null
   serviceId: string | null
+  customServiceName: string | null
+  priceMin: runtime.Decimal | null
+  priceMax: runtime.Decimal | null
   createdAt: Date | null
 }
 
@@ -42,15 +60,31 @@ export type WorkerServiceCountAggregateOutputType = {
   id: number
   workerId: number
   serviceId: number
+  customServiceName: number
+  priceMin: number
+  priceMax: number
   createdAt: number
   _all: number
 }
 
 
+export type WorkerServiceAvgAggregateInputType = {
+  priceMin?: true
+  priceMax?: true
+}
+
+export type WorkerServiceSumAggregateInputType = {
+  priceMin?: true
+  priceMax?: true
+}
+
 export type WorkerServiceMinAggregateInputType = {
   id?: true
   workerId?: true
   serviceId?: true
+  customServiceName?: true
+  priceMin?: true
+  priceMax?: true
   createdAt?: true
 }
 
@@ -58,6 +92,9 @@ export type WorkerServiceMaxAggregateInputType = {
   id?: true
   workerId?: true
   serviceId?: true
+  customServiceName?: true
+  priceMin?: true
+  priceMax?: true
   createdAt?: true
 }
 
@@ -65,6 +102,9 @@ export type WorkerServiceCountAggregateInputType = {
   id?: true
   workerId?: true
   serviceId?: true
+  customServiceName?: true
+  priceMin?: true
+  priceMax?: true
   createdAt?: true
   _all?: true
 }
@@ -107,6 +147,18 @@ export type WorkerServiceAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: WorkerServiceAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: WorkerServiceSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: WorkerServiceMinAggregateInputType
@@ -137,6 +189,8 @@ export type WorkerServiceGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: WorkerServiceCountAggregateInputType | true
+  _avg?: WorkerServiceAvgAggregateInputType
+  _sum?: WorkerServiceSumAggregateInputType
   _min?: WorkerServiceMinAggregateInputType
   _max?: WorkerServiceMaxAggregateInputType
 }
@@ -144,9 +198,14 @@ export type WorkerServiceGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type WorkerServiceGroupByOutputType = {
   id: string
   workerId: string
-  serviceId: string
+  serviceId: string | null
+  customServiceName: string | null
+  priceMin: runtime.Decimal | null
+  priceMax: runtime.Decimal | null
   createdAt: Date
   _count: WorkerServiceCountAggregateOutputType | null
+  _avg: WorkerServiceAvgAggregateOutputType | null
+  _sum: WorkerServiceSumAggregateOutputType | null
   _min: WorkerServiceMinAggregateOutputType | null
   _max: WorkerServiceMaxAggregateOutputType | null
 }
@@ -172,16 +231,22 @@ export type WorkerServiceWhereInput = {
   NOT?: Prisma.WorkerServiceWhereInput | Prisma.WorkerServiceWhereInput[]
   id?: Prisma.UuidFilter<"WorkerService"> | string
   workerId?: Prisma.UuidFilter<"WorkerService"> | string
-  serviceId?: Prisma.UuidFilter<"WorkerService"> | string
+  serviceId?: Prisma.UuidNullableFilter<"WorkerService"> | string | null
+  customServiceName?: Prisma.StringNullableFilter<"WorkerService"> | string | null
+  priceMin?: Prisma.DecimalNullableFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.DecimalNullableFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkerService"> | Date | string
   worker?: Prisma.XOR<Prisma.WorkerProfileScalarRelationFilter, Prisma.WorkerProfileWhereInput>
-  service?: Prisma.XOR<Prisma.ServiceScalarRelationFilter, Prisma.ServiceWhereInput>
+  service?: Prisma.XOR<Prisma.ServiceNullableScalarRelationFilter, Prisma.ServiceWhereInput> | null
 }
 
 export type WorkerServiceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   workerId?: Prisma.SortOrder
-  serviceId?: Prisma.SortOrder
+  serviceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  customServiceName?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMin?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMax?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   worker?: Prisma.WorkerProfileOrderByWithRelationInput
   service?: Prisma.ServiceOrderByWithRelationInput
@@ -194,20 +259,28 @@ export type WorkerServiceWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.WorkerServiceWhereInput[]
   NOT?: Prisma.WorkerServiceWhereInput | Prisma.WorkerServiceWhereInput[]
   workerId?: Prisma.UuidFilter<"WorkerService"> | string
-  serviceId?: Prisma.UuidFilter<"WorkerService"> | string
+  serviceId?: Prisma.UuidNullableFilter<"WorkerService"> | string | null
+  customServiceName?: Prisma.StringNullableFilter<"WorkerService"> | string | null
+  priceMin?: Prisma.DecimalNullableFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.DecimalNullableFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkerService"> | Date | string
   worker?: Prisma.XOR<Prisma.WorkerProfileScalarRelationFilter, Prisma.WorkerProfileWhereInput>
-  service?: Prisma.XOR<Prisma.ServiceScalarRelationFilter, Prisma.ServiceWhereInput>
+  service?: Prisma.XOR<Prisma.ServiceNullableScalarRelationFilter, Prisma.ServiceWhereInput> | null
 }, "id" | "workerId_serviceId">
 
 export type WorkerServiceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   workerId?: Prisma.SortOrder
-  serviceId?: Prisma.SortOrder
+  serviceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  customServiceName?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMin?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMax?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.WorkerServiceCountOrderByAggregateInput
+  _avg?: Prisma.WorkerServiceAvgOrderByAggregateInput
   _max?: Prisma.WorkerServiceMaxOrderByAggregateInput
   _min?: Prisma.WorkerServiceMinOrderByAggregateInput
+  _sum?: Prisma.WorkerServiceSumOrderByAggregateInput
 }
 
 export type WorkerServiceScalarWhereWithAggregatesInput = {
@@ -216,54 +289,78 @@ export type WorkerServiceScalarWhereWithAggregatesInput = {
   NOT?: Prisma.WorkerServiceScalarWhereWithAggregatesInput | Prisma.WorkerServiceScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"WorkerService"> | string
   workerId?: Prisma.UuidWithAggregatesFilter<"WorkerService"> | string
-  serviceId?: Prisma.UuidWithAggregatesFilter<"WorkerService"> | string
+  serviceId?: Prisma.UuidNullableWithAggregatesFilter<"WorkerService"> | string | null
+  customServiceName?: Prisma.StringNullableWithAggregatesFilter<"WorkerService"> | string | null
+  priceMin?: Prisma.DecimalNullableWithAggregatesFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.DecimalNullableWithAggregatesFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkerService"> | Date | string
 }
 
 export type WorkerServiceCreateInput = {
   id?: string
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   worker: Prisma.WorkerProfileCreateNestedOneWithoutWorkerServicesInput
-  service: Prisma.ServiceCreateNestedOneWithoutWorkerServicesInput
+  service?: Prisma.ServiceCreateNestedOneWithoutWorkerServicesInput
 }
 
 export type WorkerServiceUncheckedCreateInput = {
   id?: string
   workerId: string
-  serviceId: string
+  serviceId?: string | null
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
 }
 
 export type WorkerServiceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   worker?: Prisma.WorkerProfileUpdateOneRequiredWithoutWorkerServicesNestedInput
-  service?: Prisma.ServiceUpdateOneRequiredWithoutWorkerServicesNestedInput
+  service?: Prisma.ServiceUpdateOneWithoutWorkerServicesNestedInput
 }
 
 export type WorkerServiceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   workerId?: Prisma.StringFieldUpdateOperationsInput | string
-  serviceId?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkerServiceCreateManyInput = {
   id?: string
   workerId: string
-  serviceId: string
+  serviceId?: string | null
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
 }
 
 export type WorkerServiceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkerServiceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   workerId?: Prisma.StringFieldUpdateOperationsInput | string
-  serviceId?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -286,13 +383,24 @@ export type WorkerServiceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   workerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
+  customServiceName?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type WorkerServiceAvgOrderByAggregateInput = {
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
 }
 
 export type WorkerServiceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   workerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
+  customServiceName?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -300,7 +408,15 @@ export type WorkerServiceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   workerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
+  customServiceName?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type WorkerServiceSumOrderByAggregateInput = {
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
 }
 
 export type WorkerServiceCreateNestedManyWithoutWorkerInput = {
@@ -389,13 +505,19 @@ export type WorkerServiceUncheckedUpdateManyWithoutServiceNestedInput = {
 
 export type WorkerServiceCreateWithoutWorkerInput = {
   id?: string
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
-  service: Prisma.ServiceCreateNestedOneWithoutWorkerServicesInput
+  service?: Prisma.ServiceCreateNestedOneWithoutWorkerServicesInput
 }
 
 export type WorkerServiceUncheckedCreateWithoutWorkerInput = {
   id?: string
-  serviceId: string
+  serviceId?: string | null
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
 }
 
@@ -431,12 +553,18 @@ export type WorkerServiceScalarWhereInput = {
   NOT?: Prisma.WorkerServiceScalarWhereInput | Prisma.WorkerServiceScalarWhereInput[]
   id?: Prisma.UuidFilter<"WorkerService"> | string
   workerId?: Prisma.UuidFilter<"WorkerService"> | string
-  serviceId?: Prisma.UuidFilter<"WorkerService"> | string
+  serviceId?: Prisma.UuidNullableFilter<"WorkerService"> | string | null
+  customServiceName?: Prisma.StringNullableFilter<"WorkerService"> | string | null
+  priceMin?: Prisma.DecimalNullableFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.DecimalNullableFilter<"WorkerService"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkerService"> | Date | string
 }
 
 export type WorkerServiceCreateWithoutServiceInput = {
   id?: string
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
   worker: Prisma.WorkerProfileCreateNestedOneWithoutWorkerServicesInput
 }
@@ -444,6 +572,9 @@ export type WorkerServiceCreateWithoutServiceInput = {
 export type WorkerServiceUncheckedCreateWithoutServiceInput = {
   id?: string
   workerId: string
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
 }
 
@@ -475,36 +606,54 @@ export type WorkerServiceUpdateManyWithWhereWithoutServiceInput = {
 
 export type WorkerServiceCreateManyWorkerInput = {
   id?: string
-  serviceId: string
+  serviceId?: string | null
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
 }
 
 export type WorkerServiceUpdateWithoutWorkerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  service?: Prisma.ServiceUpdateOneRequiredWithoutWorkerServicesNestedInput
+  service?: Prisma.ServiceUpdateOneWithoutWorkerServicesNestedInput
 }
 
 export type WorkerServiceUncheckedUpdateWithoutWorkerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  serviceId?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkerServiceUncheckedUpdateManyWithoutWorkerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  serviceId?: Prisma.StringFieldUpdateOperationsInput | string
+  serviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkerServiceCreateManyServiceInput = {
   id?: string
   workerId: string
+  customServiceName?: string | null
+  priceMin?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Date | string
 }
 
 export type WorkerServiceUpdateWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   worker?: Prisma.WorkerProfileUpdateOneRequiredWithoutWorkerServicesNestedInput
 }
@@ -512,12 +661,18 @@ export type WorkerServiceUpdateWithoutServiceInput = {
 export type WorkerServiceUncheckedUpdateWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   workerId?: Prisma.StringFieldUpdateOperationsInput | string
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WorkerServiceUncheckedUpdateManyWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   workerId?: Prisma.StringFieldUpdateOperationsInput | string
+  customServiceName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  priceMax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -527,60 +682,75 @@ export type WorkerServiceSelect<ExtArgs extends runtime.Types.Extensions.Interna
   id?: boolean
   workerId?: boolean
   serviceId?: boolean
+  customServiceName?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
   createdAt?: boolean
   worker?: boolean | Prisma.WorkerProfileDefaultArgs<ExtArgs>
-  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.WorkerService$serviceArgs<ExtArgs>
 }, ExtArgs["result"]["workerService"]>
 
 export type WorkerServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   workerId?: boolean
   serviceId?: boolean
+  customServiceName?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
   createdAt?: boolean
   worker?: boolean | Prisma.WorkerProfileDefaultArgs<ExtArgs>
-  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.WorkerService$serviceArgs<ExtArgs>
 }, ExtArgs["result"]["workerService"]>
 
 export type WorkerServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   workerId?: boolean
   serviceId?: boolean
+  customServiceName?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
   createdAt?: boolean
   worker?: boolean | Prisma.WorkerProfileDefaultArgs<ExtArgs>
-  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.WorkerService$serviceArgs<ExtArgs>
 }, ExtArgs["result"]["workerService"]>
 
 export type WorkerServiceSelectScalar = {
   id?: boolean
   workerId?: boolean
   serviceId?: boolean
+  customServiceName?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
   createdAt?: boolean
 }
 
-export type WorkerServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workerId" | "serviceId" | "createdAt", ExtArgs["result"]["workerService"]>
+export type WorkerServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workerId" | "serviceId" | "customServiceName" | "priceMin" | "priceMax" | "createdAt", ExtArgs["result"]["workerService"]>
 export type WorkerServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   worker?: boolean | Prisma.WorkerProfileDefaultArgs<ExtArgs>
-  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.WorkerService$serviceArgs<ExtArgs>
 }
 export type WorkerServiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   worker?: boolean | Prisma.WorkerProfileDefaultArgs<ExtArgs>
-  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.WorkerService$serviceArgs<ExtArgs>
 }
 export type WorkerServiceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   worker?: boolean | Prisma.WorkerProfileDefaultArgs<ExtArgs>
-  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.WorkerService$serviceArgs<ExtArgs>
 }
 
 export type $WorkerServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WorkerService"
   objects: {
     worker: Prisma.$WorkerProfilePayload<ExtArgs>
-    service: Prisma.$ServicePayload<ExtArgs>
+    service: Prisma.$ServicePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     workerId: string
-    serviceId: string
+    serviceId: string | null
+    customServiceName: string | null
+    priceMin: runtime.Decimal | null
+    priceMax: runtime.Decimal | null
     createdAt: Date
   }, ExtArgs["result"]["workerService"]>
   composites: {}
@@ -977,7 +1147,7 @@ readonly fields: WorkerServiceFieldRefs;
 export interface Prisma__WorkerServiceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   worker<T extends Prisma.WorkerProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkerProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__WorkerProfileClient<runtime.Types.Result.GetResult<Prisma.$WorkerProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  service<T extends Prisma.ServiceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceDefaultArgs<ExtArgs>>): Prisma.Prisma__ServiceClient<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  service<T extends Prisma.WorkerService$serviceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkerService$serviceArgs<ExtArgs>>): Prisma.Prisma__ServiceClient<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1010,6 +1180,9 @@ export interface WorkerServiceFieldRefs {
   readonly id: Prisma.FieldRef<"WorkerService", 'String'>
   readonly workerId: Prisma.FieldRef<"WorkerService", 'String'>
   readonly serviceId: Prisma.FieldRef<"WorkerService", 'String'>
+  readonly customServiceName: Prisma.FieldRef<"WorkerService", 'String'>
+  readonly priceMin: Prisma.FieldRef<"WorkerService", 'Decimal'>
+  readonly priceMax: Prisma.FieldRef<"WorkerService", 'Decimal'>
   readonly createdAt: Prisma.FieldRef<"WorkerService", 'DateTime'>
 }
     
@@ -1409,6 +1582,25 @@ export type WorkerServiceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many WorkerServices to delete.
    */
   limit?: number
+}
+
+/**
+ * WorkerService.service
+ */
+export type WorkerService$serviceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Service
+   */
+  select?: Prisma.ServiceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Service
+   */
+  omit?: Prisma.ServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  where?: Prisma.ServiceWhereInput
 }
 
 /**

@@ -40,12 +40,17 @@ export class BookingsService {
       where: {
         customerId,
         workerId: dto.workerId,
-        status: { in: ['PENDING', 'ACCEPTED'] },
+        OR: [
+          { status: 'ACCEPTED' },
+          { status: 'PENDING', expiryAt: { gt: new Date() } },
+        ],
       },
     });
 
     if (existing) {
-      throw new BadRequestException('You already have an active booking with this worker');
+      throw new BadRequestException(
+        'You already have an active booking with this worker. Please wait for it to complete or cancel it first.',
+      );
     }
 
     const expiryMinutes = dto.bookingType === 'EMERGENCY' ? 15 : 60;

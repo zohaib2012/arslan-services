@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import InstallPrompt from '../components/InstallPrompt';
+import SupportButton from '../components/SupportButton';
 
 const navItems = [
   { path: '/', label: 'Home', exact: true },
@@ -67,13 +68,13 @@ export default function CustomerLayout({ isDashboard = false }) {
   };
 
   const Logo = ({ dark = false }) => (
-    <Link to="/" className="flex items-center gap-2">
+      <Link to="/" className="flex items-center gap-2">
       <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center shadow-md shadow-brand-600/20">
         <Wrench className="text-white" size={18} />
       </div>
       <div className="leading-none">
-        <span className={`block text-base font-extrabold tracking-tight ${dark ? 'text-white' : 'text-brand-800'}`}>KAR SAAZ</span>
-        <span className={`block text-[9px] font-semibold tracking-[0.22em] ${dark ? 'text-emerald-300/80' : 'text-brand-600/80'}`}>MAHIR COMPANY</span>
+        <span className={`block text-base font-extrabold tracking-tight ${dark ? 'text-white' : 'text-brand-800'}`}>Easy service</span>
+        <span className={`block text-[9px] font-semibold tracking-[0.22em] ${dark ? 'text-emerald-300/80' : 'text-brand-600/80'}`}>HOME SERVICES</span>
       </div>
     </Link>
   );
@@ -238,7 +239,7 @@ export default function CustomerLayout({ isDashboard = false }) {
       </header>
 
       <main className={`flex-1 ${isDashboard ? 'bg-gray-50' : ''}`}>
-        <div className="max-w-7xl mx-auto w-full md:px-4 sm:md:px-6">
+        <div className="max-w-7xl mx-auto w-full px-0 md:px-4 lg:px-6 pb-28 md:pb-0">
           <Outlet />
         </div>
       </main>
@@ -252,7 +253,7 @@ export default function CustomerLayout({ isDashboard = false }) {
                 <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
                   <Wrench className="text-emerald-300" size={18} />
                 </div>
-                <span className="text-base font-bold">KAR SAAZ</span>
+                <span className="text-base font-bold">Easy service</span>
               </div>
               <p className="text-sm text-emerald-100/60 leading-relaxed">
                 Pakistan's trusted home services marketplace. Verified professionals at your doorstep.
@@ -286,7 +287,7 @@ export default function CustomerLayout({ isDashboard = false }) {
             </div>
           </div>
           <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-emerald-100/40">© {new Date().getFullYear()} KAR SAAZ. All rights reserved.</p>
+            <p className="text-xs text-emerald-100/40">© {new Date().getFullYear()} Easy service. All rights reserved.</p>
             <div className="flex items-center gap-4 text-xs text-emerald-100/40">
               <Link to="/privacy" className="hover:text-emerald-300/60 transition-colors">Privacy Policy</Link>
               <Link to="/terms" className="hover:text-emerald-300/60 transition-colors">Terms of Service</Link>
@@ -295,37 +296,40 @@ export default function CustomerLayout({ isDashboard = false }) {
         </div>
       </footer>
 
+      <SupportButton />
+
       {/* Mobile bottom navigation */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-safe">
-        <div className="flex items-center justify-around h-[4.25rem] px-2">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-around h-16 px-2">
           {bottomTabs.map((tab) => {
             const Icon = tab.icon;
             const active = isBottomActive(tab);
             if (tab.center) {
               return (
-                <NavLink
+                <button
                   key={tab.path}
-                  to={tab.path}
-                  className="relative -top-5 flex flex-col items-center justify-center"
+                  type="button"
+                  onClick={() => navigate(tab.path)}
+                  className="relative -top-5 flex flex-col items-center justify-center active:scale-95"
                 >
                   <span className="w-14 h-14 rounded-full gradient-brand shadow-glow flex items-center justify-center text-white">
                     <Sparkles size={24} />
                   </span>
-                </NavLink>
+                </button>
               );
             }
             return (
-              <NavLink
+              <button
                 key={tab.path}
-                to={tab.path}
-                end={tab.exact}
-                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] py-1 rounded-xl transition-colors ${
+                type="button"
+                onClick={() => navigate(tab.path)}
+                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] h-full py-1 rounded-xl transition-colors active:scale-95 ${
                   active ? 'text-brand-700' : 'text-gray-400'
                 }`}
               >
                 <Icon size={22} strokeWidth={active ? 2.5 : 2} />
                 <span className="text-[10px] font-medium">{tab.label}</span>
-              </NavLink>
+              </button>
             );
           })}
         </div>

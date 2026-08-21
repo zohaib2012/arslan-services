@@ -1,9 +1,10 @@
-import { ScrollText } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ScrollText, ChevronLeft } from 'lucide-react';
 
 const sections = [
   {
     title: '1. Introduction',
-    content: `Welcome to Easyservice ("we," "our," or "us"). By accessing or using our website, mobile application, and services (collectively, the "Platform"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, please do not use our Platform.
+    content: `Welcome to Easy service ("we," "our," or "us"). By accessing or using our website, mobile application, and services (collectively, the "Platform"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, please do not use our Platform.
 
 These Terms apply to all users of the Platform, including customers, workers, and visitors. We reserve the right to modify these Terms at any time, and continued use of the Platform constitutes acceptance of any changes.`,
   },
@@ -22,7 +23,7 @@ We reserve the right to suspend or terminate any account that violates these Ter
   },
   {
     title: '3. Bookings & Services',
-    content: `Easyservice connects customers ("Customers") with independent service providers ("Workers"). We do not employ Workers — they are independent contractors who offer their services through our Platform.
+    content: `Easy service connects customers ("Customers") with independent service providers ("Workers"). We do not employ Workers — they are independent contractors who offer their services through our Platform.
 
 Service Listings: Workers list their services, rates, and availability. We verify worker credentials but do not guarantee service quality.
 Booking Confirmation: A booking is confirmed once the Customer submits a request and the Worker accepts it.
@@ -75,7 +76,7 @@ Violation of these rules may result in immediate account termination and legal a
   },
   {
     title: '7. Limitation of Liability',
-    content: `To the fullest extent permitted by law, Easyservice shall not be liable for:
+    content: `To the fullest extent permitted by law, Easy service shall not be liable for:
 
 • Any damages arising from services performed by Workers.
 • Loss of data, profits, or business interruption.
@@ -89,9 +90,9 @@ We provide the Platform on an "as is" and "as available" basis without warrantie
   },
   {
     title: '8. Intellectual Property',
-    content: `All content on the Platform — including text, graphics, logos, icons, images, software, and design — is the property of Easyservice or its licensors and is protected by copyright, trademark, and intellectual property laws.
+    content: `All content on the Platform — including text, graphics, logos, icons, images, software, and design — is the property of Easy service or its licensors and is protected by copyright, trademark, and intellectual property laws.
 
-Users may not reproduce, distribute, modify, or create derivative works from any Platform content without express written permission. The "Easyservice" name and logo are registered trademarks.`,
+Users may not reproduce, distribute, modify, or create derivative works from any Platform content without express written permission. The "Easy service" name and logo are registered trademarks.`,
   },
   {
     title: '9. Privacy',
@@ -126,24 +127,33 @@ We aim to respond to all inquiries within 2 business days.`,
 ];
 
 export default function TermsAndConditions() {
+  const navigate = useNavigate();
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in pb-6 md:pb-0">
+      {/* Mobile header */}
+      <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 py-3 flex items-center gap-3">
+        <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-full">
+          <ChevronLeft size={24} />
+        </button>
+        <h1 className="font-display font-bold text-ink-900">Terms & Conditions</h1>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 gradient-brand">
           <div className="absolute inset-0 bg-dots opacity-30" />
           <div className="absolute -top-32 -right-24 w-96 h-96 rounded-full bg-brand-400/20 blur-3xl" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-emerald-50 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold text-emerald-50 mb-4 md:mb-6">
               <ScrollText size={14} className="text-gold-400" />
               Legal
             </div>
-            <h1 className="font-display text-4xl md:text-6xl font-extrabold leading-[1.08] tracking-tight text-white">
+            <h1 className="font-display text-3xl md:text-6xl font-extrabold leading-[1.08] tracking-tight text-white">
               Terms & <span className="text-gradient-gold">Conditions</span>
             </h1>
-            <p className="mt-6 text-emerald-50/80 text-lg">
+            <p className="mt-4 md:mt-6 text-emerald-50/80 text-sm md:text-lg">
               Last updated: January 1, 2025
             </p>
           </div>
@@ -154,21 +164,21 @@ export default function TermsAndConditions() {
       </section>
 
       {/* Content */}
-      <section className="py-16 max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="space-y-6">
+      <section className="py-10 md:py-16 max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="space-y-4 md:space-y-6">
           {sections.map((section, i) => (
-            <div key={i} className="card-premium p-6 md:p-8">
-              <h2 className="font-display text-xl font-extrabold text-ink-900 mb-4">{section.title}</h2>
+            <div key={i} className="card-premium p-5 md:p-8">
+              <h2 className="font-display text-lg md:text-xl font-extrabold text-ink-900 mb-3 md:mb-4">{section.title}</h2>
               {section.content.split('\n').filter(Boolean).map((line, j) => {
                 if (line.startsWith('• ')) {
                   return (
-                    <p key={j} className="text-sm text-gray-500 leading-relaxed pl-3 mb-1">
+                    <p key={j} className="text-xs md:text-sm text-gray-500 leading-relaxed pl-3 mb-1">
                       {line}
                     </p>
                   );
                 }
                 return (
-                  <p key={j} className="text-sm text-gray-500 leading-relaxed mb-3">
+                  <p key={j} className="text-xs md:text-sm text-gray-500 leading-relaxed mb-2 md:mb-3">
                     {line}
                   </p>
                 );

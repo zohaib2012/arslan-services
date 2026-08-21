@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import WorkerCard from '../../components/WorkerCard';
 import { Heart, Loader2 } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
@@ -35,6 +36,7 @@ export default function Favorites() {
 
   return (
     <div className="animate-fade-in">
+      <BackButton to="/dashboard" className="mb-4" />
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Favorite Workers</h1>
       {favorites.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
@@ -46,7 +48,7 @@ export default function Favorites() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {favorites.map((w) => (
             <WorkerCard key={w.id} worker={w} />
           ))}

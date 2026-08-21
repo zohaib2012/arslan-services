@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import StatusBadge from '../../components/StatusBadge';
 import { Briefcase, Loader2 } from 'lucide-react';
+import BackButton from '../../components/BackButton';
 
 const filters = [
   { value: '', label: 'All' },
@@ -34,6 +35,7 @@ export default function MyJobs() {
 
   return (
     <div className="animate-fade-in">
+      <BackButton to="/worker/dashboard" className="mb-4" />
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="font-display text-2xl font-extrabold text-ink-900">My Jobs</h1>

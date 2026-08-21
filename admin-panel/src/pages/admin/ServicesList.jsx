@@ -9,7 +9,7 @@ export default function ServicesList() {
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '' });
+  const [form, setForm] = useState({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '', imageUrl: '' });
 
   const fetched = useRef(false);
 
@@ -32,7 +32,7 @@ export default function ServicesList() {
       const slug = form.nameEn.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
       if (editing) await api.put(`/services/${editing.id}`, { ...form, slug });
       else await api.post('/services', { ...form, slug });
-      setShowModal(false); setEditing(null); setForm({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '' }); loadData(); toast.success('Saved');
+      setShowModal(false); setEditing(null); setForm({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '', imageUrl: '' }); loadData(); toast.success('Saved');
     } catch { toast.error('Failed to save'); }
   };
 
@@ -49,7 +49,7 @@ export default function ServicesList() {
     setEditing(s);
     setForm({
       nameEn: s.nameEn, nameUr: s.nameUr, descriptionEn: s.descriptionEn || '',
-      descriptionUr: s.descriptionUr || '', categoryId: s.categoryId || '', iconUrl: s.iconUrl || '',
+      descriptionUr: s.descriptionUr || '', categoryId: s.categoryId || '', iconUrl: s.iconUrl || '', imageUrl: s.imageUrl || '',
     });
     setShowModal(true);
   };
@@ -63,7 +63,7 @@ export default function ServicesList() {
         subtitle={`${services.length} available services`}
       >
           <button
-          onClick={() => { setEditing(null); setForm({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '' }); setShowModal(true); }}
+          onClick={() => { setEditing(null); setForm({ nameEn: '', nameUr: '', descriptionEn: '', descriptionUr: '', categoryId: '', iconUrl: '', imageUrl: '' }); setShowModal(true); }}
           className="btn-primary flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium"
         >
           <Plus size={18} /> Add Service
@@ -80,8 +80,8 @@ export default function ServicesList() {
           {services.map(s => (
             <div key={s.id} className={`card-premium p-5 group ${!s.isActive ? 'opacity-60' : ''}`}>
               <div className="flex items-start gap-3 mb-3">
-                {s.iconUrl ? (
-                  <img src={s.iconUrl} alt="" className="w-14 h-14 rounded-xl object-cover border border-gray-100 shrink-0" />
+                {s.imageUrl || s.iconUrl ? (
+                  <img src={s.imageUrl || s.iconUrl} alt="" className="w-14 h-14 rounded-xl object-cover border border-gray-100 shrink-0" />
                 ) : (
                   <div className="w-14 h-14 rounded-xl gradient-brand-soft flex items-center justify-center text-brand-600 font-bold text-lg shadow-sm shrink-0">
                     {(s.nameEn || '?').charAt(0).toUpperCase()}
@@ -161,6 +161,14 @@ export default function ServicesList() {
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
             {form.iconUrl && (
               <img src={form.iconUrl} alt="" className="w-16 h-16 rounded-xl object-cover mt-2 border border-gray-100" onError={e => { e.target.style.display = 'none'; }} />
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-ink-800 mb-1.5">Card Image URL <span className="text-gray-400 font-normal">(large photo for the website)</span></label>
+            <input placeholder="https://example.com/service.jpg" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})}
+              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl ring-focus outline-none text-sm" />
+            {form.imageUrl && (
+              <img src={form.imageUrl} alt="" className="w-24 h-16 rounded-xl object-cover mt-2 border border-gray-100" onError={e => { e.target.style.display = 'none'; }} />
             )}
           </div>
           <div className="flex gap-3 pt-2">
