@@ -78,12 +78,6 @@ export class WorkersService {
     const workers = await this.prisma.workerProfile.findMany({
       where: {
         verificationStatus: 'VERIFIED',
-        serviceAreas: {
-          some: {
-            latitude: { not: null },
-            longitude: { not: null },
-          },
-        },
       },
       include: {
         user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
@@ -93,16 +87,27 @@ export class WorkersService {
       },
     });
 
-    return workers.filter((worker) => {
-      return worker.serviceAreas.some((area) => {
-        if (!area.latitude || !area.longitude) return false;
+    const scored = workers.map((worker) => {
+      let nearest = Infinity;
+      let inRadius = false;
+      for (const area of worker.serviceAreas || []) {
+        if (!area.latitude || !area.longitude) continue;
         const distance = this.calculateDistance(
           lat, lng,
           Number(area.latitude), Number(area.longitude),
         );
-        return distance <= (area.radiusKm || radiusKm);
-      });
+        if (distance < nearest) nearest = distance;
+        if (distance <= (area.radiusKm || radiusKm)) inRadius = true;
+      }
+      return { worker, nearest, inRadius };
     });
+
+    return scored
+      .sort((a, b) => {
+        if (a.inRadius !== b.inRadius) return a.inRadius ? -1 : 1;
+        return a.nearest - b.nearest;
+      })
+      .map((s) => s.worker);
   }
 
   async searchWorkers(query: string) {
