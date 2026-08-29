@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import { formatRating, formatPriceRange } from '../../components/WorkerCard';

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, Briefcase, Calendar, FolderTree,
   AlertTriangle, Image, Bell, LogOut, Menu, X, TrendingUp, FileText,
   Activity, Shield, Settings, MessageSquare, ChevronDown,
-  UserCircle, Building2, Wrench
+  UserCircle, Wrench
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
@@ -88,11 +88,8 @@ export default function AdminLayout() {
       }`}>
         <div className="flex items-center justify-between h-16 px-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-              <Building2 className="text-white" size={20} />
-            </div>
+            <img src="/icons/logo.png" alt="Easyservice" className="h-9 w-auto object-contain" />
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Easyservice</h1>
               <p className="text-[10px] text-emerald-300/80 font-medium uppercase tracking-widest">Admin Panel</p>
             </div>
           </div>

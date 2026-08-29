@@ -2,7 +2,7 @@ import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard, Calendar, MessageSquare, Heart, AlertTriangle,
-  Bell, User, Ban, LogOut, Menu, X, ChevronDown, Home, Wrench,
+  Bell, User, Ban, LogOut, Menu, X, ChevronDown, Home,
 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
@@ -85,11 +85,8 @@ export default function CustomerDashboardLayout() {
       }`}>
         <div className="flex items-center justify-between h-16 px-6 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-              <Wrench className="text-emerald-300" size={20} />
-            </div>
+            <img src="/icons/logo.png" alt="Easy service" className="h-9 w-auto object-contain" />
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Easy service</h1>
               <p className="text-[10px] text-emerald-300/80 font-medium uppercase tracking-widest">Customer Panel</p>
             </div>
           </div>

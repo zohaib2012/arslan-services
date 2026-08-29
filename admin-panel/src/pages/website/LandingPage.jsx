@@ -5,11 +5,15 @@ import WorkerCard from '../../components/WorkerCard';
 import { CardSkeleton } from '../../components/SkeletonLoader';
 import { getStoredLocation, calculateDistance } from '../../lib/location';
 import {
-  MapPin, Star, ArrowRight, Sparkles, Shield, Clock, Search,
+  MapPin, Star, ArrowRight, Shield, Clock, Search,
   Wrench, Zap, PhoneCall, Wallet, Home, BadgeCheck, ChevronRight,
   Droplets, Hammer, Paintbrush, Car, Grid3X3, Gift, BadgePercent,
-  Lock, Mic, ArrowUpRight,
+  Lock, Mic, ArrowUpRight, MessagesSquare, Sparkles,
 } from 'lucide-react';
+import { GeminiIcon, WhatsAppIcon } from '../../components/BrandIcons';
+
+const WHATSAPP_NUMBER = '923001234567';
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I need a service booked via Easyservice.')}`;
 
 const POPULAR_SEARCHES = [
   { label: 'Plumber near me', icon: Droplets, query: 'plumber' },
@@ -151,7 +155,7 @@ export default function LandingPage() {
                 <div className="absolute -left-10 bottom-0 w-32 h-32 rounded-full bg-brand-400/20 blur-2xl" />
                 <div className="relative">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-xs font-semibold mb-4">
-                    <Sparkles size={14} className="text-gold-400" />
+                    <GeminiIcon size={16} />
                     Gemini AI Assistant
                     <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px]">Beta</span>
                   </div>
@@ -185,6 +189,22 @@ export default function LandingPage() {
                       <ArrowRight size={20} />
                     </button>
                   </form>
+                  <div className="mt-4 md:mt-5 grid grid-cols-2 gap-2.5 md:gap-3">
+                    <button
+                      onClick={() => navigate('/search')}
+                      className="flex items-center justify-center gap-2 px-4 py-3 md:py-3.5 rounded-2xl bg-gradient-to-r from-gold-400 to-gold-500 text-white text-sm font-bold shadow-lg shadow-gold-400/30 active:scale-95 transition-all hover:brightness-110"
+                    >
+                      <MessagesSquare size={16} /> Book a Service
+                    </button>
+                    <a
+                      href={WHATSAPP_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 px-4 py-3 md:py-3.5 rounded-2xl bg-[#25D366] text-white text-sm font-bold shadow-lg shadow-[#25D366]/30 active:scale-95 transition-all hover:brightness-110"
+                    >
+                      <WhatsAppIcon size={16} /> WhatsApp Us
+                    </a>
+                  </div>
                 </div>
               </div>
 
@@ -279,8 +299,8 @@ export default function LandingPage() {
             <h2 className="font-display text-lg md:text-3xl font-extrabold text-ink-900 md:mt-1.5">Popular Services</h2>
             <p className="hidden md:block text-sm text-gray-500 mt-1.5">Book a verified professional for any service near you.</p>
           </div>
-          <Link to="/search" className="inline-flex items-center gap-1 text-xs md:text-sm font-bold text-brand-700 hover:text-brand-800">
-            View All <ChevronRight size={14} />
+          <Link to="/search" className="inline-flex items-center gap-1.5 px-4 py-2 md:px-5 md:py-2.5 rounded-full gradient-brand text-white text-xs md:text-sm font-bold shadow-glow active:scale-95 transition-all hover:brightness-110 group">
+            View All <ChevronRight size={15} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
@@ -425,8 +445,8 @@ export default function LandingPage() {
                 </p>
               )}
             </div>
-            <Link to="/workers/nearby" className="inline-flex items-center gap-1 text-xs md:text-sm font-bold text-brand-700 hover:text-brand-800 group">
-              See all <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            <Link to="/workers/nearby" className="inline-flex items-center gap-1.5 px-4 py-2 md:px-5 md:py-2.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs md:text-sm font-bold hover:bg-brand-100 active:scale-95 transition-all group">
+              See all <ChevronRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
@@ -497,12 +517,20 @@ export default function LandingPage() {
               Join thousands of happy customers. Book a verified professional today — or start earning as a worker.
             </p>
             <div className="mt-6 md:mt-9 flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/workers/nearby" className="btn-gold px-6 md:px-8 py-3.5 md:py-4 rounded-2xl font-bold text-sm md:text-base">
-                Hire a Professional
+              <Link to="/workers/nearby" className="inline-flex items-center justify-center gap-2 btn-gold px-6 md:px-8 py-3.5 md:py-4 rounded-2xl font-bold text-sm md:text-base active:scale-95 transition-all">
+                <Wrench size={18} /> Hire a Professional
               </Link>
-              <Link to="/auth/register" className="px-6 md:px-8 py-3.5 md:py-4 rounded-2xl glass font-semibold hover:bg-white/15 transition-colors text-sm md:text-base">
-                Become a Worker
+              <Link to="/auth/register" className="inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3.5 md:py-4 rounded-2xl bg-white text-brand-700 font-bold shadow-lg shadow-black/10 hover:bg-brand-50 active:scale-95 transition-all text-sm md:text-base">
+                <BadgeCheck size={18} /> Become a Worker
               </Link>
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 md:px-8 py-3.5 md:py-4 rounded-2xl bg-[#25D366] text-white font-bold shadow-lg shadow-[#25D366]/30 hover:brightness-110 active:scale-95 transition-all text-sm md:text-base"
+              >
+                <WhatsAppIcon size={18} /> Chat with Us
+              </a>
             </div>
           </div>
         </div>

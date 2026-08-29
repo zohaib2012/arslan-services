@@ -62,19 +62,27 @@ export class BookingsService {
       },
     });
 
-    await this.bookingsQueue.add(
-      'expire-booking',
-      { bookingId: booking.id },
-      { delay: expiryMinutes * 60 * 1000 },
-    );
+    try {
+      await this.bookingsQueue.add(
+        'expire-booking',
+        { bookingId: booking.id },
+        { delay: expiryMinutes * 60 * 1000 },
+      );
+    } catch (err) {
+      console.error('Failed to schedule booking expiry job:', (err as Error)?.message || err);
+    }
 
     if (worker.user.fcmToken) {
-      await this.firebaseService.sendToDevice(
-        worker.user.fcmToken,
-        'New Booking Request',
-        `You have a new booking from ${booking.customer.fullName}`,
-        { type: 'BOOKING_NEW', bookingId: booking.id },
-      );
+      try {
+        await this.firebaseService.sendToDevice(
+          worker.user.fcmToken,
+          'New Booking Request',
+          `You have a new booking from ${booking.customer.fullName}`,
+          { type: 'BOOKING_NEW', bookingId: booking.id },
+        );
+      } catch (err) {
+        console.error('Failed to send booking push notification:', (err as Error)?.message || err);
+      }
     }
 
     await this.prisma.notification.create({

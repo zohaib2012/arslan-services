@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Query, Body, UseGuards, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../config/database.config';
+import { RedisService } from '../config/redis.config';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -8,7 +9,14 @@ import { Roles } from '../common/decorators/roles.decorator';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN', 'SUPER_ADMIN')
 export class AdminBannersController {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+  ) {}
+
+  private async clearCache() {
+    await this.redis.delPattern('cache:banners');
+  }
 
   @Get()
   async getBanners(@Query('page') page = '1', @Query('limit') limit = '20') {
@@ -47,7 +55,7 @@ export class AdminBannersController {
         endDate: endDate ? new Date(endDate) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         sortOrder: sortOrder || 0,
       },
-    });
+    }).then(async (res) => { await this.clearCache(); return res; });
   }
 
   @Put(':id')
@@ -77,7 +85,7 @@ export class AdminBannersController {
         ...(endDate !== undefined && { endDate: new Date(endDate) }),
         ...(sortOrder !== undefined && { sortOrder }),
       },
-    });
+    }).then(async (res) => { await this.clearCache(); return res; });
   }
 
   @Delete(':id')
@@ -86,6 +94,7 @@ export class AdminBannersController {
     if (!banner) throw new NotFoundException('Banner not found');
 
     await this.prisma.banner.delete({ where: { id } });
+    await this.clearCache();
     return { message: 'Banner deleted successfully' };
   }
 }

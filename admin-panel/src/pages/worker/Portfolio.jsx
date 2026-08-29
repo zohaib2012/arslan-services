@@ -2,14 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { api } from '../../lib/api';
-import { ChevronLeft, Loader2, Plus, X, Camera, Film } from 'lucide-react';
+import { ChevronLeft, Loader2, Plus, X, Camera } from 'lucide-react';
 
 export default function Portfolio() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [mediaUrl, setMediaUrl] = useState('');
-  const [mediaType, setMediaType] = useState('IMAGE');
   const [caption, setCaption] = useState('');
   const fileRef = useRef(null);
 
@@ -37,7 +36,7 @@ export default function Portfolio() {
       formData.append('file', file);
       formData.append('folder', 'portfolio');
       const res = await api.post('/upload/single', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-      const type = file.type.startsWith('video') ? 'VIDEO' : 'IMAGE';
+      const type = 'IMAGE';
       await api.post('/workers/me/portfolio', { mediaUrl: res.data.url, mediaType: type });
       toast.success('Portfolio item added.');
       await load();
@@ -54,7 +53,7 @@ export default function Portfolio() {
     try {
       await api.post('/workers/me/portfolio', {
         mediaUrl: mediaUrl.trim(),
-        mediaType,
+        mediaType: 'IMAGE',
         caption: caption.trim() || undefined,
       });
       toast.success('Portfolio item added.');
@@ -103,26 +102,18 @@ export default function Portfolio() {
           className="w-full py-10 rounded-2xl border-2 border-dashed border-gray-200 hover:border-brand-300 flex flex-col items-center justify-center transition-colors disabled:opacity-50"
         >
           {adding ? <Loader2 className="animate-spin text-brand-600 mb-2" size={22} /> : <Plus size={22} className="text-gray-400 mb-2" />}
-          <span className="text-sm text-gray-500">Upload an image or video</span>
-          <span className="text-xs text-gray-400 mt-1">JPG, PNG, WebP, MP4 · up to 10MB</span>
+          <span className="text-sm text-gray-500">Upload an image</span>
+          <span className="text-xs text-gray-400 mt-1">JPG, PNG, WebP · up to 10MB</span>
         </button>
-        <input ref={fileRef} type="file" accept="image/*,video/*" className="hidden" onChange={handleFile} />
+        <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <input
             value={mediaUrl}
             onChange={(e) => setMediaUrl(e.target.value)}
-            placeholder="Or paste media URL"
-            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 sm:col-span-1"
+            placeholder="Or paste image URL"
+            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 sm:col-span-2"
           />
-          <select
-            value={mediaType}
-            onChange={(e) => setMediaType(e.target.value)}
-            className="px-3 py-2.5 text-sm bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500"
-          >
-            <option value="IMAGE">Image</option>
-            <option value="VIDEO">Video</option>
-          </select>
           <button onClick={addFromUrl} disabled={adding} className="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold rounded-xl disabled:opacity-50">
             Add
           </button>

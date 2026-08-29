@@ -1,20 +1,27 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../config/database.config';
+import { RedisService } from '../config/redis.config';
 
 @Injectable()
 export class ServicesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+  ) {}
 
   async findAll(categoryId?: string) {
-    const where: any = { isActive: true };
-    if (categoryId) where.categoryId = categoryId;
+    const key = `cache:services:${categoryId || 'all'}`;
+    return this.redis.remember(key, 300, () => {
+      const where: any = { isActive: true };
+      if (categoryId) where.categoryId = categoryId;
 
-    return this.prisma.service.findMany({
-      where,
-      include: {
-        category: { select: { id: true, nameEn: true, nameUr: true, slug: true } },
-      },
-      orderBy: { sortOrder: 'asc' },
+      return this.prisma.service.findMany({
+        where,
+        include: {
+          category: { select: { id: true, nameEn: true, nameUr: true, slug: true } },
+        },
+        orderBy: { sortOrder: 'asc' },
+      });
     });
   }
 

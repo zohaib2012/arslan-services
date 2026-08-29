@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getBrowserLocation, setStoredLocation } from './lib/location';
 import { Toaster } from 'react-hot-toast';
@@ -9,80 +9,89 @@ import CustomerDashboardLayout from './layouts/CustomerDashboardLayout';
 import WorkerLayout from './layouts/WorkerLayout';
 import AdminLayout from './layouts/AdminLayout';
 
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import OtpPage from './pages/auth/OtpPage';
-import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
-import RoleSelectionPage from './pages/auth/RoleSelectionPage';
-import AdminLogin from './pages/admin/Login';
+// Public / website pages
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
+const OtpPage = lazy(() => import('./pages/auth/OtpPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
+const RoleSelectionPage = lazy(() => import('./pages/auth/RoleSelectionPage'));
+const AdminLogin = lazy(() => import('./pages/admin/Login'));
 
-import LandingPage from './pages/website/LandingPage';
-import SearchPage from './pages/website/SearchPage';
-import AiSearchPage from './pages/website/AiSearchPage';
-import NearbyWorkersPage from './pages/website/NearbyWorkersPage';
-import WorkerDetailPage from './pages/website/WorkerDetailPage';
-import CreateBookingPage from './pages/website/CreateBookingPage';
-import AboutUs from './pages/website/AboutUs';
-import ContactUs from './pages/website/ContactUs';
-import TermsAndConditions from './pages/website/TermsAndConditions';
-import PrivacyPolicy from './pages/website/PrivacyPolicy';
+const LandingPage = lazy(() => import('./pages/website/LandingPage'));
+const SearchPage = lazy(() => import('./pages/website/SearchPage'));
+const AiSearchPage = lazy(() => import('./pages/website/AiSearchPage'));
+const NearbyWorkersPage = lazy(() => import('./pages/website/NearbyWorkersPage'));
+const WorkerDetailPage = lazy(() => import('./pages/website/WorkerDetailPage'));
+const CreateBookingPage = lazy(() => import('./pages/website/CreateBookingPage'));
+const AboutUs = lazy(() => import('./pages/website/AboutUs'));
+const ContactUs = lazy(() => import('./pages/website/ContactUs'));
+const TermsAndConditions = lazy(() => import('./pages/website/TermsAndConditions'));
+const PrivacyPolicy = lazy(() => import('./pages/website/PrivacyPolicy'));
 
-import CustomerDashboardHome from './pages/customer/DashboardHome';
-import MyBookings from './pages/customer/MyBookings';
-import BookingDetail from './pages/customer/BookingDetail';
-import CustomerChatList from './pages/customer/ChatList';
-import CustomerChat from './pages/customer/Chat';
-import MyDisputes from './pages/customer/MyDisputes';
-import DisputeDetail from './pages/customer/DisputeDetail';
-import CreateDispute from './pages/customer/CreateDispute';
-import Favorites from './pages/customer/Favorites';
-import Notifications from './pages/customer/Notifications';
-import Profile from './pages/customer/Profile';
-import EditProfile from './pages/customer/EditProfile';
-import ChangePassword from './pages/customer/ChangePassword';
-import WriteReview from './pages/customer/WriteReview';
-import BlockedWorkers from './pages/customer/BlockedWorkers';
+// Customer pages
+const CustomerDashboardHome = lazy(() => import('./pages/customer/DashboardHome'));
+const MyBookings = lazy(() => import('./pages/customer/MyBookings'));
+const BookingDetail = lazy(() => import('./pages/customer/BookingDetail'));
+const CustomerChatList = lazy(() => import('./pages/customer/ChatList'));
+const CustomerChat = lazy(() => import('./pages/customer/Chat'));
+const MyDisputes = lazy(() => import('./pages/customer/MyDisputes'));
+const DisputeDetail = lazy(() => import('./pages/customer/DisputeDetail'));
+const CreateDispute = lazy(() => import('./pages/customer/CreateDispute'));
+const Favorites = lazy(() => import('./pages/customer/Favorites'));
+const Notifications = lazy(() => import('./pages/customer/Notifications'));
+const Profile = lazy(() => import('./pages/customer/Profile'));
+const EditProfile = lazy(() => import('./pages/customer/EditProfile'));
+const ChangePassword = lazy(() => import('./pages/customer/ChangePassword'));
+const WriteReview = lazy(() => import('./pages/customer/WriteReview'));
+const BlockedWorkers = lazy(() => import('./pages/customer/BlockedWorkers'));
 
-import WorkerDashboardHome from './pages/worker/DashboardHome';
-import BookingRequests from './pages/worker/BookingRequests';
-import RequestDetail from './pages/worker/RequestDetail';
-import MyJobs from './pages/worker/MyJobs';
-import JobDetail from './pages/worker/JobDetail';
-import WorkerChatList from './pages/worker/ChatList';
-import WorkerChat from './pages/worker/Chat';
-import WorkerProfile from './pages/worker/WorkerProfile';
-import WorkerEditProfile from './pages/worker/WorkerEditProfile';
-import CnicVerification from './pages/worker/CnicVerification';
-import Portfolio from './pages/worker/Portfolio';
-import ServicesSelection from './pages/worker/ServicesSelection';
-import ServiceAreas from './pages/worker/ServiceAreas';
-import WorkingHours from './pages/worker/WorkingHours';
-import PaymentMethods from './pages/worker/PaymentMethods';
-import WorkerDisputes from './pages/worker/WorkerDisputes';
-import WorkerDisputeDetail from './pages/worker/WorkerDisputeDetail';
-import WorkerNotifications from './pages/worker/Notifications';
+// Worker pages
+const WorkerDashboardHome = lazy(() => import('./pages/worker/DashboardHome'));
+const BookingRequests = lazy(() => import('./pages/worker/BookingRequests'));
+const RequestDetail = lazy(() => import('./pages/worker/RequestDetail'));
+const MyJobs = lazy(() => import('./pages/worker/MyJobs'));
+const JobDetail = lazy(() => import('./pages/worker/JobDetail'));
+const WorkerChatList = lazy(() => import('./pages/worker/ChatList'));
+const WorkerChat = lazy(() => import('./pages/worker/Chat'));
+const WorkerProfile = lazy(() => import('./pages/worker/WorkerProfile'));
+const WorkerEditProfile = lazy(() => import('./pages/worker/WorkerEditProfile'));
+const CnicVerification = lazy(() => import('./pages/worker/CnicVerification'));
+const Portfolio = lazy(() => import('./pages/worker/Portfolio'));
+const ServicesSelection = lazy(() => import('./pages/worker/ServicesSelection'));
+const ServiceAreas = lazy(() => import('./pages/worker/ServiceAreas'));
+const WorkingHours = lazy(() => import('./pages/worker/WorkingHours'));
+const PaymentMethods = lazy(() => import('./pages/worker/PaymentMethods'));
+const WorkerDisputes = lazy(() => import('./pages/worker/WorkerDisputes'));
+const WorkerDisputeDetail = lazy(() => import('./pages/worker/WorkerDisputeDetail'));
+const WorkerNotifications = lazy(() => import('./pages/worker/Notifications'));
 
-import AdminDashboard from './pages/admin/Dashboard';
-import CustomersList from './pages/admin/CustomersList';
-import WorkersList from './pages/admin/WorkersList';
-import PendingVerification from './pages/admin/PendingVerification';
-import BookingsList from './pages/admin/BookingsList';
-import CategoriesList from './pages/admin/CategoriesList';
-import ServicesList from './pages/admin/ServicesList';
-import DisputesList from './pages/admin/DisputesList';
-import BannersList from './pages/admin/BannersList';
-import SendNotification from './pages/admin/SendNotification';
-import Analytics from './pages/admin/Analytics';
-import Reports from './pages/admin/Reports';
-import ActivityLogs from './pages/admin/ActivityLogs';
-import Roles from './pages/admin/Roles';
-import Settings from './pages/admin/Settings';
-import SupportTickets from './pages/admin/SupportTickets';
+// Admin pages
+const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
+const CustomersList = lazy(() => import('./pages/admin/CustomersList'));
+const WorkersList = lazy(() => import('./pages/admin/WorkersList'));
+const PendingVerification = lazy(() => import('./pages/admin/PendingVerification'));
+const BookingsList = lazy(() => import('./pages/admin/BookingsList'));
+const CategoriesList = lazy(() => import('./pages/admin/CategoriesList'));
+const ServicesList = lazy(() => import('./pages/admin/ServicesList'));
+const DisputesList = lazy(() => import('./pages/admin/DisputesList'));
+const BannersList = lazy(() => import('./pages/admin/BannersList'));
+const SendNotification = lazy(() => import('./pages/admin/SendNotification'));
+const Analytics = lazy(() => import('./pages/admin/Analytics'));
+const Reports = lazy(() => import('./pages/admin/Reports'));
+const ActivityLogs = lazy(() => import('./pages/admin/ActivityLogs'));
+const Roles = lazy(() => import('./pages/admin/Roles'));
+const Settings = lazy(() => import('./pages/admin/Settings'));
+const SupportTickets = lazy(() => import('./pages/admin/SupportTickets'));
 
 function LoadingScreen() {
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-700"></div>
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-glow animate-pulse">
+          <img src="/icons/logo.png" alt="Easy service" className="w-8 h-8 object-contain" />
+        </div>
+        <div className="animate-spin rounded-full h-6 w-6 border-2 border-brand-600/30 border-t-brand-600"></div>
+      </div>
     </div>
   );
 }
@@ -125,89 +134,91 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Toaster position="top-right" />
-        <Routes>
-          <Route path="/auth/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
-          <Route path="/auth/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
-          <Route path="/auth/otp" element={<PublicOnly><OtpPage /></PublicOnly>} />
-          <Route path="/auth/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
-          <Route path="/auth/role" element={<PublicOnly><RoleSelectionPage /></PublicOnly>} />
-          <Route path="/admin/login" element={<PublicOnly><AdminLogin /></PublicOnly>} />
+        <Suspense fallback={<LoadingScreen />}>
+          <Routes>
+            <Route path="/auth/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
+            <Route path="/auth/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
+            <Route path="/auth/otp" element={<PublicOnly><OtpPage /></PublicOnly>} />
+            <Route path="/auth/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
+            <Route path="/auth/role" element={<PublicOnly><RoleSelectionPage /></PublicOnly>} />
+            <Route path="/admin/login" element={<PublicOnly><AdminLogin /></PublicOnly>} />
 
-          <Route path="/" element={<CustomerLayout />}>
-            <Route index element={<LandingPage />} />
-            <Route path="search" element={<SearchPage />} />
-            <Route path="ai-search" element={<AiSearchPage />} />
-            <Route path="workers/nearby" element={<NearbyWorkersPage />} />
-            <Route path="workers/:id" element={<WorkerDetailPage />} />
-            <Route path="book" element={<CreateBookingPage />} />
-            <Route path="about" element={<AboutUs />} />
-            <Route path="contact" element={<ContactUs />} />
-            <Route path="terms" element={<TermsAndConditions />} />
-            <Route path="privacy" element={<PrivacyPolicy />} />
-          </Route>
+            <Route path="/" element={<CustomerLayout />}>
+              <Route index element={<LandingPage />} />
+              <Route path="search" element={<SearchPage />} />
+              <Route path="ai-search" element={<AiSearchPage />} />
+              <Route path="workers/nearby" element={<NearbyWorkersPage />} />
+              <Route path="workers/:id" element={<WorkerDetailPage />} />
+              <Route path="book" element={<CreateBookingPage />} />
+              <Route path="about" element={<AboutUs />} />
+              <Route path="contact" element={<ContactUs />} />
+              <Route path="terms" element={<TermsAndConditions />} />
+              <Route path="privacy" element={<PrivacyPolicy />} />
+            </Route>
 
-          <Route path="/admin" element={<RequireRole role="admin"><AdminLayout /></RequireRole>}>
-            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="customers" element={<CustomersList />} />
-            <Route path="workers" element={<WorkersList />} />
-            <Route path="workers/pending" element={<PendingVerification />} />
-            <Route path="bookings" element={<BookingsList />} />
-            <Route path="categories" element={<CategoriesList />} />
-            <Route path="services" element={<ServicesList />} />
-            <Route path="disputes" element={<DisputesList />} />
-            <Route path="banners" element={<BannersList />} />
-            <Route path="notifications" element={<SendNotification />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="reports" element={<Reports />} />
-            <Route path="activity-logs" element={<ActivityLogs />} />
-            <Route path="roles" element={<Roles />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="support-tickets" element={<SupportTickets />} />
-          </Route>
+            <Route path="/admin" element={<RequireRole role="admin"><AdminLayout /></RequireRole>}>
+              <Route index element={<Navigate to="/admin/dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="customers" element={<CustomersList />} />
+              <Route path="workers" element={<WorkersList />} />
+              <Route path="workers/pending" element={<PendingVerification />} />
+              <Route path="bookings" element={<BookingsList />} />
+              <Route path="categories" element={<CategoriesList />} />
+              <Route path="services" element={<ServicesList />} />
+              <Route path="disputes" element={<DisputesList />} />
+              <Route path="banners" element={<BannersList />} />
+              <Route path="notifications" element={<SendNotification />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="reports" element={<Reports />} />
+              <Route path="activity-logs" element={<ActivityLogs />} />
+              <Route path="roles" element={<Roles />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="support-tickets" element={<SupportTickets />} />
+            </Route>
 
-          <Route path="/dashboard" element={<RequireRole role="customer"><CustomerDashboardLayout /></RequireRole>}>
-            <Route index element={<CustomerDashboardHome />} />
-            <Route path="bookings" element={<MyBookings />} />
-            <Route path="bookings/:id" element={<BookingDetail />} />
-            <Route path="chat-list" element={<CustomerChatList />} />
-            <Route path="chat/:partnerId" element={<CustomerChat />} />
-            <Route path="disputes" element={<MyDisputes />} />
-            <Route path="disputes/new" element={<CreateDispute />} />
-            <Route path="disputes/:id" element={<DisputeDetail />} />
-            <Route path="favorites" element={<Favorites />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="profile/edit" element={<EditProfile />} />
-            <Route path="password" element={<ChangePassword />} />
-            <Route path="review/:bookingId" element={<WriteReview />} />
-            <Route path="blocked-workers" element={<BlockedWorkers />} />
-          </Route>
+            <Route path="/dashboard" element={<RequireRole role="customer"><CustomerDashboardLayout /></RequireRole>}>
+              <Route index element={<CustomerDashboardHome />} />
+              <Route path="bookings" element={<MyBookings />} />
+              <Route path="bookings/:id" element={<BookingDetail />} />
+              <Route path="chat-list" element={<CustomerChatList />} />
+              <Route path="chat/:partnerId" element={<CustomerChat />} />
+              <Route path="disputes" element={<MyDisputes />} />
+              <Route path="disputes/new" element={<CreateDispute />} />
+              <Route path="disputes/:id" element={<DisputeDetail />} />
+              <Route path="favorites" element={<Favorites />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="profile/edit" element={<EditProfile />} />
+              <Route path="password" element={<ChangePassword />} />
+              <Route path="review/:bookingId" element={<WriteReview />} />
+              <Route path="blocked-workers" element={<BlockedWorkers />} />
+            </Route>
 
-          <Route path="/worker" element={<RequireRole role="worker"><WorkerLayout /></RequireRole>}>
-            <Route index element={<Navigate to="/worker/dashboard" replace />} />
-            <Route path="dashboard" element={<WorkerDashboardHome />} />
-            <Route path="requests" element={<BookingRequests />} />
-            <Route path="requests/:id" element={<RequestDetail />} />
-            <Route path="jobs" element={<MyJobs />} />
-            <Route path="jobs/:id" element={<JobDetail />} />
-            <Route path="chat" element={<WorkerChatList />} />
-            <Route path="chat/:partnerId" element={<WorkerChat />} />
-            <Route path="profile" element={<WorkerProfile />} />
-            <Route path="profile/edit" element={<WorkerEditProfile />} />
-            <Route path="verification" element={<CnicVerification />} />
-            <Route path="portfolio" element={<Portfolio />} />
-            <Route path="services" element={<ServicesSelection />} />
-            <Route path="areas" element={<ServiceAreas />} />
-            <Route path="hours" element={<WorkingHours />} />
-            <Route path="payments" element={<PaymentMethods />} />
-            <Route path="disputes" element={<WorkerDisputes />} />
-            <Route path="disputes/:id" element={<WorkerDisputeDetail />} />
-            <Route path="notifications" element={<WorkerNotifications />} />
-          </Route>
+            <Route path="/worker" element={<RequireRole role="worker"><WorkerLayout /></RequireRole>}>
+              <Route index element={<Navigate to="/worker/dashboard" replace />} />
+              <Route path="dashboard" element={<WorkerDashboardHome />} />
+              <Route path="requests" element={<BookingRequests />} />
+              <Route path="requests/:id" element={<RequestDetail />} />
+              <Route path="jobs" element={<MyJobs />} />
+              <Route path="jobs/:id" element={<JobDetail />} />
+              <Route path="chat" element={<WorkerChatList />} />
+              <Route path="chat/:partnerId" element={<WorkerChat />} />
+              <Route path="profile" element={<WorkerProfile />} />
+              <Route path="profile/edit" element={<WorkerEditProfile />} />
+              <Route path="verification" element={<CnicVerification />} />
+              <Route path="portfolio" element={<Portfolio />} />
+              <Route path="services" element={<ServicesSelection />} />
+              <Route path="areas" element={<ServiceAreas />} />
+              <Route path="hours" element={<WorkingHours />} />
+              <Route path="payments" element={<PaymentMethods />} />
+              <Route path="disputes" element={<WorkerDisputes />} />
+              <Route path="disputes/:id" element={<WorkerDisputeDetail />} />
+              <Route path="notifications" element={<WorkerNotifications />} />
+            </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </AuthProvider>
     </BrowserRouter>
   );

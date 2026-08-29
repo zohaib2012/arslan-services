@@ -84,11 +84,8 @@ export default function WorkerLayout() {
       }`}>
         <div className="flex items-center justify-between h-16 px-6 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-              <Briefcase className="text-emerald-300" size={20} />
-            </div>
+            <img src="/icons/logo.png" alt="Easy service" className="h-9 w-auto object-contain" />
             <div>
-              <h1 className="text-base font-bold text-white tracking-tight">Easy service</h1>
               <p className="text-[10px] text-emerald-300/80 font-medium uppercase tracking-widest">Worker Panel</p>
             </div>
           </div>

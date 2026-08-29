@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { PrismaService } from '../config/database.config';
+import { RedisService } from '../config/redis.config';
 import {
   UpdateWorkerProfileDto,
   UpdateOnlineStatusDto,
@@ -13,7 +14,10 @@ import {
 
 @Injectable()
 export class WorkersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+  ) {}
 
   async getWorkers(query: any) {
     const { serviceId, categoryId, city, search, rating, page = 1, limit = 20 } = query;
@@ -45,21 +49,28 @@ export class WorkersService {
       where.avgRating = { gte: Number(rating) };
     }
 
-    const [workers, total] = await Promise.all([
-      this.prisma.workerProfile.findMany({
-        where,
-        include: {
-          user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
-          workerServices: { include: { service: { include: { category: true } } } },
-          serviceAreas: true,
-          paymentMethods: true,
-        },
-        skip,
-        take: Number(limit),
-        orderBy: [{ avgRating: 'desc' }, { completedJobs: 'desc' }],
-      }),
-      this.prisma.workerProfile.count({ where }),
-    ]);
+    // Only cache the plain default listing (homepage), not filtered searches
+    const isPlainList = !serviceId && !categoryId && !city && !search && !rating && Number(page) === 1 && Number(limit) === 12;
+    const runQuery = () =>
+      Promise.all([
+        this.prisma.workerProfile.findMany({
+          where,
+          include: {
+            user: { select: { id: true, fullName: true, profilePhoto: true, phone: true } },
+            workerServices: { include: { service: { include: { category: true } } } },
+            serviceAreas: true,
+            paymentMethods: true,
+          },
+          skip,
+          take: Number(limit),
+          orderBy: [{ avgRating: 'desc' }, { completedJobs: 'desc' }],
+        }),
+        this.prisma.workerProfile.count({ where }),
+      ]);
+
+    const [workers, total] = isPlainList
+      ? await this.redis.remember(`cache:workers:top12`, 60, runQuery)
+      : await runQuery();
 
     return { workers, total, page: Number(page), totalPages: Math.ceil(total / Number(limit)) };
   }

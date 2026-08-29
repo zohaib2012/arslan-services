@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.easyservice.app",
+    "sha256_cert_fingerprints": ["94:94:89:33:D4:78:75:FB:2C:6A:84:3D:26:1E:11:CD:70:69:30:BC:F0:D0:73:79:9E:14:91:D1:78:39:91:8F"]
+  }
+}]

@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Query, Body, UseGuards, NotFoundException, ConflictException } from '@nestjs/common';
 import { PrismaService } from '../config/database.config';
+import { RedisService } from '../config/redis.config';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -8,7 +9,15 @@ import { Roles } from '../common/decorators/roles.decorator';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN', 'SUPER_ADMIN')
 export class AdminCategoriesController {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+  ) {}
+
+  private async clearCache() {
+    await this.redis.delPattern('cache:categories');
+    await this.redis.delPattern('cache:services:*');
+  }
 
   @Get()
   async getCategories(@Query('page') page = '1', @Query('limit') limit = '20') {
@@ -64,7 +73,7 @@ export class AdminCategoriesController {
         descriptionUr,
         sortOrder: sortOrder || 0,
       },
-    });
+    }).then(async (res) => { await this.clearCache(); return res; });
   }
 
   @Put(':id')
@@ -97,7 +106,7 @@ export class AdminCategoriesController {
         ...(descriptionUr !== undefined && { descriptionUr }),
         ...(sortOrder !== undefined && { sortOrder }),
       },
-    });
+    }).then(async (res) => { await this.clearCache(); return res; });
   }
 
   @Put(':id/toggle')
@@ -108,7 +117,7 @@ export class AdminCategoriesController {
     return this.prisma.category.update({
       where: { id },
       data: { isActive: !category.isActive },
-    });
+    }).then(async (res) => { await this.clearCache(); return res; });
   }
 
   @Delete(':id')
@@ -117,6 +126,7 @@ export class AdminCategoriesController {
     if (!category) throw new NotFoundException('Category not found');
 
     await this.prisma.category.delete({ where: { id } });
+    await this.clearCache();
     return { message: 'Category deleted successfully' };
   }
 }

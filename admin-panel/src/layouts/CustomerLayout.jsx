@@ -1,7 +1,7 @@
 import { Outlet, Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  Search, Menu, X, User, LogOut, Bell, Home, Wrench, MessageCircle,
+  Search, Menu, X, User, LogOut, Bell, Home, MessageCircle,
   Calendar, Sparkles,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
@@ -68,14 +68,12 @@ export default function CustomerLayout({ isDashboard = false }) {
   };
 
   const Logo = ({ dark = false }) => (
-      <Link to="/" className="flex items-center gap-2">
-      <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center shadow-md shadow-brand-600/20">
-        <Wrench className="text-white" size={18} />
-      </div>
-      <div className="leading-none">
-        <span className={`block text-base font-extrabold tracking-tight ${dark ? 'text-white' : 'text-brand-800'}`}>Easy service</span>
-        <span className={`block text-[9px] font-semibold tracking-[0.22em] ${dark ? 'text-emerald-300/80' : 'text-brand-600/80'}`}>HOME SERVICES</span>
-      </div>
+    <Link to="/" className="flex items-center">
+      <img
+        src="/icons/logo.png"
+        alt="Easy service"
+        className={`h-9 w-auto object-contain ${dark ? 'bg-white/90' : ''} rounded-lg p-0.5`}
+      />
     </Link>
   );
 
@@ -250,10 +248,7 @@ export default function CustomerLayout({ isDashboard = false }) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-1">
               <div className="flex items-center gap-2.5 mb-3">
-                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Wrench className="text-emerald-300" size={18} />
-                </div>
-                <span className="text-base font-bold">Easy service</span>
+                <img src="/icons/logo.png" alt="Easy service" className="h-9 w-auto object-contain" />
               </div>
               <p className="text-sm text-emerald-100/60 leading-relaxed">
                 Pakistan's trusted home services marketplace. Verified professionals at your doorstep.
@@ -296,7 +291,7 @@ export default function CustomerLayout({ isDashboard = false }) {
         </div>
       </footer>
 
-      <SupportButton />
+      {location.pathname === '/' && <SupportButton />}
 
       {/* Mobile bottom navigation */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-[env(safe-area-inset-bottom)]">

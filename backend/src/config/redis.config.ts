@@ -10,6 +10,9 @@ export class RedisService {
       maxRetriesPerRequest: null,
       tls: process.env.REDIS_URL?.includes('upstash') ? {} : undefined,
     });
+    this.redis.on('error', (err) => {
+      console.error('Redis connection error:', (err as Error)?.message || err);
+    });
   }
 
   getClient(): Redis {
@@ -30,5 +33,31 @@ export class RedisService {
 
   async del(key: string): Promise<void> {
     await this.redis.del(key);
+  }
+
+  async delPattern(pattern: string): Promise<void> {
+    const stream = this.redis.scanStream({ match: pattern, count: 100 });
+    const keys: string[] = [];
+    await new Promise<void>((resolve, reject) => {
+      stream.on('data', (batch: string[]) => keys.push(...batch));
+      stream.on('end', () => resolve());
+      stream.on('error', reject);
+    });
+    if (keys.length) await this.redis.del(...keys);
+  }
+
+  async remember<T>(key: string, ttl: number, fetch: () => Promise<T>): Promise<T> {
+    try {
+      const cached = await this.redis.get(key);
+      if (cached) {
+        try { return JSON.parse(cached); } catch { /* ignore corrupted */ }
+      }
+    } catch { /* redis down — fall through to DB */ }
+
+    const value = await fetch();
+    try {
+      await this.redis.set(key, JSON.stringify(value), 'EX', ttl);
+    } catch { /* redis down — skip caching */ }
+    return value;
   }
 }

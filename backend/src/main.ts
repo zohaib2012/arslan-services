@@ -4,6 +4,13 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled rejection:', reason);
+});
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 

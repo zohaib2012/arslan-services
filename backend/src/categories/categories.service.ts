@@ -1,18 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../config/database.config';
+import { RedisService } from '../config/redis.config';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private redis: RedisService,
+  ) {}
 
   async findAll() {
-    return this.prisma.category.findMany({
-      where: { isActive: true },
-      include: {
-        services: { where: { isActive: true }, orderBy: { sortOrder: 'asc' } },
-      },
-      orderBy: { sortOrder: 'asc' },
-    });
+    return this.redis.remember('cache:categories', 300, () =>
+      this.prisma.category.findMany({
+        where: { isActive: true },
+        include: {
+          services: { where: { isActive: true }, orderBy: { sortOrder: 'asc' } },
+        },
+        orderBy: { sortOrder: 'asc' },
+      }),
+    );
   }
 
   async findById(id: string) {

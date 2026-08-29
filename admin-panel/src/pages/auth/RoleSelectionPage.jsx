@@ -26,6 +26,9 @@ export default function RoleSelectionPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 p-6">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
+          <div className="w-44 mx-auto rounded-xl bg-white shadow-lg p-2.5 mb-5">
+            <img src="/icons/logo.png" alt="Easy service" className="w-full h-auto" />
+          </div>
           <h1 className="text-2xl font-bold text-white">Choose Your Role</h1>
           <p className="text-emerald-100/70 mt-2">How would you like to use Easyservice?</p>
         </div>

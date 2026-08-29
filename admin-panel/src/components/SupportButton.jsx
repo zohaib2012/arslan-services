@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { MessageCircle, X, Send, Phone, Loader2 } from 'lucide-react';
+import { X, Send, Phone, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api } from '../lib/api';
+import { WhatsAppIcon } from './BrandIcons';
+
+const WHATSAPP_LINK = `https://wa.me/923001234567?text=${encodeURIComponent('Hi, I need help with Easyservice.')}`;
 
 export default function SupportButton() {
   const [open, setOpen] = useState(false);
@@ -39,10 +42,10 @@ export default function SupportButton() {
       {/* Floating button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 w-12 h-12 md:w-14 md:h-14 rounded-full gradient-brand text-white shadow-glow flex items-center justify-center hover:brightness-110 transition-all active:scale-95"
+        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white shadow-[0_8px_30px_rgba(37,211,102,0.4)] flex items-center justify-center hover:brightness-110 transition-all active:scale-90 animate-glow-pulse"
         aria-label="Contact support"
       >
-        <MessageCircle size={22} />
+        <WhatsAppIcon size={26} />
       </button>
 
       {/* Support modal */}
@@ -105,9 +108,14 @@ export default function SupportButton() {
               </button>
             </form>
 
-            <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-center gap-2 text-sm text-gray-600">
-              <Phone size={14} className="text-brand-600" />
-              <a href="tel:+923001234567" className="font-semibold text-brand-700 hover:underline">+92 300 1234567</a>
+            <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-center gap-3 text-sm text-gray-600">
+              <a href="tel:+923001234567" className="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:underline">
+                <Phone size={14} className="text-brand-600" /> +92 300 1234567
+              </a>
+              <span className="text-gray-300">|</span>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 font-semibold text-[#128C7E] hover:underline">
+                <WhatsAppIcon size={14} /> WhatsApp
+              </a>
             </div>
           </div>
         </div>

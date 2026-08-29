@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Wrench, Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, Loader2, ChevronLeft } from 'lucide-react';
+import { Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, Loader2, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function RegisterPage() {
@@ -53,8 +53,8 @@ export default function RegisterPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, white 0, transparent 40%), radial-gradient(circle at 80% 70%, white 0, transparent 35%)' }} />
         <div className="relative z-10 flex flex-col justify-center items-center w-full px-16 text-white">
-          <div className="w-20 h-20 rounded-3xl bg-white/10 backdrop-blur flex items-center justify-center mb-8 shadow-2xl">
-            <Wrench className="text-emerald-300" size={40} />
+          <div className="w-48 rounded-2xl bg-white shadow-2xl p-3 mb-8">
+            <img src="/icons/logo.png" alt="Easy service" className="w-full h-auto" />
           </div>
           <h2 className="text-3xl font-bold text-center leading-tight">
             Join Easyservice
@@ -74,8 +74,8 @@ export default function RegisterPage() {
         </button>
         <div className="w-full max-w-md">
           <div className="lg:hidden flex justify-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center">
-              <Wrench className="text-white" size={28} />
+            <div className="w-44 rounded-xl bg-white shadow p-2.5">
+              <img src="/icons/logo.png" alt="Easy service" className="w-full h-auto" />
             </div>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
