@@ -65,7 +65,7 @@ export class ServicesService {
       include: {
         category: true,
         workerServices: {
-          where: { worker: { verificationStatus: 'VERIFIED', isOnline: true } },
+          where: { worker: { verificationStatus: 'VERIFIED' } },
           include: {
             worker: {
               include: {

@@ -25,7 +25,6 @@ export class WorkersService {
 
     const where: any = {
       verificationStatus: 'VERIFIED',
-      isOnline: true,
     };
 
     if (serviceId) {
@@ -79,7 +78,6 @@ export class WorkersService {
     const workers = await this.prisma.workerProfile.findMany({
       where: {
         verificationStatus: 'VERIFIED',
-        isOnline: true,
         serviceAreas: {
           some: {
             latitude: { not: null },
