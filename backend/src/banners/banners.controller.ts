@@ -11,7 +11,7 @@ export class BannersController {
 
   @Get()
   async getActiveBanners() {
-    return this.redis.remember('cache:banners', 300, async () => {
+    return this.redis.remember('cache:banners', 3600, async () => {
       const now = new Date();
 
       const banners = await this.prisma.banner.findMany({

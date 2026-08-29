@@ -10,7 +10,7 @@ export class CategoriesService {
   ) {}
 
   async findAll() {
-    return this.redis.remember('cache:categories', 300, () =>
+    return this.redis.remember('cache:categories', 3600, () =>
       this.prisma.category.findMany({
         where: { isActive: true },
         include: {

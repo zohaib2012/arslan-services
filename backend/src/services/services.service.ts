@@ -11,7 +11,7 @@ export class ServicesService {
 
   async findAll(categoryId?: string) {
     const key = `cache:services:${categoryId || 'all'}`;
-    return this.redis.remember(key, 300, () => {
+    return this.redis.remember(key, 3600, () => {
       const where: any = { isActive: true };
       if (categoryId) where.categoryId = categoryId;
 

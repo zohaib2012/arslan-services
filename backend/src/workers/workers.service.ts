@@ -69,7 +69,7 @@ export class WorkersService {
       ]);
 
     const [workers, total] = isPlainList
-      ? await this.redis.remember(`cache:workers:top12`, 60, runQuery)
+      ? await this.redis.remember(`cache:workers:top12`, 300, runQuery)
       : await runQuery();
 
     return { workers, total, page: Number(page), totalPages: Math.ceil(total / Number(limit)) };
