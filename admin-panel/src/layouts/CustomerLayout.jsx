@@ -294,7 +294,7 @@ export default function CustomerLayout({ isDashboard = false }) {
       {location.pathname === '/' && <SupportButton />}
 
       {/* Mobile bottom navigation */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-[env(safe-area-inset-bottom)]">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white border-t border-gray-100 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
         <div className="flex items-center justify-around h-16 px-2">
           {bottomTabs.map((tab) => {
             const Icon = tab.icon;
@@ -305,10 +305,10 @@ export default function CustomerLayout({ isDashboard = false }) {
                   key={tab.path}
                   type="button"
                   onClick={() => navigate(tab.path)}
-                  className="relative -top-5 flex flex-col items-center justify-center active:scale-95"
+                  className="relative -top-5 flex flex-col items-center justify-center active:scale-90"
                 >
-                  <span className="w-14 h-14 rounded-full gradient-brand shadow-glow flex items-center justify-center text-white">
-                    <Sparkles size={24} />
+                  <span className="w-14 h-14 rounded-full bg-gradient-to-br from-[#4285F4] via-[#8B5CF6] to-[#EC4899] shadow-[0_6px_20px_rgba(139,92,246,0.5)] flex items-center justify-center text-white">
+                    <Sparkles size={26} strokeWidth={2.2} />
                   </span>
                 </button>
               );
@@ -318,12 +318,18 @@ export default function CustomerLayout({ isDashboard = false }) {
                 key={tab.path}
                 type="button"
                 onClick={() => navigate(tab.path)}
-                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] h-full py-1 rounded-xl transition-colors active:scale-95 ${
+                className={`flex flex-col items-center justify-center gap-1 min-w-[3.5rem] h-full py-1 rounded-xl transition-all active:scale-95 ${
                   active ? 'text-brand-700' : 'text-gray-400'
                 }`}
               >
-                <Icon size={22} strokeWidth={active ? 2.5 : 2} />
-                <span className="text-[10px] font-medium">{tab.label}</span>
+                <span
+                  className={`flex items-center justify-center px-4 py-1.5 rounded-full transition-all ${
+                    active ? 'bg-gradient-to-br from-brand-500 to-brand-700 shadow-[0_4px_12px_rgba(15,157,95,0.4)]' : 'bg-transparent'
+                  }`}
+                >
+                  <Icon size={22} strokeWidth={active ? 2.5 : 2} className={active ? 'text-white' : ''} />
+                </span>
+                <span className={`text-[10px] font-bold ${active ? 'text-brand-700' : 'text-gray-400'}`}>{tab.label}</span>
               </button>
             );
           })}

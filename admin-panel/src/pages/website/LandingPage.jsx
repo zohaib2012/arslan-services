@@ -8,7 +8,7 @@ import {
   MapPin, Star, ArrowRight, Shield, Clock, Search,
   Wrench, Zap, PhoneCall, Wallet, Home, BadgeCheck, ChevronRight,
   Droplets, Hammer, Paintbrush, Car, Grid3X3, Gift, BadgePercent,
-  Lock, Mic, ArrowUpRight, MessagesSquare, Sparkles,
+  Lock, Mic, ArrowUpRight, Sparkles,
 } from 'lucide-react';
 import { GeminiIcon, WhatsAppIcon } from '../../components/BrandIcons';
 
@@ -189,22 +189,6 @@ export default function LandingPage() {
                       <ArrowRight size={20} />
                     </button>
                   </form>
-                  <div className="mt-4 md:mt-5 grid grid-cols-2 gap-2.5 md:gap-3">
-                    <button
-                      onClick={() => navigate('/search')}
-                      className="flex items-center justify-center gap-2 px-4 py-3 md:py-3.5 rounded-2xl bg-gradient-to-r from-gold-400 to-gold-500 text-white text-sm font-bold shadow-lg shadow-gold-400/30 active:scale-95 transition-all hover:brightness-110"
-                    >
-                      <MessagesSquare size={16} /> Book a Service
-                    </button>
-                    <a
-                      href={WHATSAPP_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 px-4 py-3 md:py-3.5 rounded-2xl bg-[#25D366] text-white text-sm font-bold shadow-lg shadow-[#25D366]/30 active:scale-95 transition-all hover:brightness-110"
-                    >
-                      <WhatsAppIcon size={16} /> WhatsApp Us
-                    </a>
-                  </div>
                 </div>
               </div>
 
