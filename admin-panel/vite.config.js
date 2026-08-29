@@ -8,7 +8,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/mapbox-gl')) return 'mapbox';
           if (id.includes('node_modules/recharts')) return 'recharts';
           if (id.includes('node_modules/socket.io-client')) return 'socket';
           if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) return 'react-vendor';
