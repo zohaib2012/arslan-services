@@ -4,6 +4,7 @@ import { BullModule } from '@nestjs/bull';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from './config/config.module';
+import { CacheWarmupService } from './config/cache-warmup.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { WorkersModule } from './workers/workers.module';
@@ -56,6 +57,7 @@ import { HealthModule } from './health/health.module';
   ],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
+    CacheWarmupService,
   ],
 })
 export class AppModule {}
