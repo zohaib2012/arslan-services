@@ -5,6 +5,7 @@ import { CloudinaryService } from './cloudinary.config';
 import { GeminiService } from './gemini.config';
 import { ResendService } from './resend.config';
 import { FirebaseService } from './firebase.config';
+import { CacheWarmupService } from './cache-warmup.service';
 
 @Global()
 @Module({
@@ -15,6 +16,7 @@ import { FirebaseService } from './firebase.config';
     GeminiService,
     ResendService,
     FirebaseService,
+    CacheWarmupService,
   ],
   exports: [
     PrismaService,
