@@ -21,12 +21,13 @@ export class ResendService {
 
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
     if (!this.resend) return;
-    await this.resend.emails.send({
+    const { error } = await this.resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Easyservice <noreply@easyservice.tech>',
       to,
       subject,
       html,
     });
+    if (error) this.logger.error(`Resend sendEmail failed: ${JSON.stringify(error)}`);
   }
 
   async sendOtpEmail(to: string, otp: string): Promise<void> {
@@ -34,7 +35,7 @@ export class ResendService {
       this.logger.warn('Resend not configured — cannot send email OTP');
       return;
     }
-    await this.resend.emails.send({
+    const { data, error } = await this.resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Easyservice <noreply@easyservice.tech>',
       to,
       subject: 'Your Easyservice Admin Login OTP',
@@ -46,5 +47,9 @@ export class ResendService {
           <p style="color:#999;font-size:12px;margin:0">If you didn't request this, you can safely ignore this email.</p>
         </div>`,
     });
+    if (error) {
+      this.logger.error(`Resend OTP email failed: ${JSON.stringify(error)}`);
+      throw new Error('Resend OTP email failed');
+    }
   }
 }
