@@ -12,6 +12,15 @@ import {
   Headphones,
 } from 'lucide-react';
 import { GeminiLogo, WhatsAppIcon } from '../../components/BrandIcons';
+import Seo from '../../components/Seo';
+import { localBusinessSchema, faqSchema } from '../../lib/seo';
+
+const HERO_FAQS = [
+  { q: 'How do I book a home service on Easyservice?', a: 'Simply tell our AI assistant or search for the service you need, choose a verified professional near you, pick a time and confirm your booking instantly.' },
+  { q: 'Are the professionals verified?', a: 'Yes. Every professional on Easyservice completes CNIC verification and a background check before they can accept bookings.' },
+  { q: 'Which services can I book?', a: 'AC repair, plumbing, electrical work, painting, home cleaning, carpentry, mechanics and many more home services across Pakistan.' },
+  { q: 'Can I book services on my mobile?', a: 'Yes. Easyservice works on any mobile browser and is available as an app on the Google Play Store.' },
+];
 
 const WHATSAPP_NUMBER = '923001234567';
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I need a service booked via Easyservice.')}`;
@@ -132,6 +141,12 @@ export default function LandingPage() {
 
   return (
     <div className="animate-fade-in pb-24 md:pb-0">
+      <Seo
+        title="Home Services Made Easy"
+        description="Book verified home services professionals in Pakistan — AC repair, plumber, electrician, painter, cleaning and more. Instant booking, trusted pros, 24/7."
+        canonicalPath="/"
+        jsonLd={[localBusinessSchema, faqSchema(HERO_FAQS)]}
+      />
       {/* Mobile location selector */}
       <div className="md:hidden flex items-center gap-1.5 px-4 pt-2 pb-3 text-sm text-gray-700">
         <MapPin size={16} className="text-brand-600" />
@@ -515,6 +530,25 @@ export default function LandingPage() {
               <h3 className="font-display font-bold text-sm md:text-base text-gray-900">{s.title}</h3>
               <p className="text-xs md:text-sm text-gray-500 mt-2 leading-relaxed">{s.desc}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== FAQ ===== */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+        <div className="text-center mb-8">
+          <p className="text-xs md:text-sm font-bold text-brand-600 uppercase tracking-[0.15em]">Common Questions</p>
+          <h2 className="font-display text-xl md:text-3xl font-extrabold text-ink-900 mt-1">Frequently Asked Questions</h2>
+        </div>
+        <div className="space-y-3">
+          {HERO_FAQS.map((f) => (
+            <details key={f.q} className="group bg-white border border-gray-100 rounded-2xl shadow-sm p-4 md:p-5">
+              <summary className="flex items-center justify-between cursor-pointer font-semibold text-sm md:text-base text-gray-900 list-none">
+                {f.q}
+                <span className="text-brand-600 text-lg ml-3 group-open:rotate-45 transition-transform">+</span>
+              </summary>
+              <p className="mt-3 text-sm text-gray-500 leading-relaxed">{f.a}</p>
+            </details>
           ))}
         </div>
       </section>

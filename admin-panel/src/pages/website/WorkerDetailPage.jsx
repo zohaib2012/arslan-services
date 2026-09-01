@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
+import Seo from '../../components/Seo';
+import { breadcrumbSchema } from '../../lib/seo';
 import { api } from '../../lib/api';
 import { useAuth } from '../../context/AuthContext';
 import { formatRating, formatPriceRange } from '../../components/WorkerCard';
@@ -164,6 +166,22 @@ export default function WorkerDetailPage() {
 
   return (
     <div className="animate-fade-in pb-28 md:pb-8">
+      {worker && (
+        <Seo
+          title={`${worker.user?.fullName || 'Professional'} — ${worker.workerServices?.[0]?.service?.nameEn || 'Home Service'} Expert`}
+          description={`Book ${worker.user?.fullName || 'a verified professional'} for ${worker.workerServices?.map((ws) => ws.service?.nameEn || ws.customServiceName).filter(Boolean).join(', ') || 'home services'}. ${formatRating(worker.avgRating)} rating, ${worker.completedJobs || 0} jobs done. Verified on Easyservice.`}
+          canonicalPath={`/workers/${id}`}
+          type="profile"
+          image={worker.user?.profilePhoto || '/icons/logo.png'}
+          jsonLd={[
+            breadcrumbSchema([
+              { name: 'Home', path: '/' },
+              { name: 'Professionals', path: '/workers/nearby' },
+              { name: worker.user?.fullName || 'Professional', path: `/workers/${id}` },
+            ]),
+          ]}
+        />
+      )}
       {/* Mobile header */}
       <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 py-3 flex items-center justify-between">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-full">

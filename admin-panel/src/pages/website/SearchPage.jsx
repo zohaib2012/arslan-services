@@ -9,6 +9,8 @@ import {
   Search, Wrench, Loader2, SlidersHorizontal, ChevronLeft, MapPin,
   Sparkles, ChevronDown,
 } from 'lucide-react';
+import Seo from '../../components/Seo';
+import { serviceSchema, breadcrumbSchema } from '../../lib/seo';
 
 const FILTERS = [
   { key: 'best', label: 'Best Match' },
@@ -130,6 +132,18 @@ export default function SearchPage() {
 
   return (
     <div className="animate-fade-in pb-24 md:pb-8">
+      <Seo
+        title={`Book ${title}`}
+        description={`Find and book verified ${title.toLowerCase()} professionals near you in Pakistan. Compare ratings, prices and book instantly with Easyservice.`}
+        canonicalPath={`/search${q ? `?q=${encodeURIComponent(q)}` : serviceId ? `?service=${serviceId}` : categoryId ? `?category=${categoryId}` : ''}`}
+        jsonLd={[
+          serviceSchema(title, `Book verified ${title.toLowerCase()} professionals near you. Instant booking, upfront pricing and trusted pros in Pakistan.`),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: title, path: `/search?category=${categoryId}` },
+          ]),
+        ]}
+      />
       {/* Mobile header */}
       <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 pt-3 pb-2">
         <div className="flex items-center justify-between mb-3">
@@ -387,6 +401,24 @@ export default function SearchPage() {
         <button className="md:hidden w-full mt-5 py-3.5 rounded-2xl bg-white border border-gray-200 text-sm font-bold text-gray-700 flex items-center justify-center gap-1">
           View {Math.max(0, total - workers.length)} More Results <ChevronDown size={16} />
         </button>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 mb-8 md:mt-14 md:mb-14">
+        <div className="prose prose-sm md:prose-base max-w-none bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-8">
+          <h2 className="font-display font-bold text-lg md:text-xl text-gray-900 mb-3">
+            {title} Services in Pakistan — Book Verified Professionals
+          </h2>
+          <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-3">
+            Looking for {title.toLowerCase()} services? Easyservice connects you with verified, background-checked
+            professionals across Pakistan. Compare ratings, read real reviews and check upfront pricing — then book
+            instantly in just a few taps. Whether it is a routine job or an emergency, our professionals arrive on time
+            and complete the work to the highest standard.
+          </p>
+          <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+            Every professional on Easyservice completes CNIC verification before accepting bookings, and every booking
+            is protected. Find the best {title.toLowerCase()} professionals near you today and get the job done right.
+          </p>
+        </div>
       </div>
 
       {loading && <Loader2 className="hidden" />}

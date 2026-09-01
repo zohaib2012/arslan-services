@@ -12,6 +12,7 @@ const navItems = [
   { path: '/', label: 'Home', exact: true },
   { path: '/workers/nearby', label: 'Nearby Workers' },
   { path: '/ai-search', label: 'AI Assistant' },
+  { path: '/blog', label: 'Blog' },
 ];
 
 const bottomTabs = [
@@ -262,6 +263,7 @@ export default function CustomerLayout({ isDashboard = false }) {
                 <li><Link to="/ai-search" className="hover:text-white transition-colors">AI Assistant</Link></li>
                 <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
                 <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+                <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
               </ul>
             </div>
             <div>

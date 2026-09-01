@@ -27,6 +27,9 @@ const AboutUs = lazy(() => import('./pages/website/AboutUs'));
 const ContactUs = lazy(() => import('./pages/website/ContactUs'));
 const TermsAndConditions = lazy(() => import('./pages/website/TermsAndConditions'));
 const PrivacyPolicy = lazy(() => import('./pages/website/PrivacyPolicy'));
+const BlogPage = lazy(() => import('./pages/website/BlogPage'));
+const BlogPostPage = lazy(() => import('./pages/website/BlogPostPage'));
+const NotFoundPage = lazy(() => import('./pages/website/NotFoundPage'));
 
 // Customer pages
 const CustomerDashboardHome = lazy(() => import('./pages/customer/DashboardHome'));
@@ -154,6 +157,9 @@ export default function App() {
               <Route path="contact" element={<ContactUs />} />
               <Route path="terms" element={<TermsAndConditions />} />
               <Route path="privacy" element={<PrivacyPolicy />} />
+              <Route path="blog" element={<BlogPage />} />
+              <Route path="blog/:slug" element={<BlogPostPage />} />
+              <Route path="404" element={<NotFoundPage />} />
             </Route>
 
             <Route path="/admin" element={<RequireRole role="admin"><AdminLayout /></RequireRole>}>
@@ -216,7 +222,7 @@ export default function App() {
               <Route path="notifications" element={<WorkerNotifications />} />
             </Route>
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </AuthProvider>

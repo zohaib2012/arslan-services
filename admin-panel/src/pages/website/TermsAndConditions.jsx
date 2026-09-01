@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ScrollText, ChevronLeft } from 'lucide-react';
+import Seo from '../../components/Seo';
 
 const sections = [
   {
@@ -130,6 +131,11 @@ export default function TermsAndConditions() {
   const navigate = useNavigate();
   return (
     <div className="animate-fade-in pb-6 md:pb-0">
+      <Seo
+        title="Terms and Conditions"
+        description="Read the Terms and Conditions for using Easyservice home services platform — customer and worker agreements, payments, and responsibilities."
+        canonicalPath="/terms"
+      />
       {/* Mobile header */}
       <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 py-3 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-full">

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, Send, Globe, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Seo from '../../components/Seo';
 
 export default function ContactUs() {
   const navigate = useNavigate();
@@ -36,6 +37,11 @@ export default function ContactUs() {
 
   return (
     <div className="animate-fade-in pb-6 md:pb-0">
+      <Seo
+        title="Contact Us"
+        description="Get in touch with Easyservice — support, bookings, worker registration or partnership. We're here to help you with any home service need."
+        canonicalPath="/contact"
+      />
       {/* Mobile header */}
       <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 py-3 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-full">

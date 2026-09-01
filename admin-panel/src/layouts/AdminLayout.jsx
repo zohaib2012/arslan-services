@@ -1,5 +1,6 @@
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Seo from '../components/Seo';
 import {
   LayoutDashboard, Users, Briefcase, Calendar, FolderTree,
   AlertTriangle, Image, Bell, LogOut, Menu, X, TrendingUp, FileText,
@@ -79,6 +80,7 @@ export default function AdminLayout() {
 
   return (
     <div className="flex h-screen bg-[#F6F9F7]">
+      <Seo noindex />
       {sidebarOpen && (
         <div className="fixed inset-0 z-20 bg-black/30 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}

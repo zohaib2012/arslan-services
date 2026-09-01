@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, Lock, User, Phone, Eye, EyeOff, ArrowRight, Loader2, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Seo from '../../components/Seo';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex bg-white">
+      <Seo noindex />
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-800 via-brand-700 to-brand-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, white 0, transparent 40%), radial-gradient(circle at 80% 70%, white 0, transparent 35%)' }} />
         <div className="relative z-10 flex flex-col justify-center items-center w-full px-16 text-white">

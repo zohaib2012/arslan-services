@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Admin & private areas
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /worker
+Disallow: /auth
+Disallow: /assets/
+
+# PWA service worker
+Disallow: /sw.js
+
+# API
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://easyservice.tech/sitemap.xml

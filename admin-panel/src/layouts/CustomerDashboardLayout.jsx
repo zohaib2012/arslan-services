@@ -1,5 +1,6 @@
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Seo from '../components/Seo';
 import {
   LayoutDashboard, Calendar, MessageSquare, Heart, AlertTriangle,
   Bell, User, Ban, LogOut, Menu, X, ChevronDown, Home,
@@ -76,6 +77,7 @@ export default function CustomerDashboardLayout() {
 
   return (
     <div className="flex h-screen bg-[#F6F9F7]">
+      <Seo noindex />
       {sidebarOpen && (
         <div className="fixed inset-0 z-20 bg-black/30 backdrop-blur-sm lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}

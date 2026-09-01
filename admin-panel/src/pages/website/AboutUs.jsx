@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Shield, BadgeCheck, Zap, Eye, Users, Heart, Star, ChevronLeft } from 'lucide-react';
+import Seo from '../../components/Seo';
 
 const values = [
   { icon: <Shield size={24} />, title: 'Trusted', desc: 'Every professional undergoes background verification before joining our platform.' },
@@ -12,6 +13,11 @@ export default function AboutUs() {
   const navigate = useNavigate();
   return (
     <div className="animate-fade-in pb-6 md:pb-0">
+      <Seo
+        title="About Us"
+        description="Easyservice is Pakistan's home services marketplace — connecting verified professionals with customers for AC repair, plumbing, electrical, painting and more."
+        canonicalPath="/about"
+      />
       {/* Mobile header */}
       <div className="md:hidden sticky top-16 z-40 bg-[#F6F9F7] px-4 py-3 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="p-2 -ml-2 text-gray-700 hover:bg-gray-100 rounded-full">
