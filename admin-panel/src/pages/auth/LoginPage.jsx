@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, UserPlus, ChevronLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { api } from '../../lib/api';
 
 export default function LoginPage() {
   const { login, guestLogin } = useAuth();
@@ -46,8 +47,14 @@ export default function LoginPage() {
     } catch (err) {
       const msg = err.response?.data?.message || '';
       if (msg.includes('email OTP') || msg.includes('Admins must verify')) {
-        navigate(`/admin/login?email=${encodeURIComponent(identifier.trim())}`);
-        toast('Admin login needs OTP verification — redirected', { icon: '🔐' });
+        try {
+          // Auto-send OTP using the entered admin credentials
+          await api.post('/auth/admin/request-otp', { email: identifier.trim(), password });
+          toast('Admin OTP sent to your email — enter it below', { icon: '🔐' });
+          navigate(`/admin/login?email=${encodeURIComponent(identifier.trim())}&otpSent=1`);
+        } catch {
+          navigate(`/admin/login?email=${encodeURIComponent(identifier.trim())}`);
+        }
         return;
       }
       toast.error(msg || 'Invalid credentials');

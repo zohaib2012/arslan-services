@@ -197,7 +197,7 @@ export class AuthService {
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    await this.redisService.set(`admin-otp:${normalized}`, otp, 5 * 60);
+    await this.redisService.set(`admin-otp:${normalized}`, otp, 2 * 60);
 
     try {
       await this.resendService.sendOtpEmail(normalized, otp);

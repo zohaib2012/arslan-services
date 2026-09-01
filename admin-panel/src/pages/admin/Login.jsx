@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -6,8 +6,8 @@ import { Building2, Mail, Lock, Eye, EyeOff, ShieldCheck, KeyRound, ArrowRight, 
 import { api } from '../../lib/api';
 
 export default function Login() {
-  const [step, setStep] = useState('email'); // email | otp
   const [searchParams] = useSearchParams();
+  const [step, setStep] = useState(searchParams.get('otpSent') === '1' ? 'otp' : 'email'); // email | otp
   const [email, setEmail] = useState(searchParams.get('email') || '');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +29,10 @@ export default function Login() {
       });
     }, 1000);
   };
+
+  useEffect(() => {
+    if (searchParams.get('otpSent') === '1') startCooldown();
+  }, []);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
