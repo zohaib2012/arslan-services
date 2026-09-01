@@ -57,6 +57,17 @@ export function AuthProvider({ children }) {
     return res.data;
   };
 
+  const adminOtpLogin = async (email, otp) => {
+    const res = await api.post('/auth/admin/verify-otp', { email, otp });
+    setToken(res.data.accessToken);
+    if (res.data.refreshToken) {
+      localStorage.setItem('refreshToken', res.data.refreshToken);
+    }
+    setUser(res.data.user);
+    saveUser(res.data.user);
+    return res.data;
+  };
+
   const guestLogin = async (fullName) => {
     const res = await api.post('/auth/login/guest', { fullName });
     setToken(res.data.accessToken);
@@ -81,7 +92,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, guestLogin, logout, init, isAuthenticated, isCustomer, isWorker, isAdmin, role }}
+      value={{ user, loading, login, adminOtpLogin, guestLogin, logout, init, isAuthenticated, isCustomer, isWorker, isAdmin, role }}
     >
       {children}
     </AuthContext.Provider>

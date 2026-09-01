@@ -175,6 +175,56 @@ export class AuthService {
     return { user: this.sanitizeUser(user), ...tokens };
   }
 
+  async requestAdminOtp(email: string) {
+    const normalized = (email || '').trim().toLowerCase();
+    const user = await this.prisma.user.findFirst({
+      where: { email: normalized, role: { in: ['ADMIN', 'SUPER_ADMIN'] } },
+    });
+
+    if (!user || user.isBlocked) {
+      return { message: 'If this email is registered as an admin, an OTP has been sent' };
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    await this.redisService.set(`admin-otp:${normalized}`, otp, 5 * 60);
+
+    try {
+      await this.resendService.sendOtpEmail(normalized, otp);
+    } catch (err) {
+      console.error('Failed to send admin OTP email:', (err as Error)?.message || err);
+    }
+
+    return { message: 'If this email is registered as an admin, an OTP has been sent' };
+  }
+
+  async verifyAdminOtp(email: string, otp: string) {
+    const normalized = (email || '').trim().toLowerCase();
+    const storedOtp = await this.redisService.get(`admin-otp:${normalized}`);
+
+    if (!storedOtp || storedOtp !== otp) {
+      throw new UnauthorizedException('Invalid or expired OTP');
+    }
+
+    await this.redisService.del(`admin-otp:${normalized}`);
+
+    const user = await this.prisma.user.findFirst({
+      where: { email: normalized, role: { in: ['ADMIN', 'SUPER_ADMIN'] } },
+      include: { workerProfile: true, adminUser: true },
+    });
+
+    if (!user || user.isBlocked) {
+      throw new UnauthorizedException('Account not found or blocked');
+    }
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date() },
+    });
+
+    const tokens = await this.generateTokens(user.id, user.role);
+    return { user: this.sanitizeUser(user), ...tokens };
+  }
+
   async refreshToken(refreshToken: string) {
     try {
       const payload = this.jwtService.verify(refreshToken, { secret: process.env.JWT_REFRESH_SECRET || 'refresh-secret' });

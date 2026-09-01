@@ -22,10 +22,29 @@ export class ResendService {
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
     if (!this.resend) return;
     await this.resend.emails.send({
-      from: 'Arslan Services <noreply@yourdomain.com>',
+      from: process.env.RESEND_FROM_EMAIL || 'Easyservice <onboarding@resend.dev>',
       to,
       subject,
       html,
+    });
+  }
+
+  async sendOtpEmail(to: string, otp: string): Promise<void> {
+    if (!this.resend) {
+      this.logger.warn('Resend not configured — cannot send email OTP');
+      return;
+    }
+    await this.resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'Easyservice <onboarding@resend.dev>',
+      to,
+      subject: 'Your Easyservice Admin Login OTP',
+      html: `
+        <div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px">
+          <h2 style="margin:0 0 8px;color:#006837">Easyservice Admin Login</h2>
+          <p style="color:#555;margin:0 0 16px">Use the OTP below to verify your identity. It expires in <strong>5 minutes</strong>.</p>
+          <div style="font-size:34px;font-weight:800;letter-spacing:8px;color:#006837;background:#f0faf4;border:1px solid #d6e8dc;padding:18px;border-radius:10px;text-align:center;margin:0 0 16px">${otp}</div>
+          <p style="color:#999;font-size:12px;margin:0">If you didn't request this, you can safely ignore this email.</p>
+        </div>`,
     });
   }
 }

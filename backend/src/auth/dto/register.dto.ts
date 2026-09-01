@@ -75,3 +75,17 @@ export class ResetPasswordDto {
   @MinLength(6)
   newPassword: string;
 }
+
+export class AdminRequestOtpDto {
+  @IsEmail()
+  email: string;
+}
+
+export class AdminVerifyOtpDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(4)
+  otp: string;
+}

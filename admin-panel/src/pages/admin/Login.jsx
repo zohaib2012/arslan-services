@@ -2,28 +2,66 @@ import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Building2, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Building2, Mail, ShieldCheck, KeyRound, ArrowRight, ArrowLeft, RefreshCw, Loader2 } from 'lucide-react';
+import { api } from '../../lib/api';
 
 export default function Login() {
+  const [step, setStep] = useState('email'); // email | otp
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const [cooldown, setCooldown] = useState(0);
+  const { adminOtpLogin } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const startCooldown = () => {
+    setCooldown(30);
+    const t = setInterval(() => {
+      setCooldown((c) => {
+        if (c <= 1) {
+          clearInterval(t);
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+  };
+
+  const handleSendOtp = async (e) => {
     e.preventDefault();
+    if (!email.trim()) {
+      toast.error('Please enter your admin email');
+      return;
+    }
     setLoading(true);
     try {
-      const data = await login(email, password);
-      toast.success('Logged in successfully');
+      const res = await api.post('/auth/admin/request-otp', { email });
+      toast.success(res.data?.message || 'OTP sent to your email');
+      setStep('otp');
+      startCooldown();
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to send OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (!otp.trim() || otp.length < 4) {
+      toast.error('Please enter the OTP');
+      return;
+    }
+    setLoading(true);
+    try {
+      const data = await adminOtpLogin(email, otp.trim());
+      toast.success('Verified! Welcome to the admin panel');
       const role = data.user?.role;
       if (role === 'ADMIN' || role === 'SUPER_ADMIN') navigate('/admin/dashboard');
       else if (role === 'WORKER') navigate('/worker/dashboard');
       else navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Invalid credentials');
+      toast.error(err.response?.data?.message || 'Invalid OTP');
     } finally {
       setLoading(false);
     }
@@ -64,64 +102,105 @@ export default function Login() {
 
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <div className="lg:hidden w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-brand-600/20">
               <Building2 className="text-white" size={28} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">Welcome Back</h2>
-            <p className="text-gray-400 mt-1">Sign in to your admin account</p>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">
+                <ShieldCheck size={14} /> Secured with Email OTP
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800">
+              {step === 'email' ? 'Admin Sign In' : 'Verify OTP'}
+            </h2>
+            <p className="text-gray-400 mt-1 text-sm">
+              {step === 'email'
+                ? 'Enter your admin email to receive a one-time code'
+                : `We sent a 6-digit code to ${email}`}
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input
-                  type="email"
-                  placeholder="admin@arslan.com"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm transition-all bg-gray-50/50"
-                  required
-                />
+          {step === 'email' ? (
+            <form onSubmit={handleSendOtp} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Admin Email</label>
+                <div className="relative">
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="email"
+                    placeholder="admin@easyservice.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm transition-all bg-gray-50/50"
+                    required
+                  />
+                </div>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-11 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm transition-all bg-gray-50/50"
-                  required
-                />
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-60 shadow-lg shadow-brand-600/20 flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  <>Send OTP <ArrowRight size={18} /></>
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">One-Time Password</label>
+                <div className="relative">
+                  <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
+                    placeholder="6-digit code"
+                    value={otp}
+                    onChange={e => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm tracking-[0.35em] transition-all bg-gray-50/50 text-center font-bold text-lg"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-60 shadow-lg shadow-brand-600/20 flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  <>Verify & Access <ArrowRight size={18} /></>
+                )}
+              </button>
+
+              <div className="flex items-center justify-between text-sm">
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={() => { setStep('email'); setOtp(''); }}
+                  className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-700 font-medium"
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  <ArrowLeft size={14} /> Change email
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  disabled={cooldown > 0 || loading}
+                  className="inline-flex items-center gap-1.5 text-brand-700 hover:text-brand-800 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <RefreshCw size={14} className={cooldown > 0 ? '' : ''} />
+                  {cooldown > 0 ? `Resend in ${cooldown}s` : 'Resend OTP'}
                 </button>
               </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-brand-600 to-brand-700 text-white rounded-xl font-semibold hover:from-brand-700 hover:to-brand-800 transition-all disabled:opacity-60 shadow-lg shadow-brand-600/20 flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>Sign In <ArrowRight size={18} /></>
-              )}
-            </button>
-          </form>
+            </form>
+          )}
 
           <p className="text-center text-xs text-gray-400 mt-8">
             &copy; 2026 Easyservice. All rights reserved.

@@ -17,6 +17,8 @@ import {
   RefreshTokenDto,
   ForgotPasswordDto,
   ResetPasswordDto,
+  AdminRequestOtpDto,
+  AdminVerifyOtpDto,
 } from './dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
@@ -52,6 +54,18 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async verifyOtp(@Body() dto: VerifyOtpDto) {
     return this.authService.verifyOtp(dto.phone, dto.otp);
+  }
+
+  @Post('admin/request-otp')
+  @HttpCode(HttpStatus.OK)
+  async requestAdminOtp(@Body() dto: AdminRequestOtpDto) {
+    return this.authService.requestAdminOtp(dto.email);
+  }
+
+  @Post('admin/verify-otp')
+  @HttpCode(HttpStatus.OK)
+  async verifyAdminOtp(@Body() dto: AdminVerifyOtpDto) {
+    return this.authService.verifyAdminOtp(dto.email, dto.otp);
   }
 
   @Post('refresh-token')
