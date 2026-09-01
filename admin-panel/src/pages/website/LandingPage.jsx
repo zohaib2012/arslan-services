@@ -153,10 +153,10 @@ export default function LandingPage() {
 
             <div className="relative grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
               <div className="md:col-span-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-white text-xs font-bold mb-3 md:mb-4">
-                  <GeminiIcon size={16} />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30 border border-white/20 text-white text-xs font-bold mb-3 md:mb-4 shadow-lg shadow-purple-500/20">
+                  <GeminiIcon size={18} />
                   <span>Gemini AI Assistant</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-400/25 text-[10px]">Beta</span>
+                  <span className="px-2 py-0.5 rounded-full bg-white text-[10px] text-[#0f5c34] font-extrabold">Beta</span>
                 </div>
 
                 <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-2">
@@ -179,29 +179,56 @@ export default function LandingPage() {
                   ))}
                 </div>
 
-                <form onSubmit={handleAiSubmit} className="relative max-w-xl mb-4">
-                  <input
-                    value={aiInput}
-                    onChange={(e) => setAiInput(e.target.value)}
-                    placeholder="Mujhe AC repair chahiye"
-                    className="w-full pl-4 pr-24 py-3.5 md:py-4 rounded-2xl bg-white text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
-                  />
-                  <button
-                    type="button"
-                    onClick={startVoice}
-                    className={`absolute right-14 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                      listening ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                    }`}
-                  >
-                    <Mic size={18} />
-                  </button>
-                  <button
-                    type="submit"
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-gradient-to-br from-[#4285F4] via-[#8B5CF6] to-[#EC4899] text-white flex items-center justify-center hover:brightness-110 transition-all"
-                  >
-                    <Sparkles size={18} />
-                  </button>
+                <form onSubmit={handleAiSubmit} className="mb-4">
+                  <div className="relative max-w-xl bg-white rounded-2xl shadow-lg flex items-center gap-1 p-1.5 focus-within:ring-2 focus-within:ring-gold-400 transition-all">
+                    <Search size={20} className="ml-3 text-gray-400 shrink-0" />
+                    <input
+                      value={aiInput}
+                      onChange={(e) => setAiInput(e.target.value)}
+                      placeholder="Mujhe AC repair chahiye"
+                      className="w-full min-w-0 pl-2.5 pr-1 py-3 md:py-3.5 bg-transparent text-gray-900 text-sm md:text-base placeholder:text-gray-400 focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={startVoice}
+                      title="Voice search"
+                      className={`relative shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all ${
+                        listening
+                          ? 'bg-red-500 text-white animate-pulse shadow-lg shadow-red-500/50'
+                          : 'bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white hover:brightness-110 shadow-md shadow-[#25D366]/40 active:scale-95'
+                      }`}
+                    >
+                      <Mic size={20} />
+                      {!listening && <span className="absolute inset-0 rounded-xl bg-[#25D366]/25 animate-ping" />}
+                    </button>
+                    <button
+                      type="submit"
+                      className="shrink-0 ml-1.5 h-11 md:h-12 px-3.5 md:px-5 rounded-xl bg-gradient-to-br from-[#4285F4] via-[#8B5CF6] to-[#EC4899] text-white font-bold text-sm flex items-center justify-center gap-1.5 hover:brightness-110 transition-all shadow-md shadow-purple-500/40 active:scale-95"
+                    >
+                      <GeminiIcon size={17} />
+                      <span className="hidden sm:inline">Ask AI</span>
+                    </button>
+                  </div>
                 </form>
+
+                <div className="flex items-center gap-2 flex-wrap mb-3">
+                  <span className="inline-flex items-center gap-1 text-[10px] md:text-xs text-emerald-50/75 font-bold">
+                    <Sparkles size={12} className="text-gold-400" /> Try asking Gemini:
+                  </span>
+                  {[
+                    { label: 'AC repair kitna hoga?', q: 'AC repair kitna hoga' },
+                    { label: 'Best electrician dhoondo', q: 'best electrician dhoondo' },
+                    { label: 'Plumber near me', q: 'plumber near me' },
+                  ].map((p) => (
+                    <button
+                      key={p.label}
+                      onClick={() => navigate(`/ai-search?q=${encodeURIComponent(p.q)}`)}
+                      className="shrink-0 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-[10px] md:text-xs font-semibold hover:bg-white/20 active:scale-95 transition-all"
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
 
                 <div className="flex gap-2 overflow-x-auto pb-1">
                   {[
