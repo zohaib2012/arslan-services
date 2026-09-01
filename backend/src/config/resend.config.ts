@@ -22,7 +22,7 @@ export class ResendService {
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
     if (!this.resend) return;
     await this.resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Easyservice <onboarding@resend.dev>',
+      from: process.env.RESEND_FROM_EMAIL || 'Easyservice <noreply@easyservice.tech>',
       to,
       subject,
       html,
@@ -35,7 +35,7 @@ export class ResendService {
       return;
     }
     await this.resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Easyservice <onboarding@resend.dev>',
+      from: process.env.RESEND_FROM_EMAIL || 'Easyservice <noreply@easyservice.tech>',
       to,
       subject: 'Your Easyservice Admin Login OTP',
       html: `

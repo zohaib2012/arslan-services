@@ -175,14 +175,19 @@ export class AuthService {
     return { user: this.sanitizeUser(user), ...tokens };
   }
 
-  async requestAdminOtp(email: string) {
+  async requestAdminOtp(email: string, password: string) {
     const normalized = (email || '').trim().toLowerCase();
     const user = await this.prisma.user.findFirst({
       where: { email: normalized, role: { in: ['ADMIN', 'SUPER_ADMIN'] } },
     });
 
-    if (!user || user.isBlocked) {
-      return { message: 'If this email is registered as an admin, an OTP has been sent' };
+    if (!user || user.isBlocked || !user.passwordHash) {
+      throw new UnauthorizedException('Invalid admin credentials');
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid admin credentials');
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -194,7 +199,7 @@ export class AuthService {
       console.error('Failed to send admin OTP email:', (err as Error)?.message || err);
     }
 
-    return { message: 'If this email is registered as an admin, an OTP has been sent' };
+    return { message: 'OTP sent to your admin email' };
   }
 
   async verifyAdminOtp(email: string, otp: string) {

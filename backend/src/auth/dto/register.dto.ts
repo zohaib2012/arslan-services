@@ -79,6 +79,10 @@ export class ResetPasswordDto {
 export class AdminRequestOtpDto {
   @IsEmail()
   email: string;
+
+  @IsString()
+  @MinLength(6)
+  password: string;
 }
 
 export class AdminVerifyOtpDto {

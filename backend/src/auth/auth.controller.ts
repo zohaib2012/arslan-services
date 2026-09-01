@@ -59,7 +59,7 @@ export class AuthController {
   @Post('admin/request-otp')
   @HttpCode(HttpStatus.OK)
   async requestAdminOtp(@Body() dto: AdminRequestOtpDto) {
-    return this.authService.requestAdminOtp(dto.email);
+    return this.authService.requestAdminOtp(dto.email, dto.password);
   }
 
   @Post('admin/verify-otp')

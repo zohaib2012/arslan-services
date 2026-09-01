@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Building2, Mail, ShieldCheck, KeyRound, ArrowRight, ArrowLeft, RefreshCw, Loader2 } from 'lucide-react';
+import { Building2, Mail, Lock, Eye, EyeOff, ShieldCheck, KeyRound, ArrowRight, ArrowLeft, RefreshCw, Loader2 } from 'lucide-react';
 import { api } from '../../lib/api';
 
 export default function Login() {
   const [step, setStep] = useState('email'); // email | otp
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
@@ -29,18 +31,18 @@ export default function Login() {
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
-    if (!email.trim()) {
-      toast.error('Please enter your admin email');
+    if (!email.trim() || !password) {
+      toast.error('Please enter your email and password');
       return;
     }
     setLoading(true);
     try {
-      const res = await api.post('/auth/admin/request-otp', { email });
+      const res = await api.post('/auth/admin/request-otp', { email, password });
       toast.success(res.data?.message || 'OTP sent to your email');
       setStep('otp');
       startCooldown();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to send OTP');
+      toast.error(err.response?.data?.message || 'Invalid credentials');
     } finally {
       setLoading(false);
     }
@@ -135,6 +137,28 @@ export default function Login() {
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm transition-all bg-gray-50/50"
                     required
                   />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+                <div className="relative">
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="w-full pl-10 pr-11 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm transition-all bg-gray-50/50"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
               </div>
 
