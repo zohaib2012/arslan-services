@@ -14,6 +14,7 @@ export default function Login() {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [expiresIn, setExpiresIn] = useState(0);
   const { adminOtpLogin, isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
 
@@ -30,8 +31,24 @@ export default function Login() {
     }, 1000);
   };
 
+  const startExpiry = () => {
+    setExpiresIn(120);
+    const t = setInterval(() => {
+      setExpiresIn((c) => {
+        if (c <= 1) {
+          clearInterval(t);
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+  };
+
   useEffect(() => {
-    if (searchParams.get('otpSent') === '1') startCooldown();
+    if (searchParams.get('otpSent') === '1') {
+      startCooldown();
+      startExpiry();
+    }
   }, []);
 
   const handleSendOtp = async (e) => {
@@ -46,6 +63,7 @@ export default function Login() {
       toast.success(res.data?.message || 'OTP sent to your email');
       setStep('otp');
       startCooldown();
+      startExpiry();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Invalid credentials');
     } finally {
@@ -181,6 +199,15 @@ export default function Login() {
             </form>
           ) : (
             <form onSubmit={handleVerifyOtp} className="space-y-5">
+              {expiresIn > 0 ? (
+                <div className="text-center text-xs font-semibold text-amber-600 bg-amber-50 border border-amber-200 rounded-lg py-2">
+                  ⏳ OTP expires in {Math.floor(expiresIn / 60)}:{String(expiresIn % 60).padStart(2, '0')} minutes
+                </div>
+              ) : (
+                <div className="text-center text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-lg py-2">
+                  OTP has expired — please resend a new one
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">One-Time Password</label>
                 <div className="relative">
