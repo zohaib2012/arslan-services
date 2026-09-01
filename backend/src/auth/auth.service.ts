@@ -90,6 +90,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
+      throw new UnauthorizedException(
+        'Admins must verify via email OTP. Please use the admin login page.',
+      );
+    }
+
     await this.prisma.user.update({
       where: { id: user.id },
       data: { lastLoginAt: new Date() },
