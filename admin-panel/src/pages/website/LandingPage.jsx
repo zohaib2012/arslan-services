@@ -180,32 +180,31 @@ export default function LandingPage() {
                 </div>
 
                 <form onSubmit={handleAiSubmit} className="mb-4">
-                  <div className="relative max-w-xl bg-white rounded-2xl shadow-lg flex items-center gap-1 p-1.5 focus-within:ring-2 focus-within:ring-gold-400 transition-all">
-                    <Search size={20} className="ml-3 text-gray-400 shrink-0" />
+                  <div className="relative max-w-xl bg-white rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.15)] flex items-center p-1.5 focus-within:ring-2 focus-within:ring-emerald-300 transition-all">
+                    <Search size={18} className="ml-3 text-gray-400 shrink-0" />
                     <input
                       value={aiInput}
                       onChange={(e) => setAiInput(e.target.value)}
                       placeholder="Mujhe AC repair chahiye"
-                      className="w-full min-w-0 pl-2.5 pr-1 py-3 md:py-3.5 bg-transparent text-gray-900 text-sm md:text-base placeholder:text-gray-400 focus:outline-none"
+                      className="w-full min-w-0 px-2.5 py-3 md:py-3.5 bg-transparent text-gray-800 text-sm md:text-base placeholder:text-gray-400 focus:outline-none"
                     />
                     <button
                       type="button"
                       onClick={startVoice}
                       title="Voice search"
-                      className={`relative shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all ${
+                      className={`shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all ${
                         listening
-                          ? 'bg-red-500 text-white animate-pulse shadow-lg shadow-red-500/50'
-                          : 'bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white hover:brightness-110 shadow-md shadow-[#25D366]/40 active:scale-95'
+                          ? 'bg-red-500 text-white animate-pulse shadow-md shadow-red-500/40'
+                          : 'bg-emerald-500 text-white hover:bg-emerald-600 active:scale-95 shadow-sm'
                       }`}
                     >
                       <Mic size={20} />
-                      {!listening && <span className="absolute inset-0 rounded-xl bg-[#25D366]/25 animate-ping" />}
                     </button>
                     <button
                       type="submit"
-                      className="shrink-0 ml-1.5 h-11 md:h-12 px-3.5 md:px-5 rounded-xl bg-gradient-to-br from-[#4285F4] via-[#8B5CF6] to-[#EC4899] text-white font-bold text-sm flex items-center justify-center gap-1.5 hover:brightness-110 transition-all shadow-md shadow-purple-500/40 active:scale-95"
+                      className="shrink-0 ml-1.5 h-11 md:h-12 px-4 md:px-5 rounded-xl bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#DB2777] text-white font-semibold text-sm flex items-center gap-2 hover:opacity-95 active:scale-95 transition-all"
                     >
-                      <GeminiIcon size={17} />
+                      <GeminiIcon size={18} />
                       <span className="hidden sm:inline">Ask AI</span>
                     </button>
                   </div>
@@ -248,15 +247,37 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="hidden md:flex md:col-span-4 flex-col items-center justify-center">
-                <div className="relative w-36 h-36 md:w-48 md:h-48">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 via-purple-400/30 to-pink-400/30 blur-2xl" />
-                  <div className="relative w-full h-full rounded-full bg-gradient-to-br from-[#0d3b24] to-[#004d26] border border-emerald-400/30 flex items-center justify-center shadow-[0_0_50px_rgba(139,92,246,0.35)]">
-                    <GeminiIcon size={100} />
+              <div className="hidden md:flex md:col-span-4 flex-col items-center justify-center gap-4">
+                <div className="w-full rounded-2xl bg-white/10 border border-white/15 backdrop-blur-sm p-5 text-white">
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <span className="w-9 h-9 rounded-xl bg-gold-400/20 flex items-center justify-center shrink-0">
+                      <BadgeCheck size={18} className="text-gold-400" />
+                    </span>
+                    <p className="font-bold text-sm">Home Services Made Easy</p>
+                  </div>
+                  <p className="text-xs text-emerald-50/75 leading-relaxed mb-4">
+                    Verified professionals for AC repair, plumbing, electrical, painting & more — booked in seconds, done right.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['AC Repair', 'Plumber', 'Electrician', 'Painter', 'Cleaning'].map((s) => (
+                      <span key={s} className="px-2.5 py-1 rounded-lg bg-white/10 text-[10px] font-semibold">{s}</span>
+                    ))}
                   </div>
                 </div>
-                <p className="mt-3 text-white/90 text-base font-bold tracking-wide">Gemini</p>
-                <p className="text-white/55 text-xs">by Google</p>
+                <div className="w-full grid grid-cols-3 gap-2">
+                  <div className="rounded-xl bg-white/10 border border-white/15 p-3 text-center">
+                    <p className="text-lg font-extrabold text-gold-400">{workers.length}+</p>
+                    <p className="text-[10px] text-emerald-50/70">Verified Pros</p>
+                  </div>
+                  <div className="rounded-xl bg-white/10 border border-white/15 p-3 text-center">
+                    <p className="text-lg font-extrabold text-gold-400">{categories.length}+</p>
+                    <p className="text-[10px] text-emerald-50/70">Services</p>
+                  </div>
+                  <div className="rounded-xl bg-white/10 border border-white/15 p-3 text-center">
+                    <p className="text-lg font-extrabold text-gold-400">24/7</p>
+                    <p className="text-[10px] text-emerald-50/70">Booking</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
