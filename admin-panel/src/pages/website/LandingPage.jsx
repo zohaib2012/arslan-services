@@ -11,7 +11,7 @@ import {
   Lock, Mic, ArrowUpRight, Sparkles, Lightbulb, ShieldCheck,
   Headphones,
 } from 'lucide-react';
-import { GeminiIcon, WhatsAppIcon } from '../../components/BrandIcons';
+import { GeminiLogo, WhatsAppIcon } from '../../components/BrandIcons';
 
 const WHATSAPP_NUMBER = '923001234567';
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I need a service booked via Easyservice.')}`;
@@ -154,7 +154,7 @@ export default function LandingPage() {
             <div className="relative grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
               <div className="md:col-span-8">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30 border border-white/20 text-white text-xs font-bold mb-3 md:mb-4 shadow-lg shadow-purple-500/20">
-                  <GeminiIcon size={18} />
+                  <GeminiLogo size={18} className="rounded-full" />
                   <span>Gemini AI Assistant</span>
                   <span className="px-2 py-0.5 rounded-full bg-white text-[10px] text-[#0f5c34] font-extrabold">Beta</span>
                 </div>
@@ -204,7 +204,7 @@ export default function LandingPage() {
                       type="submit"
                       className="shrink-0 ml-1.5 h-11 md:h-12 px-4 md:px-5 rounded-xl bg-gradient-to-r from-[#2563EB] via-[#7C3AED] to-[#DB2777] text-white font-semibold text-sm flex items-center gap-2 hover:opacity-95 active:scale-95 transition-all"
                     >
-                      <GeminiIcon size={18} />
+                      <GeminiLogo size={18} className="rounded-full bg-white" />
                       <span className="hidden sm:inline">Ask AI</span>
                     </button>
                   </div>

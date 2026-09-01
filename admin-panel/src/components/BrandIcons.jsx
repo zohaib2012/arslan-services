@@ -1,5 +1,18 @@
 import { useId } from 'react';
 
+export function GeminiLogo({ size = 24, className = '' }) {
+  return (
+    <img
+      src="/icons/gemini-logo.png"
+      alt="Gemini"
+      width={size}
+      height={size}
+      className={className}
+      style={{ objectFit: 'contain' }}
+    />
+  );
+}
+
 export function GeminiIcon({ size = 24, className = '' }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
   const g1 = `gemini-top-${uid}`;

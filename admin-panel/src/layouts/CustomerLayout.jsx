@@ -2,7 +2,7 @@ import { Outlet, Link, NavLink, useNavigate, useLocation } from 'react-router-do
 import { useAuth } from '../context/AuthContext';
 import {
   Search, Menu, X, User, LogOut, Bell, Home, MessageCircle,
-  Calendar, Sparkles, Wrench,
+  Calendar, Sparkles,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import InstallPrompt from '../components/InstallPrompt';
@@ -17,7 +17,7 @@ const navItems = [
 const bottomTabs = [
   { path: '/', label: 'Home', icon: Home, exact: true },
   { path: '/dashboard/bookings', label: 'Bookings', icon: Calendar },
-  { path: '/search', label: 'Explore', icon: Wrench, center: true },
+  { path: '/ai-search', label: 'AI', icon: Sparkles, center: true },
   { path: '/dashboard/chat-list', label: 'Chat', icon: MessageCircle },
   { path: '/dashboard', label: 'Profile', icon: User, exact: true },
 ];
@@ -307,9 +307,10 @@ export default function CustomerLayout({ isDashboard = false }) {
                   onClick={() => navigate(tab.path)}
                   className="relative -top-5 flex flex-col items-center justify-center active:scale-90"
                 >
-                  <span className="w-14 h-14 rounded-full bg-gradient-to-br from-[#4285F4] via-[#8B5CF6] to-[#EC4899] shadow-[0_6px_20px_rgba(139,92,246,0.5)] flex items-center justify-center text-white">
-                    <Sparkles size={26} strokeWidth={2.2} />
+                  <span className="w-14 h-14 rounded-full bg-gradient-to-br from-[#0a7d3c] to-[#006837] border-4 border-white shadow-[0_6px_20px_rgba(15,157,95,0.45)] flex items-center justify-center overflow-hidden">
+                    <img src="/icons/gemini-logo.png" alt="AI Assistant" className="w-9 h-9 object-contain" />
                   </span>
+                  <span className="mt-1 text-[10px] font-bold text-brand-700">AI</span>
                 </button>
               );
             }
