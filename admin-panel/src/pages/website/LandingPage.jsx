@@ -8,7 +8,8 @@ import {
   MapPin, Star, ArrowRight, Shield, Clock, Search,
   Wrench, Zap, PhoneCall, Wallet, Home, BadgeCheck, ChevronRight,
   Droplets, Hammer, Paintbrush, Car, Grid3X3, Gift, BadgePercent,
-  Lock, Mic, ArrowUpRight, Sparkles,
+  Lock, Mic, ArrowUpRight, Sparkles, Lightbulb, ShieldCheck,
+  Headphones,
 } from 'lucide-react';
 import { GeminiIcon, WhatsAppIcon } from '../../components/BrandIcons';
 
@@ -139,120 +140,120 @@ export default function LandingPage() {
       </div>
 
       {/* ===== HERO ===== */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gradient-brand">
-          <div className="absolute inset-0 bg-dots opacity-30" />
-          <div className="absolute -top-32 -right-24 w-96 h-96 rounded-full bg-brand-400/20 blur-3xl" />
-          <div className="absolute top-1/3 -left-24 w-80 h-80 rounded-full bg-gold-400/10 blur-3xl" />
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#004d26] via-[#006837] to-[#0a8f5c]">
+        <div className="absolute inset-0 bg-dots opacity-30" />
+        <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-emerald-400/20 blur-3xl" />
+        <div className="absolute top-20 -left-20 w-64 h-64 rounded-full bg-blue-400/15 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#F6F9F7] to-transparent" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-16 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
-            {/* AI Assistant card */}
-            <div className="lg:col-span-7">
-              <div className="rounded-3xl gradient-brand p-5 md:p-8 text-white shadow-glow overflow-hidden relative">
-                <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 blur-2xl" />
-                <div className="absolute -left-10 bottom-0 w-32 h-32 rounded-full bg-brand-400/20 blur-2xl" />
-                <div className="relative">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-xs font-semibold mb-4">
-                    <GeminiIcon size={16} />
-                    Gemini AI Assistant
-                    <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px]">Beta</span>
-                  </div>
-                  <h2 className="text-lg md:text-2xl font-bold leading-snug mb-2">
-                    Aap jo poochain, best service recommend karain.
-                  </h2>
-                  <p className="text-sm md:text-base text-emerald-50/80 mb-4 md:mb-6">
-                    AI aapko best options dhoond kar deta hai.
-                  </p>
-                  <form onSubmit={handleAiSubmit} className="relative max-w-xl">
-                    <input
-                      value={aiInput}
-                      onChange={(e) => setAiInput(e.target.value)}
-                      placeholder="Mujhe AC repair chahiye"
-                      className="w-full pl-4 pr-24 py-3.5 md:py-4 rounded-2xl bg-white text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
-                    />
-                    <button
-                      type="button"
-                      onClick={startVoice}
-                      title="Voice search"
-                      className={`absolute right-14 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                        listening ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                      }`}
-                    >
-                      <Mic size={18} />
-                    </button>
-                    <button
-                      type="submit"
-                      className="absolute right-1.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center hover:bg-brand-700 transition-colors"
-                    >
-                      <ArrowRight size={20} />
-                    </button>
-                  </form>
-                </div>
-              </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-10 md:pt-10 md:pb-14">
+          <div className="rounded-[1.75rem] md:rounded-[2rem] bg-gradient-to-br from-[#0f5c34]/90 to-[#063d22]/90 border border-emerald-400/20 p-5 md:p-8 shadow-2xl backdrop-blur-sm relative overflow-hidden">
+            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-blue-500/15 blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 w-56 h-56 rounded-full bg-emerald-400/15 blur-3xl" />
 
-              <div className="mt-4 md:mt-6 flex items-center gap-2 text-xs md:text-sm text-emerald-50/80">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm">
-                  <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
-                  Searching best services near you...
-                </span>
-              </div>
+            <div className="relative grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+              <div className="md:col-span-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-white text-xs font-bold mb-3 md:mb-4">
+                  <GeminiIcon size={16} />
+                  <span>Gemini AI Assistant</span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-400/25 text-[10px]">Beta</span>
+                </div>
 
-              <div className="hidden md:flex flex-wrap items-center gap-x-8 gap-y-3 mt-8 text-sm text-emerald-50/70">
-                <div className="flex items-center gap-2"><Shield size={17} className="text-gold-400" /> Verified professionals</div>
-                <div className="flex items-center gap-2"><Star size={17} className="text-gold-400 fill-gold-400" /> 4.5+ average rating</div>
-                <div className="flex items-center gap-2"><Clock size={17} className="text-gold-400" /> 24/7 booking</div>
-              </div>
-            </div>
+                <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-2">
+                  Aapka smart service partner <span className="text-gold-400">✨</span>
+                </h1>
 
-            {/* Desktop floating stats */}
-            <div className="lg:col-span-5 hidden lg:flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="glass rounded-3xl p-6 animate-float" style={{ animationDelay: '0s' }}>
-                  <div className="w-12 h-12 rounded-2xl bg-gold-400/20 flex items-center justify-center mb-3">
-                    <Wrench className="text-gold-400" size={22} />
-                  </div>
-                  <p className="font-display text-3xl font-extrabold text-white">{workers.length || '100'}+</p>
-                  <p className="text-xs text-emerald-100/60 mt-1">Verified Workers</p>
-                </div>
-                <div className="glass rounded-3xl p-6 animate-float" style={{ animationDelay: '0.6s' }}>
-                  <div className="w-12 h-12 rounded-2xl bg-brand-300/20 flex items-center justify-center mb-3">
-                    <Zap className="text-emerald-300" size={22} />
-                  </div>
-                  <p className="font-display text-3xl font-extrabold text-white">{categories.length || '20'}+</p>
-                  <p className="text-xs text-emerald-100/60 mt-1">Service Categories</p>
-                </div>
-              </div>
-              <div className="glass rounded-3xl p-6 animate-float" style={{ animationDelay: '1.2s' }}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-11 h-11 rounded-2xl bg-emerald-300/15 flex items-center justify-center">
-                    <MapPin className="text-emerald-300" size={20} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-white">City-wide Coverage</p>
-                    <p className="text-xs text-emerald-100/60">Serving Lahore & across Pakistan</p>
-                  </div>
-                </div>
-                <Link to="/workers/nearby" className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-400 hover:text-gold-500 transition-colors">
-                  Explore on interactive map <ChevronRight size={16} />
-                </Link>
-              </div>
-              <div className="glass rounded-3xl p-4 flex items-center gap-3 animate-float" style={{ animationDelay: '1.8s' }}>
-                <div className="w-10 h-10 rounded-full bg-emerald-400/20 flex items-center justify-center shrink-0">
-                  <BadgeCheck size={18} className="text-emerald-300" />
-                </div>
-                <p className="text-xs text-emerald-50/80 leading-snug">
-                  <span className="font-bold text-white">15-day warranty</span> on every booking. Your safety and peace of mind come first.
+                <p className="text-sm md:text-base text-emerald-50/85 mb-4 md:mb-5">
+                  AI aapko best services dhoond kar deta hai — fast, easy & reliable.
                 </p>
+
+                <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-5">
+                  {[
+                    { icon: Lightbulb, label: 'Smart Suggestions' },
+                    { icon: ShieldCheck, label: 'Trusted Professionals' },
+                    { icon: Star, label: 'Top Rated Services' },
+                  ].map((b) => (
+                    <div key={b.label} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/10 text-white text-[10px] md:text-xs font-semibold">
+                      <b.icon size={13} className="text-gold-400" /> {b.label}
+                    </div>
+                  ))}
+                </div>
+
+                <form onSubmit={handleAiSubmit} className="relative max-w-xl mb-4">
+                  <input
+                    value={aiInput}
+                    onChange={(e) => setAiInput(e.target.value)}
+                    placeholder="Mujhe AC repair chahiye"
+                    className="w-full pl-4 pr-24 py-3.5 md:py-4 rounded-2xl bg-white text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={startVoice}
+                    className={`absolute right-14 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                      listening ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Mic size={18} />
+                  </button>
+                  <button
+                    type="submit"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-gradient-to-br from-[#4285F4] via-[#8B5CF6] to-[#EC4899] text-white flex items-center justify-center hover:brightness-110 transition-all"
+                  >
+                    <Sparkles size={18} />
+                  </button>
+                </form>
+
+                <div className="flex gap-2 overflow-x-auto pb-1">
+                  {[
+                    { label: 'AC Repair', icon: Wrench, query: 'ac repair' },
+                    { label: 'Plumber', icon: Droplets, query: 'plumber' },
+                    { label: 'Electrician', icon: Zap, query: 'electrician' },
+                    { label: 'More', icon: Grid3X3, query: '' },
+                  ].map((chip) => (
+                    <button
+                      key={chip.label}
+                      onClick={() => navigate(chip.query ? `/search?q=${encodeURIComponent(chip.query)}` : '/search')}
+                      className="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white text-gray-700 text-xs font-bold shadow-sm active:scale-95 transition-all"
+                    >
+                      <chip.icon size={14} className="text-brand-600" /> {chip.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="hidden md:flex md:col-span-4 flex-col items-center justify-center">
+                <div className="relative w-36 h-36 md:w-48 md:h-48">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/30 via-purple-400/30 to-pink-400/30 blur-2xl" />
+                  <div className="relative w-full h-full rounded-full bg-gradient-to-br from-[#0d3b24] to-[#004d26] border border-emerald-400/30 flex items-center justify-center shadow-[0_0_50px_rgba(139,92,246,0.35)]">
+                    <GeminiIcon size={100} />
+                  </div>
+                </div>
+                <p className="mt-3 text-white/90 text-base font-bold tracking-wide">Gemini</p>
+                <p className="text-white/55 text-xs">by Google</p>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <svg className="absolute bottom-0 left-0 w-full text-[#F6F9F7]" viewBox="0 0 1440 60" fill="currentColor" preserveAspectRatio="none">
-          <path d="M0 60h1440V20c-120 20-260 30-400 25S800 10 700 10 400 20 300 15 100 0 0 20v40z" />
-        </svg>
+      {/* ===== QUICK SHORTCUTS ===== */}
+      <section className="px-4 md:px-0 md:max-w-7xl md:mx-auto -mt-4 mb-2 relative z-10">
+        <div className="grid grid-cols-5 gap-2 md:gap-4">
+          {[
+            { icon: Search, label: 'Search Services', to: '/search' },
+            { icon: MapPin, label: 'Nearby Services', to: '/workers/nearby' },
+            { icon: Star, label: 'Top Rated', to: '/search?sort=rating' },
+            { icon: BadgePercent, label: 'Best Offers', to: '/search' },
+            { icon: Headphones, label: 'Help Center', to: '/contact' },
+          ].map((item) => (
+            <Link key={item.label} to={item.to} className="flex flex-col items-center gap-1.5 md:gap-2 active:scale-95 transition-transform">
+              <div className="w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-white shadow-md border border-gray-100 flex items-center justify-center text-brand-600 hover:gradient-brand hover:text-white hover:shadow-glow hover:border-transparent transition-all duration-300">
+                <item.icon size={20} strokeWidth={2} />
+              </div>
+              <span className="text-[9px] md:text-xs font-bold text-center text-gray-700 leading-tight">{item.label}</span>
+            </Link>
+          ))}
+        </div>
       </section>
 
       {/* ===== POPULAR SEARCHES ===== */}

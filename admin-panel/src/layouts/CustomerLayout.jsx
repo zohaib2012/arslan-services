@@ -2,7 +2,7 @@ import { Outlet, Link, NavLink, useNavigate, useLocation } from 'react-router-do
 import { useAuth } from '../context/AuthContext';
 import {
   Search, Menu, X, User, LogOut, Bell, Home, MessageCircle,
-  Calendar, Sparkles,
+  Calendar, Sparkles, Wrench,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import InstallPrompt from '../components/InstallPrompt';
@@ -17,7 +17,7 @@ const navItems = [
 const bottomTabs = [
   { path: '/', label: 'Home', icon: Home, exact: true },
   { path: '/dashboard/bookings', label: 'Bookings', icon: Calendar },
-  { path: '/ai-search', label: '', icon: Sparkles, center: true },
+  { path: '/search', label: 'Explore', icon: Wrench, center: true },
   { path: '/dashboard/chat-list', label: 'Chat', icon: MessageCircle },
   { path: '/dashboard', label: 'Profile', icon: User, exact: true },
 ];
