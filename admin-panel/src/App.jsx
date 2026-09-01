@@ -141,7 +141,7 @@ export default function App() {
             <Route path="/auth/otp" element={<PublicOnly><OtpPage /></PublicOnly>} />
             <Route path="/auth/forgot-password" element={<PublicOnly><ForgotPasswordPage /></PublicOnly>} />
             <Route path="/auth/role" element={<PublicOnly><RoleSelectionPage /></PublicOnly>} />
-            <Route path="/admin/login" element={<PublicOnly><AdminLogin /></PublicOnly>} />
+            <Route path="/admin/login" element={<AdminLogin />} />
 
             <Route path="/" element={<CustomerLayout />}>
               <Route index element={<LandingPage />} />

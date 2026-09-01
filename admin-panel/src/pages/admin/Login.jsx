@@ -13,7 +13,7 @@ export default function Login() {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const { adminOtpLogin } = useAuth();
+  const { adminOtpLogin, isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   const startCooldown = () => {
@@ -224,6 +224,18 @@ export default function Login() {
                 </button>
               </div>
             </form>
+          )}
+
+          {isAuthenticated && isAdmin && (
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                onClick={() => navigate('/admin/dashboard')}
+                className="text-sm text-brand-700 hover:text-brand-800 font-semibold inline-flex items-center gap-1"
+              >
+                Already signed in? Go to Dashboard <ArrowRight size={14} />
+              </button>
+            </div>
           )}
 
           <p className="text-center text-xs text-gray-400 mt-8">
