@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Building2, Mail, Lock, Eye, EyeOff, ShieldCheck, KeyRound, ArrowRight, ArrowLeft, RefreshCw, Loader2 } from 'lucide-react';
 import { api } from '../../lib/api';
 
 export default function Login() {
   const [step, setStep] = useState('email'); // email | otp
-  const [email, setEmail] = useState('');
+  const [searchParams] = useSearchParams();
+  const [email, setEmail] = useState(searchParams.get('email') || '');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [otp, setOtp] = useState('');

@@ -44,7 +44,13 @@ export default function LoginPage() {
       else navigate('/');
       toast.success('Welcome back!');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Invalid credentials');
+      const msg = err.response?.data?.message || '';
+      if (msg.includes('email OTP') || msg.includes('Admins must verify')) {
+        navigate(`/admin/login?email=${encodeURIComponent(identifier.trim())}`);
+        toast('Admin login needs OTP verification — redirected', { icon: '🔐' });
+        return;
+      }
+      toast.error(msg || 'Invalid credentials');
     } finally {
       setLoading(false);
     }
